@@ -9,12 +9,18 @@ module.exports = {
         rubik: ["rubik"],
         proxima: ["proxima"],
         proximaBold: ["proxima-bold"],
+      },
+      colors: {
+        "baseYellow":"#eeb032"
       }
+    
     },
   },
 
   plugins: [
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
+
 
   ],
 }
