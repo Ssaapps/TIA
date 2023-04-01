@@ -5,13 +5,22 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily:{
+      fontFamily: {
         rubik: ["rubik"],
         proxima: ["proxima"],
         proximaBold: ["proxima-bold"],
+      },
+      colors: {
+        "baseYellow":"#eeb032"
       }
+    
     },
   },
 
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
+
+
+  ],
 }
