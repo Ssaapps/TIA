@@ -6,6 +6,7 @@ import Welcome from "./Modules/Welcome";
 import AppLayout from "./Modules/Layouts";
 import Photo from "./Modules/Photo";
 import Admin from './Modules/Admin/Admin';
+import Signup from './Modules/Login/Signup';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
 
           <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/signup" element={<Signup/>}/>
 
 
           <Route path="/" element={<AppLayout/>}>
