@@ -5,7 +5,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily:{
+      fontFamily: {
         rubik: ["rubik"],
         proxima: ["proxima"],
         proximaBold: ["proxima-bold"],
@@ -13,5 +13,8 @@ module.exports = {
     },
   },
 
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+
+  ],
 }
