@@ -7,18 +7,46 @@ import UploadingLoadingOverlay from "./UploadingLoadingOverlay";
 import { v5 as uuidv5, v4 as uuidv4 } from "uuid";
 import LoadingOverlay from "react-loading-overlay";
 import { PropagateLoader } from "react-spinners";
-import CustomLoadingOverlay from "../../Shared/Component/LoadingOverlay";
+import CustomLoadingOverlay from "../../../Shared/Component/LoadingOverlay";
 import EnterAlbumActionPane from "./EnterAlbumNameInputActionPanel";
 import { useNavigate } from "react-router";
-function Admin() {
-    const [files, setFiles] = useState([]);
-    const [filesEditable, setFilesEditable] = useState([]);
-    const [selected, setSelected] = React.useState([]);
+import { doSetFiles, doSetFilesEditable, doSetSelected } from "./duck/action";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    generateVideoThumbnails,
+    importFileandPreview
+  } from "@rajesh896/video-thumbnails-generator";
+  
+function Upload() {
+    const dispatch = useDispatch();
+    const {files, filesEditable, selected} = useSelector(state => state.upload)
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [albumAddOpen, setAlbumAddOpen] = useState(false);
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
+    const [thumbs, setThumbs] = useState([])
     const navigate = useNavigate()
+    const generateVideoPreview = (videoFile) =>{
+        let generatedThumb ;
+        return generateVideoThumbnails(videoFile, 1).then((thumbs) => {
+            console.log("Video thumbs is")
+            setThumbs(thumbs)
+            generatedThumb = thumbs[0]
+            return generatedThumb
+          });
+    }
+    const setFiles = (files) => {
+        dispatch(doSetFiles(files))
+    }
+
+    const setFilesEditable = (filesEditable) => {
+        dispatch(doSetFilesEditable(filesEditable))
+    }
+
+    const setSelected = (selectedFiles) => {
+        dispatch(doSetSelected(selectedFiles))
+    }
     useEffect(() => {
         if (uploading) {
             setTimeout(() => {
@@ -27,12 +55,14 @@ function Admin() {
         }
     }, [uploading]);
     const onDrop = (acceptedFiles) => {
-        if (files.length < 0) {
+        if (files.length == 0) {
             setFiles(
-                acceptedFiles.map((file) =>
+                acceptedFiles.map(  (file) =>
+                // file.match("video") console.log("this is a video file");
                     Object.assign(file, {
-                        preview: URL.createObjectURL(file),
+                        preview:file.type.match("video") ?  generateVideoPreview(file):  window.URL.createObjectURL(file),
                         id: uuidv4(),
+
                     })
                 )
             );
@@ -70,6 +100,7 @@ function Admin() {
             "image/*": [""],
             "video/*,.mkv": [],
         },
+
     });
 
     return (
@@ -125,8 +156,8 @@ function Admin() {
                     <button
                         disabled={files < 1}
                         onClick={
-                            // console.log(files)
-                            () => { setDialogOpen(true) }
+                            console.log(files)
+                            // () => { setDialogOpen(true) }
                         }
                         className='text-[13px] text-gray-100 px-3 py-1 rounded-md  bg-blue-700 disabled:text-gray-500 disabled:bg-transparent '
                     >
@@ -172,7 +203,7 @@ function Admin() {
                     </section>
                 </>
             )}
-
+        
             <UploadConfirmDialog
                 open={dialogOpen}
                 setOpen={setDialogOpen}
@@ -187,4 +218,4 @@ function Admin() {
     );
 }
 
-export default Admin;
+export default Upload;

@@ -1687,6 +1687,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
   integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
 
+"@rajesh896/video-thumbnails-generator@^2.3.9":
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/@rajesh896/video-thumbnails-generator/-/video-thumbnails-generator-2.3.9.tgz#2d3b0a2451ab33a4f580ba7599f616804da39a7c"
+  integrity sha512-tV775KsZpyhaXMG/z+APNBL8bpGSaYgvCmELC7k3z0n6rGcFhsDhFFqJkmguiVR83bNLWth8wdFOGkpsBS3Jzw==
+
 "@react-google-maps/api@^2.12.1":
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/@react-google-maps/api/-/api-2.18.1.tgz#140bb134f50c98939b6eb440d01dbb7df562090c"

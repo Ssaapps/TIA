@@ -5,9 +5,9 @@ import {useSelector} from "react-redux";
 import Welcome from "./Modules/Welcome";
 import AppLayout from "./Modules/Layouts";
 import Photo from "./Modules/Photo";
-import Admin from './Modules/Admin/Admin';
 import Signup from './Modules/Login/Signup';
-import UploadSuccess from './Modules/Admin/UploadSucess';
+import UploadSuccess from './Modules/Admin/upload/UploadSucess';
+import Upload from './Modules/Admin/upload/Upload';
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
           <Route path="/" element={<AppLayout/>}>
               <Route path="/" element={<Welcome/>}/>
               <Route path="/photo/:id" element={<Photo/>}/>
-              <Route path="/admin" element={<Admin/>}/>
+              <Route path="/admin/upload" element={<Upload/>}/>
               <Route path="/upload/success" element={<UploadSuccess/>}/>
           </Route>
 

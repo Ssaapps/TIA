@@ -1,0 +1,6 @@
+export const ActionTypes = {
+    SET_FILES: "SET_FILES",
+    SET_SELECTED_FILES: "SET_SELECTED_FILES",
+    SET_FILES_EDITABLE: "SET_FILES_EDITABLE",
+
+}
