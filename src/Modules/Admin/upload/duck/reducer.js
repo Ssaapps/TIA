@@ -11,7 +11,6 @@ export const UploadReducer = (state = {
 }, action) => {
     switch (action.type) {
         case ActionTypes.SET_FILES:
-            console.log(action.payload)
             return { ...state, files: action.payload }
 
         case ActionTypes.SET_SELECTED_FILES:
