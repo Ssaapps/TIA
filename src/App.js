@@ -8,6 +8,7 @@ import Photo from "./Modules/Photo";
 import Signup from './Modules/Login/Signup';
 import UploadSuccess from './Modules/Admin/upload/UploadSucess';
 import Upload from './Modules/Admin/upload/Upload';
+import Admin from './Modules/Admin';
 
 
 function App() {
@@ -22,11 +23,12 @@ function App() {
           <Route exact path="/login" element={<Login/>}/>
         <Route exact path="/signup" element={<Signup/>}/>
 
-
+        
           <Route path="/" element={<AppLayout/>}>
               <Route path="/" element={<Welcome/>}/>
               <Route path="/photo/:id" element={<Photo/>}/>
               <Route path="/admin/upload" element={<Upload/>}/>
+              <Route path="/admin" element={<Admin/>}/>
               <Route path="/upload/success" element={<UploadSuccess/>}/>
           </Route>
 
