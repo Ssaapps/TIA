@@ -130,6 +130,7 @@ function Upload() {
             getBase64(file).then((data) => {
                 // const uploadDraft = JSON.parse(localStorage.getItem("upload_draft"))
                 Axios.post("/media", {
+                    //TODO: add project id
                     // project_id:uploadDraft.id,
                     method: "base64",
                     file: data
