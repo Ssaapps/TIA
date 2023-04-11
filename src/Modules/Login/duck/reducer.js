@@ -5,8 +5,10 @@ export const LoginReducer = (state = {
     errorMessage: null,
     loginSuccess: false,
     isLoading: false,
-    token: Cookies.get("javAdminAccessToken"),
-    user: Cookies.get("javAdmin") && JSON.parse(Cookies.get("javAdmin") ),
+    // token: Cookies.get("javAdminAccessToken"),
+    // user: Cookies.get("javAdmin") && JSON.parse(Cookies.get("javAdmin") ),
+    token: localStorage.getItem("token") && JSON.parse(localStorage.getItem("token") ),
+    user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user") ),
     permissions: Cookies.get("javPermissions") && JSON.parse(Cookies.get("javPermissions") )
 },action) => {
     switch (action.type) {
@@ -20,7 +22,7 @@ export const LoginReducer = (state = {
                 errorMessage: null,
                 user: action.payload.user,
                 token: action.payload.token.access_token,
-                permissions: action.payload.permissions
+                // permissions: action.payload.permissions
             }
         case ActionTypes.LOGIN_ERROR:
             return {

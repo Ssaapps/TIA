@@ -11,15 +11,16 @@ module.exports = {
         proximaBold: ["proxima-bold"],
       },
       colors: {
-        "baseYellow":"#eeb032"
+        "baseYellow":"#eeb032",
+        "primary":"#ef3f23"
       }
     
     },
   },
 
   plugins: [
-    require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
 
 
   ],
