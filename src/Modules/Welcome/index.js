@@ -60,11 +60,11 @@ export default function Welcome() {
 
                                     <div className={"flex items-center"}>
                                         <div className={"border-2 border-[#1e4570] rounded-full"}>
-                                            <img className={"h-8 w-8 rounded-full"} src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}/>
+                                            <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"}/>
                                         </div>
 
                                         <h2 className={"mx-2 font-proximaBold"}>
-                                            ThisisAccra Gallery
+                                            UIMP Worldwide
                                         </h2>
 
                                         <div className={"flex ml-4 items-center"}>

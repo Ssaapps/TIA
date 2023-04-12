@@ -20,8 +20,8 @@ function Dashboard() {
 
                 <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
                     <OverViewCard icon={<PhotoIcon className='w-5 h-5 text-green-500' />} text="18 Photos" />
-                    <OverViewCard icon={<VideoCameraIcon className='w-5 h-5 text-blue-500' />} text="18 Videos" />
-                    <OverViewCard icon={<RectangleStackIcon className='w-5 h-5 text-orange-500' />} text="18 Albums" />
+                    <OverViewCard icon={<VideoCameraIcon className='w-5 h-5 text-blue-500' />} text="0 Videos" />
+                    <OverViewCard icon={<RectangleStackIcon className='w-5 h-5 text-orange-500' />} text="7 Albums" />
 
                 </div>
 
@@ -29,9 +29,9 @@ function Dashboard() {
                     <h4 className='text-xl font-medium'>Trending Albums</h4>
                     <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
                     {/* TODO: make album a carousel */}
-                        <TrendingAlbumCard photo='https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80'/>
-                        <TrendingAlbumCard photo='https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'/>
-                        <TrendingAlbumCard photo='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'/>
+                        <TrendingAlbumCard name={"Susan G. Komen Day 3"} photo='https://images.unsplash.com/photo-1674574124345-02c525664b65?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80'/>
+                        <TrendingAlbumCard name={"Museums of History New South Wale"} photo='https://images.unsplash.com/photo-1680169755527-ce101aead0ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2524&q=80'/>
+                        <TrendingAlbumCard name={"Beautiful People "} photo='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'/>
                     </div>
                 </div>
 
