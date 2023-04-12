@@ -16,6 +16,8 @@ import RemoveDialog from "./RemoveDialog";
 import Axios from "../../../Shared/utils/axios_instance";
 import { getBase64 } from "../../../Shared/utils/files";
 import axios from "axios";
+import EnterGroupsActionPane from "./EnterGroupsNameInputActionPanel";
+import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
 
 
 function Upload() {
@@ -27,6 +29,8 @@ function Upload() {
     const [albumAddOpen, setAlbumAddOpen] = useState(false);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
+    const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
+    const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
     const [thumbs, setThumbs] = useState([])
     const [currentFileUploading, setCurrentFileUploading] = useState(null)
     const [uploadingProgress, setUploadingProgress] = useState(0)
@@ -80,7 +84,10 @@ function Upload() {
                     return {
                         name: file.name,
                         description: "",
-                        tags: []
+                        tags: [],
+                        album: null,
+                        people: null,
+                        group: null
                     };
                 })
             );
@@ -94,7 +101,10 @@ function Upload() {
                 return {
                     name: file.name,
                     description: "",
-                    tags: []
+                    tags: [],
+                    album: null,
+                    people: null,
+                    group: null
                 };
             });
 
@@ -133,14 +143,19 @@ function Upload() {
                     //TODO: add project id
                     // project_id:uploadDraft.id,
                     method: "base64",
+                    album_id: filesEditable[fileIndex].album.id,
+                    people_id: filesEditable[fileIndex].people.id,
+                    group_id: filesEditable[fileIndex].group.id,
+                    tags: filesEditable[fileIndex].tags,
+                    // project_id:localStorage.getItem()
                     file: data
                 }, {
                     onUploadProgress: (progressEvent) => {
                         const percentage = (progressEvent.loaded * 100) / progressEvent.total;
                         setUploadingProgress(+percentage.toFixed(2));
                     },
-                }).then((res)=>{
-                    if(+fileIndex+1==files.length){
+                }).then((res) => {
+                    if (+fileIndex + 1 == files.length) {
                         setUploading(false)
                         navigate("/admin/upload/success")
                     }
@@ -165,9 +180,9 @@ function Upload() {
             }}
         >
             {/* Album loading overlay */}
-            <CustomLoadingOverlay setShow={setAlbumAddOpen} next={() => {
+            {/* <CustomLoadingOverlay setShow={setAlbumAddFormOpen} next={() => {
                 setAlbumAddFormOpen(true)
-            }} show={albumAddOpen} spinner={<PropagateLoader color="#fff" />} text=" " />
+            }} show={albumAddOpen} spinner={<PropagateLoader color="#fff" />} text=" " /> */}
 
             {/*  Files loading overlay */}
 
@@ -183,11 +198,13 @@ function Upload() {
                     </div>
                 </>
             } text=" " />
-            <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} />
+            <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
+            <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
+            <EnterPeopleActionPane setOpen={setPeopleAddFormOpen} open={peopleAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <div className='bg-gray-100 py-2'>
                 <div className='container mx-auto flex justify-between'>
                     <div className='flex gap-x-3'>
-                        <button title="Upload files" className='text-gray-600 text-sm flex gap-x-1 px-2  border hover:border-gray-400 border-transparent items-center'>
+                        <button onClick={open} title="Upload files" className='text-gray-600 text-sm flex gap-x-1 px-2  border hover:border-gray-400 border-transparent items-center'>
                             <PlusIcon className='w-4 h-4 text-green-500' /> Add
                         </button>
                         {files.length > 0 && (
@@ -245,7 +262,9 @@ function Upload() {
                     setSelected={setSelected}
                     filesEditable={filesEditable}
                     setFilesEditable={setFilesEditable}
-                    setAlbumAddOpen={setAlbumAddOpen}
+                    setAlbumAddFormOpen={setAlbumAddFormOpen}
+                    setGroupsAddFormOpen={setGroupsAddFormOpen}
+                    setPeopleAddFormOpen={setPeopleAddFormOpen}
                 />
             ) : (
                 <>
@@ -273,6 +292,7 @@ function Upload() {
                 setOpen={setDialogOpen}
                 itemsCount={files.length}
                 onContinue={handleUpload}
+
             />
 
             <RemoveDialog

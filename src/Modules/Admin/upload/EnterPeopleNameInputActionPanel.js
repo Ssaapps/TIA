@@ -5,16 +5,17 @@ import AlbumTile from './AlbumTile'
 import Axios from '../../../Shared/utils/axios_instance'
 import AlbumTitleShimmer from './AlbumTileShimmer'
 
-export default function EnterAlbumActionPane({ open, setOpen, selected, setSelected, filesEditable, setFilesEditable, }) {
+export default function EnterGroupsActionPane({ open, setOpen, selected, setSelected, filesEditable, setFilesEditable, }) {
   const [creatingAlbum, setCreatingAlbum] = useState(false)
   const [albums, setAlbums] = useState([])
   const cancelButtonRef = useRef(null)
   const [fetchingAlbums, setFetchingAlbums] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  //!groups => albums
   const fetchAlbums = async () => {
     setFetchingAlbums(true)
     try {
-      const res = await Axios.get("/albums")
+      const res = await Axios.get("/people")
       console.log(res.data)
       setAlbums(res.data)
     }
@@ -45,16 +46,16 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
       description: albumDescription,
     }
     try {
-      const res = await Axios.post("/albums", data)
+      const res = await Axios.post("/people", data)
 
-      setOpen(false)
       const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
       const filesEditableCopy = [...filesEditable];
       selected.forEach((index) => {
-        filesEditableCopy[index].album = res.data
+        filesEditableCopy[index].people = res.data
       })
       setFilesEditable([...filesEditableCopy])
-      // localStorage.setItem("album_id", res.data.id)
+      setOpen(false)
+      setOpen(false)
 
       // fetchAlbums()
     }
@@ -62,7 +63,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
       alert("An error occured while creating album")
     }
   }
-
+  //TOOD: Remame symbols
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -95,13 +96,13 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
 
                   <div className="">
                     <Dialog.Title as="h3" className="text-md bg-gray-200 py-3 px-3  sm:pt-2 font-medium leading-6 text-gray-900">
-                      {creatingAlbum ? "Make a new album of these photos " : "Add these photos to album"}
+                      {creatingAlbum ? "Create a new person " : "Assign to a person"}
                     </Dialog.Title>
                     {creatingAlbum ? (
                       <div onSubmit={submitAlbumForm} className="mt-2  px-3 pt-3 pb-3 sm:px-3">
                         <div className='mb-3'>
                           <label htmlFor="title" className="block text-xs font-medium text-gray-700">
-                            Album title:
+                            Person Name:
                           </label>
                           <div className="mt-1">
                             <input
@@ -115,7 +116,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                         </div>
 
                         <div>
-                          <label for="description" class="block text-xs font-medium text-gray-700">Album Description:</label>
+                          <label for="description" class="block text-xs font-medium text-gray-700">Person Description:</label>
                           <div class="mt-1">
                             <textarea rows="4" name="description" id="description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs" />
                           </div>
@@ -128,7 +129,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                           name="search"
                           id="search"
                           className="block w-full rounded-md border-gray-300 shadow-sm focus:border-baseYellow focus:ring-baseYellow sm:text-xs"
-                          placeholder="type to search your albums"
+                          placeholder="type to search groups"
                         />
                       </div>
                       <div className='mt-3 flex flex-col gap-y-2'>
@@ -152,7 +153,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                                 const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
                                 const filesEditableCopy = [...filesEditable];
                                 selected.forEach((index) => {
-                                  filesEditableCopy[index].album = album
+                                  filesEditableCopy[index].people = album
                                 })
                                 setFilesEditable([...filesEditableCopy])
                                 setOpen(false)
@@ -161,7 +162,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                             </>
 
                             : <div>
-                              No alums created
+                              No people created
                             </div>
                         }
                       </div>
@@ -184,7 +185,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
 
                     }}
                   >
-                    {creatingAlbum ? "Create Album" : "Create New Album"}
+                    {creatingAlbum ? "Create Person" : "Create New Person"}
                   </button>
                   <button
                     type="button"
