@@ -170,7 +170,7 @@ export default function Albums() {
             setFetchingAlbums(false)
         }
     }
-    useEffect(() => { 
+    useEffect(() => {
         fetchAlbums()
     }, [
 
@@ -263,13 +263,13 @@ export default function Albums() {
                                                 ))
                                             ) : (albums.length == 0 ? (<td colspan={6} className="text-center py-4">
 
-                                              
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"  className="mx-auto h-12 w-12 text-gray-400">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mx-auto h-12 w-12 text-gray-400">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                                                 </svg>
 
                                                 <h3 className="mt-2 text-sm font-medium text-gray-900">No albums  created yet </h3>
-                                                
+
 
                                                 <p className="mt-1 text-sm text-gray-500">Get started by creating an album</p>
                                                 <div className="mt-6">
@@ -278,13 +278,20 @@ export default function Albums() {
 
                                             </td>) : (albums.map((album) => (
 
-                                                <tr key={album.name}>
+                                                <tr key={album.id} className={`${selectedAlbum == album.id && "bg-gray-50"}`}>
                                                     <td className="relative w-12 px-2 sm:w-10 sm:px-2">
 
                                                         <input
                                                             type="checkbox"
                                                             className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-
+                                                            checked={selectedAlbum == album.id}
+                                                            onChange={() => {
+                                                                if (selectedAlbum == album.id) {
+                                                                    setSelectedAlbum(null)
+                                                                } else {
+                                                                    setSelectedAlbum(album.id)
+                                                                }
+                                                            }}
                                                         />
                                                     </td>
                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
