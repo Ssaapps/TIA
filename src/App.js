@@ -13,6 +13,8 @@ import Dashboard from './Modules/Admin/dashboard';
 import PhotosList from './Modules/Admin/photos';
 import Settings from './Modules/Admin/settings';
 import Albums from './Modules/Admin/albums';
+import Groups from "./Modules/Admin/groups";
+import Orders from "./Modules/Admin/orders";
 
 
 function App() {
@@ -32,6 +34,8 @@ function App() {
           <Route path='photos' element={<PhotosList />} />
           <Route path='settings' element={<Settings />} />
           <Route path='albums' element={<Albums />} />
+          <Route path='groups' element={<Groups />} />
+          <Route path='orders' element={<Orders />} />
           <Route path="upload/success" element={<UploadSuccess />} />
           <Route path="upload" element={<Upload />} />
 

@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react"
 import {useDispatch, useSelector} from "react-redux";
-import {getAlbums} from "./duck/action";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
+import {getGroups} from "./duck/action";
 
-export default function Albums() {
+export default function Groups() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
     const [selectedItemModel,setSelectItemModel] = useState(null);
 
 
-
-    const albumState = useSelector( (state) => state.albums)
+    const groupState = useSelector( (state) => state.groups)
 
 
     useEffect(() => {
-        dispatch(getAlbums())
+        dispatch(getGroups())
     }, [])
 
 
@@ -45,12 +44,12 @@ export default function Albums() {
 
 
 
-            <h1 className="flex-1 text-2xl font-bold text-gray-900">Albums</h1>
+            <h1 className="flex-1 text-2xl font-bold text-gray-900"> Groups </h1>
 
 
             <Table
-                link={"albums"}
-                tag={"albums.accounts"}
+                link={"groups"}
+                tag={"albums.groups"}
                 columns={["id","name","description","action"]}
                 fields={["id","name","description",{
                     id: "id",

@@ -28,22 +28,18 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import {
-  Bars4Icon,
-  MagnifyingGlassIcon,
-  PencilIcon,
-  PlusIcon as PlusIconMini,
-  Squares2X2Icon as Squares2X2IconMini,
+  MagnifyingGlassIcon, RectangleGroupIcon, ShoppingCartIcon,
 } from '@heroicons/react/20/solid'
-import LogoWhite from '../../Shared/Component/Icons/LogoWhite'
-import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom'
+import { Outlet, Link, useNavigate } from 'react-router-dom'
+import Logo from "../../Shared/Component/Icons/Logo";
 
 const navigation = [
   { name: 'Home', href: '/admin', icon: HomeIcon, current: false },
-  { name: 'All Files', href: '#', icon: Squares2X2IconOutline, current: false },
+  { name: 'Orders', href: '/admin/orders', icon: ShoppingCartIcon, current: false },
   { name: 'Photos', href: '/admin/photos', icon: PhotoIcon, current: true },
-  { name: 'Shared', href: '#', icon: UserGroupIcon, current: false },
+  { name: 'Groups', href: '/admin/groups', icon: RectangleGroupIcon, current: false },
   { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
-  { name: 'Settings', href: '#', icon: CogIcon, current: false },
+  { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
 ]
 const userNavigation = [
   { name: 'Your profile', href: '#' },
@@ -54,180 +50,7 @@ const tabs = [
   { name: 'Recently Added', href: '#', current: false },
   { name: 'Favorited', href: '#', current: false },
 ]
-const files = [
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1614926857083-7be149266cda?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1614705827065-62c3dc488f40?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1513682322455-ea8b2d81d418?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1463107971871-fbac9ddb920f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1552461871-ce4f9fb3b438?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1446292532430-3e76f6ab6444?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1431512284068-4c4002298068?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1581320546160-0078de357255?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1541956628-68d338ae09d5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1505429155379-441cc7a574f7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1582029133746-96031e5c8d00?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1575868053350-9fd87f68f984?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1588391051471-1a5283d5a625?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1575314146619-ec67b6213351?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1579874107960-e602329ef20a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/flagged/photo-1551385229-2925ed4eb53d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  },
-  {
-    "name": "IMG_4985.HEIC",
-    "size": "3.9 MB",
-    "source": "https://images.unsplash.com/photo-1498575637358-821023f27355?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    "current": true
-  }
-]
 
-const currentFile = {
-  name: 'IMG_4985.HEIC',
-  size: '3.9 MB',
-  source:
-    'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-  information: {
-    'Uploaded by': 'Marie Culver',
-    Created: 'June 8, 2020',
-    'Last modified': 'June 8, 2020',
-    Dimensions: '4032 x 3024',
-    Resolution: '72 x 72',
-  },
-  sharedWith: [
-    {
-      id: 1,
-      name: 'Aimee Douglas',
-      imageUrl:
-        'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80',
-    },
-    {
-      id: 2,
-      name: 'Andrea McMillan',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  ],
-}
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -244,23 +67,13 @@ export default function Admin() {
   return (
 
     <>
-      {/*
-        This example requires updating your template:
 
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full overflow-hidden">
-        ```
-      */}
       <div className="flex h-screen overflow-auto">
         {/* Narrow sidebar */}
         <div className="hidden w-28 overflow-y-auto bg-indigo-700 md:block">
           <div className="flex w-full flex-col items-center py-6">
             <div className="flex flex-shrink-0 items-center">
-            {/*<LogoWhite className={"h-4 mx-2"} />*/}
-              <img className={"h-10"} src={"logo.png"} />
-
-
+            <Logo className={"h-10 fill-white"} />
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
               {navigation.map((item) => {
@@ -383,7 +196,7 @@ export default function Admin() {
         </Transition.Root>
 
         {/* Content area */}
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 bg-gray-50 flex-col overflow-hidden">
           <header className="w-full">
             <div className="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white shadow-sm">
               <button
@@ -478,8 +291,6 @@ export default function Admin() {
               </div>
             </div>
           </header>
-
-          {/* Main content */}
           <Outlet />
         </div>
       </div>

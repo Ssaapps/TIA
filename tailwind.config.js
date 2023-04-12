@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -11,16 +12,16 @@ module.exports = {
         proximaBold: ["proxima-bold"],
       },
       colors: {
-        "baseYellow":"#eeb032",
-        "primary":"#ef3f23"
+        "primary":"#ef3f23",
+        "baseYellow":"#1e4570"
       }
     
     },
   },
 
   plugins: [
-    require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
 
 
   ],

@@ -6,27 +6,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
   
-const user = {
-    name: 'Floyd Miles',
-    email: 'floyd.miles@example.com',
-    imageUrl:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  }
-  const navigation = [
-    { name: 'Dashboard', href: '#' },
-    { name: 'Jobs', href: '#' },
-    { name: 'Applicants', href: '#' },
-    { name: 'Company', href: '#' },
-  ]
-  const breadcrumbs = [
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Project Nero', href: '#', current: true },
-  ]
-  const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
-  ]
+
   const team = [
     {
       name: 'Calvin Hawkins',

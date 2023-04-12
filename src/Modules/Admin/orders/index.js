@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from "react"
 import {useDispatch, useSelector} from "react-redux";
-import {getAlbums} from "./duck/action";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
+import {getOrders} from "./duck/action";
 
-export default function Albums() {
+export default function Orders() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
     const [selectedItemModel,setSelectItemModel] = useState(null);
-
-
-
-    const albumState = useSelector( (state) => state.albums)
+    const groupState = useSelector( (state) => state.groups)
 
 
     useEffect(() => {
-        dispatch(getAlbums())
+        dispatch(getOrders())
     }, [])
 
 
     return (
         <div className={"p-10"}>
-
-
 
             <YesNoDialog
                 open={selectedItemModel != null}
@@ -43,14 +38,12 @@ export default function Albums() {
 
 
 
-
-
-            <h1 className="flex-1 text-2xl font-bold text-gray-900">Albums</h1>
+            <h1 className="flex-1 text-2xl font-bold text-gray-900">Orders </h1>
 
 
             <Table
-                link={"albums"}
-                tag={"albums.accounts"}
+                link={"orders"}
+                tag={"albums.orders"}
                 columns={["id","name","description","action"]}
                 fields={["id","name","description",{
                     id: "id",

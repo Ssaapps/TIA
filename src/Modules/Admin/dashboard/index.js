@@ -2,6 +2,8 @@ import { ChevronDownIcon, PhotoIcon, RectangleStackIcon, VideoCameraIcon } from 
 import React from 'react'
 import OverViewCard from './OverViewCard'
 import TrendingAlbumCard from './TrendingAlbumCard'
+import JavSelect from "../../../Shared/Component/Forms/JavSelect";
+import JavFormSelect from "../../../Shared/Component/Forms/JavFormSelect";
 
 function Dashboard() {
     return (
@@ -10,10 +12,10 @@ function Dashboard() {
             <main className="flex-1 overflow-y-auto px-10 pt-4">
                 <div className="flex justify-between ">
                     <h4 className='text-xl font-medium'>Overview</h4>
-                    <button className='flex justify-center px-3 py-1.5 rounded-lg border items-center'>
-                        <span className='text-gray-500 text-sm'>This month</span>
-                        <ChevronDownIcon className="w-4 h-4 text-gray-500 ml-1" />
-                    </button>
+                    <JavFormSelect
+                        items={["today","last week","last monthly","last year"]}
+                        position={"bottom"}
+                    />
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
