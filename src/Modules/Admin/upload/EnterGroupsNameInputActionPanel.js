@@ -24,14 +24,14 @@ export default function EnterGroupsActionPane({ open, setOpen, selected, setSele
     }
     finally {
       setFetchingAlbums(false)
-
     }
   }
+
+
   useEffect(() => {
     if (open) {
       setCreatingAlbum(false)
       fetchAlbums()
-
     }
 
   }, [open])

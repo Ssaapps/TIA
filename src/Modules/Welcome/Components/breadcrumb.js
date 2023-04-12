@@ -36,7 +36,7 @@ export default function BreadCrumb() {
                     New Picks: The boredom of a lady in a busy car
                 </h1>
                 <div className={"flex my-2 items-center"}>
-                    <div className={"border-2 border-[#eeb032] rounded-full"}>
+                    <div className={"border-2 border-[#1e4570] rounded-full"}>
                         <img className={"h-12 w-12 rounded-full"} src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}/>
                     </div>
 

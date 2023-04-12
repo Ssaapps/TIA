@@ -26,7 +26,6 @@ function App() {
         <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
         <Route exact path="/signup" element={isAuth ? <Navigate to="/" /> : <Signup />} />
 
-
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
           <Route path='photos' element={<PhotosList />} />

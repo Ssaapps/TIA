@@ -3,10 +3,7 @@ import { useDropzone } from "react-dropzone";
 import FilesUploadedGrid from "./FilesUploadedGrid";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import UploadConfirmDialog from "./UploadConfirmDialog";
-import UploadingLoadingOverlay from "./UploadingLoadingOverlay";
 import { v5 as uuidv5, v4 as uuidv4 } from "uuid";
-import LoadingOverlay from "react-loading-overlay";
-import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../../Shared/Component/CustomLoadingOverlay";
 import EnterAlbumActionPane from "./EnterAlbumNameInputActionPanel";
 import { useNavigate } from "react-router";
@@ -134,18 +131,19 @@ function Upload() {
 
     const handleUpload = async () => {
         setUploading(true)
-        for (var fileIndex in files) {
+        for (let fileIndex in files) {
             const file = files[fileIndex]
             setCurrentFileUploading(+fileIndex + 1)
+            console.log("am here",filesEditable)
             getBase64(file).then((data) => {
                 // const uploadDraft = JSON.parse(localStorage.getItem("upload_draft"))
                 Axios.post("/media", {
                     //TODO: add project id
                     // project_id:uploadDraft.id,
                     method: "base64",
-                    album_id: filesEditable[fileIndex].album.id,
-                    people_id: filesEditable[fileIndex].people.id,
-                    group_id: filesEditable[fileIndex].group.id,
+                    album_id: filesEditable[fileIndex].album?.id ?? null,
+                    people_id: filesEditable[fileIndex].people?.id ?? null,
+                    group_id: filesEditable[fileIndex].group?.id ?? null,
                     tags: filesEditable[fileIndex].tags,
                     // project_id:localStorage.getItem()
                     file: data

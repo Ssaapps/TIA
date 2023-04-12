@@ -4,36 +4,38 @@ import { CheckIcon } from '@heroicons/react/24/outline'
 import AlbumTile from './AlbumTile'
 import Axios from '../../../Shared/utils/axios_instance'
 import AlbumTitleShimmer from './AlbumTileShimmer'
+import {useDispatch, useSelector} from "react-redux";
+import {createAlbum, getAlbums} from "./duck/action";
 
 export default function EnterAlbumActionPane({ open, setOpen, selected, setSelected, filesEditable, setFilesEditable, }) {
   const [creatingAlbum, setCreatingAlbum] = useState(false)
-  const [albums, setAlbums] = useState([])
   const cancelButtonRef = useRef(null)
-  const [fetchingAlbums, setFetchingAlbums] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
-  const fetchAlbums = async () => {
-    setFetchingAlbums(true)
-    try {
-      const res = await Axios.get("/albums")
-      console.log(res.data)
-      setAlbums(res.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
-    finally {
-      setFetchingAlbums(false)
+  const dispatch = useDispatch();
 
-    }
-  }
+  const uploadState = useSelector( (state) => state.upload)
+
+
   useEffect(() => {
-    if (open) {
-      setCreatingAlbum(false)
-      fetchAlbums()
-
+    if (open){
+      dispatch(getAlbums());
+      setCreatingAlbum(false);
     }
+  },[open])
 
-  }, [open])
+  useEffect(() => {
+    if (uploadState.albums.create) {
+      if (uploadState.albums.create.success) {
+        setCreatingAlbum(false);
+        dispatch(getAlbums())
+      }
+      console.log("uploadState.albums.create",uploadState.albums.create)
+    }
+  },[uploadState])
+
+  useEffect(() => {
+    console.log("uploadState",uploadState)
+  },[uploadState])
 
   const submitAlbumForm = async (e) => {
     e.preventDefault()
@@ -44,23 +46,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
       name: albumName,
       description: albumDescription,
     }
-    try {
-      const res = await Axios.post("/albums", data)
-
-      setOpen(false)
-      const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
-      const filesEditableCopy = [...filesEditable];
-      selected.forEach((index) => {
-        filesEditableCopy[index].album = res.data
-      })
-      setFilesEditable([...filesEditableCopy])
-      // localStorage.setItem("album_id", res.data.id)
-
-      // fetchAlbums()
-    }
-    catch (e) {
-      alert("An error occured while creating album")
-    }
+    dispatch(createAlbum(data))
   }
 
 
@@ -132,7 +118,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                         />
                       </div>
                       <div className='mt-3 flex flex-col gap-y-2'>
-                        {fetchingAlbums ? (
+                        {uploadState.albums.fetch.loading ? (
                           <>
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
@@ -141,9 +127,9 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                             <AlbumTitleShimmer />
                           </>
                         ) :
-                          albums.length != 0 ?
+                            uploadState.albums.fetch.data.length > 0 ?
                             <>
-                              {albums.filter((album) => {
+                              {uploadState.albums.fetch.data.filter((album) => {
                                 if (!searchTerm) return true
                                 if (album.name.toLowerCase().includes(searchTerm.toLowerCase()) || album.description.toLowerCase().includes(searchTerm.toLowerCase())) return true
                                 else return false
@@ -168,20 +154,14 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                     </div>)}
                   </div>
                 </div>
+
+
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3 px-3 sm:px-6 pb-3">
                   <button
                     type={creatingAlbum ? "submit" : "button"}
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-700 px-3 py-1 text-xs  text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-xs"
                     onClick={(e) => {
-                      if (creatingAlbum) {
-                        // submitAlbumForm()
-                      }
-                      else {
-                        e.preventDefault();
-                        setCreatingAlbum(true)
-
-                      }
-
+                      setCreatingAlbum(true)
                     }}
                   >
                     {creatingAlbum ? "Create Album" : "Create New Album"}
@@ -195,6 +175,8 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                     Cancel
                   </button>
                 </div>
+
+
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -257,7 +257,9 @@ export default function Admin() {
         <div className="hidden w-28 overflow-y-auto bg-indigo-700 md:block">
           <div className="flex w-full flex-col items-center py-6">
             <div className="flex flex-shrink-0 items-center">
-            <LogoWhite className={"h-4 mx-2"} />
+            {/*<LogoWhite className={"h-4 mx-2"} />*/}
+              <img className={"h-10"} src={"logo.png"} />
+
 
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">

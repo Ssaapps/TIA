@@ -3,8 +3,8 @@ export function PostIcon(props) {
         <svg fill="none"
              stroke="currentColor"
              strokeWidth={1.5}
-             height={20}
-             width={20}
+             height={26}
+             width={26}
              viewBox="0 0 24 24"
              xmlns="http://www.w3.org/2000/svg"
              aria-hidden="true"
