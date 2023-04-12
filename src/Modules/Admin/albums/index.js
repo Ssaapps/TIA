@@ -51,8 +51,19 @@ export default function Albums() {
             <Table
                 link={"albums"}
                 tag={"albums.accounts"}
-                columns={["id","name","description","action"]}
+                columns={["id","name","description","media","action"]}
                 fields={["id","name","description",{
+                    id: "order_id",
+                    render: (content) => {
+                        return (
+                            <td className={"text-center"}>
+                                        <span className={"underline bg-blue-200 rounded px-5 py-2 cursor-pointer text-blue-500"}>
+                                            {content.media_count} pictures
+                                        </span>
+                            </td>
+                        )
+                    }
+                },{
                     id: "id",
                     render: (content) => {
                         return (

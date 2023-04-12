@@ -10,13 +10,13 @@ export default function Welcome() {
     const categories = ["AI","Viral","Finance","Lifestyle","Accra","Africa","Entertainment"];
     const [selectedIndex,setSelectedIndex] = useState(0);
     const images = [
+        "https://unsplash.com/photos/B-KNSrFgmA0/download?ixid=MnwxMjA3fDB8MXxhbGx8M3x8fHx8fDJ8fDE2ODEzMjc4NTM&force=true",
+        "https://images.unsplash.com/photo-1674574124567-79b2ee3d22fe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+        "https://images.unsplash.com/photo-1661956602153-23384936a1d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+        "https://images.unsplash.com/photo-1681276311947-ebee32b4d4cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
         "https://images.unsplash.com/photo-1679613753438-125c62c94b48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80",
         "https://images.unsplash.com/photo-1679652557788-a6add7fcd992?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-        "https://images.unsplash.com/photo-1679613753438-125c62c94b48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
-        "https://images.unsplash.com/photo-1679613753438-125c62c94b48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
-        "https://images.unsplash.com/photo-1679652557788-a6add7fcd992?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-        "https://images.unsplash.com/photo-1679613753438-125c62c94b48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
+        "https://images.unsplash.com/photo-1681066471074-d45c49154f44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1288&q=80",
         "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80",
         "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80",
         "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80",
@@ -46,12 +46,12 @@ export default function Welcome() {
                 <div className={"grid gap-4 grid-cols-4"}>
 
                     {
-                        [0,0,0,0].map(() => {
+                        [images[0],images[1],images[5],images[6]].map((item) => {
                             return (
                                 <div className={"cursor-pointer"} onClick={onItemClick}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
-                                        src={"https://images.unsplash.com/photo-1679613753438-125c62c94b48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80"}
+                                        src={item}
                                     />
                                     <h3 className={"w-3/4 leading-none p-1 text-lg"}>
                                         Boredom of a lady is the businesses of a running car
