@@ -42,7 +42,7 @@ const navigation = [
   { name: 'All Files', href: '#', icon: Squares2X2IconOutline, current: false },
   { name: 'Photos', href: '/admin/photos', icon: PhotoIcon, current: true },
   { name: 'Shared', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Albums', href: '#', icon: RectangleStackIcon, current: false },
+  { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
 ]
 const userNavigation = [
