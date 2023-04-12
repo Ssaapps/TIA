@@ -39,6 +39,8 @@ export const login = (email, password) => {
             })
             console.log(response.data)
             if (response && response.data) {
+                localStorage.setItem("token", JSON.stringify(response.data.token))
+                localStorage.setItem("user", JSON.stringify(response.data.user))
                 dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: response.data });
             }
             // window.location.reload();

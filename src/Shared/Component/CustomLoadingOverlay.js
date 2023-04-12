@@ -4,7 +4,7 @@ import { PropagateLoader } from 'react-spinners';
 import LoadingOverlay from 'react-loading-overlay';
 // import { AiOutlineLoading } from 'react-icons/ai';
 
-const CustomLoadingOverlay = ({ spinner, text, show, setShow, children, next }) => {
+const CustomLoadingOverlay = ({ spinner, text, show, setShow, children, next, }) => {
     // const [show, setShow] = useState(false);
 
     // useEffect(() => {

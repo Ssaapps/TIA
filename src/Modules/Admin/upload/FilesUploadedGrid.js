@@ -2,7 +2,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import React from 'react'
 import FileGridItem from './FileGridItem';
 
-function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, setFilesEditable, setAlbumAddOpen }) {
+function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, setFilesEditable, setAlbumAddFormOpen, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
     const [isEditingTitle, setIsEditingTitle] = React.useState(false);
     const [titleEdited, setTitleEdited] = React.useState("");
     const [isEditingDescription, setIsEditingDescription] = React.useState(false);
@@ -87,17 +87,30 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 }} placeholder={`Seperate tags with space`} />}
                             </div>
 
-                            <div className='px-3 py-2 text-[13px] text-gray-100 border-b border-b-gray-600'>
+                            <div onClick={() => {
+                                setPeopleAddFormOpen(true)
+                            }} className='px-3 py-2 text-[13px] text-gray-100 border-b border-b-gray-600'>
+                             <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
+                                    filesEditable.find((file, index) => selected.includes(index)).people ? filesEditable.find((file, index) => selected.includes(index)).people.name : "None"
+                                }</div>
                                 Add people
                             </div>
 
                             <div onClick={() => {
-                                setAlbumAddOpen(true)
+                                setAlbumAddFormOpen(true)
                             }} className='cursor-pointer  px-3 py-2 text-[13px] text-gray-100 border-b border-b-gray-600'>
-                                Add to albums
+                                <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
+                                    filesEditable.find((file, index) => selected.includes(index)).album ? filesEditable.find((file, index) => selected.includes(index)).album.name : "None"
+                                }</div>
+                                Add to album
                             </div>
 
-                            <div className='px-3 py-2 text-sm text-gray-100 border-b border-b-gray-600'>
+                            <div onClick={() => {
+                                setGroupsAddFormOpen(true)
+                            }} className='px-3 py-2 text-sm text-gray-100 border-b border-b-gray-600'>
+                             <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
+                                    filesEditable.find((file, index) => selected.includes(index)).group ? filesEditable.find((file, index) => selected.includes(index)).group.name : "None"
+                                }</div>
                                 Add to groups
                             </div>
                             <div className='px-3 py-2 text-[13px] text-gray-100 border-b  '>
