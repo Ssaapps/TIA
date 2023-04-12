@@ -47,7 +47,7 @@ export default function Login() {
                     <div className="sm:mx-auto sm:w-full sm:max-w-md">
                         <div className={"flex items-center cursor-pointer justify-center mx-auto max-w-min rounded-full w-20 h-20 box-border bg-white shadow-sm"} onClick={() => navigate('/')}>
                             {/*<MenuIcon fill={"#242A38"} className={"cursor-pointer"}/>*/}
-                            <Logo className={"h-4 mx-2"} />
+                            <Logo className={"h-16 mx-2"} />
                         </div>
 
                     </div>
@@ -106,7 +106,7 @@ export default function Login() {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md border border-transparent bg-[#ef3f23] py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        className="flex w-full justify-center rounded-md border border-transparent bg-[#ef3f23] py-2 px-4 text-sm font-medium text-white shadow-sm bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     >
                                         Sign in
                                     </button>

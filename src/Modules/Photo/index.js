@@ -44,8 +44,8 @@ export default function Photo() {
 
                 <div className={"flex"}>
 
-                    <img src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}
-                         className={"h-16 w-16 rounded-full"}
+                    <img src={"/logo.png"}
+                         className={"h-20 object-contain border-2 border-indigo-900 w-20 rounded-full"}
                     />
 
                     <div className={"flex mx-5 flex-col"}>
