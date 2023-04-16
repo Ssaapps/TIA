@@ -12,4 +12,14 @@ export const ActionTypes = {
     CREATE_ALBUMS_SUCCESS: "CREATE_ALBUMS_SUCCESS",
     CREATE_ALBUMS_ERROR: "CREATE_ALBUMS_ERROR",
 
+    UPLOAD_MEDIA_REQUEST: (id) => {
+      return `UPLOAD_MEDIA_REQUEST_${id}`
+    },
+    UPLOAD_MEDIA_SUCCESS: (id) => {
+        return `UPLOAD_MEDIA_SUCCESS_${id}`
+    },
+    UPLOAD_MEDIA_ERROR: (id) => {
+        return `UPLOAD_MEDIA_ERROR${id}`
+    } ,
+
 }

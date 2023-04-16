@@ -20,6 +20,8 @@ const initialState = {
             error: null,
             data: null
         }
+    },
+    media: {
     }
 };
 
@@ -119,6 +121,48 @@ export const UploadReducer = (state = initialState, action) => {
                         success: false,
                         loading: false,
                         error: action.payload
+                    }
+                }
+            }
+
+        //upload MEDIA
+        case ActionTypes.UPLOAD_MEDIA_REQUEST(action.id):
+            return {
+                ...state,
+                media: {
+                    ...state.media,
+                    [action.id] : {
+                        success: false,
+                        loading: true,
+                        error: null,
+                        data: null
+                    }
+                }
+
+            }
+        case ActionTypes.UPLOAD_MEDIA_SUCCESS(action.id):
+            return {
+                ...state,
+                media: {
+                    ...state.media,
+                    [action.id] : {
+                        success: true,
+                        loading: false,
+                        error: null,
+                        data: action.payload
+                    }
+                }
+            }
+        case ActionTypes.UPLOAD_MEDIA_ERROR(action.id):
+            return {
+                ...state,
+                media: {
+                    ...state.media,
+                    [action.id] : {
+                        success: false,
+                        loading: false,
+                        error: action.payload,
+                        data: null
                     }
                 }
             }

@@ -12,7 +12,6 @@ export default function Photo() {
         window.open('https://payment-web.simu.sips-services.com/en/payment/selectpaymentmethod/ppc0', '_blank', 'noreferrer');
     };
 
-
     return (
         <div>
 

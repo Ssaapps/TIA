@@ -7,19 +7,17 @@ import { v5 as uuidv5, v4 as uuidv4 } from "uuid";
 import CustomLoadingOverlay from "../../../Shared/Component/CustomLoadingOverlay";
 import EnterAlbumActionPane from "./EnterAlbumNameInputActionPanel";
 import { useNavigate } from "react-router";
-import { doSetFiles, doSetFilesEditable, doSetSelected } from "./duck/action";
+import {doSetFiles, doSetFilesEditable, doSetSelected, uploadMedia} from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import RemoveDialog from "./RemoveDialog";
 import Axios from "../../../Shared/utils/axios_instance";
-import { getBase64 } from "../../../Shared/utils/files";
-import axios from "axios";
 import EnterGroupsActionPane from "./EnterGroupsNameInputActionPanel";
 import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
 
 
 function Upload() {
     const dispatch = useDispatch();
-    const { files, filesEditable, selected } = useSelector(state => state.upload)
+    const { files, filesEditable, selected,media } = useSelector(state => state.upload)
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -44,13 +42,6 @@ function Upload() {
     const setSelected = (selectedFiles) => {
         dispatch(doSetSelected(selectedFiles))
     }
-    // useEffect(() => {
-    //     if (uploading) {
-    //         setTimeout(() => {
-    //             setUploading(false);
-    //         }, 5000);
-    //     }
-    // }, [uploading]);
 
     useEffect(() => {
         if (localStorage.getItem("upload_draft") != null) {
@@ -65,14 +56,17 @@ function Upload() {
             })
         }
     }, [files])
+
+    useEffect(() => {
+        console.log("media changes",media)
+    },[media]);
     const onDrop = (acceptedFiles) => {
-        if (files.length == 0) {
+        if (files.length === 0) {
             setFiles(
                 acceptedFiles.map((file) =>
                     // file.match("video") console.log("this is a video file");
                     Object.assign(file, {
                         id: uuidv4(),
-
                     })
                 )
             );
@@ -112,12 +106,10 @@ function Upload() {
 
     const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
         onDrop,
-
         accept: {
             "image/*": [],
             "video/*": [],
         },
-
     });
 
     const onRemoveTap = () => {
@@ -129,42 +121,38 @@ function Upload() {
         setSelected([]);
     }
 
+
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
     const handleUpload = async () => {
         setUploading(true)
-        for (let fileIndex in files) {
-            const file = files[fileIndex]
-            setCurrentFileUploading(+fileIndex + 1)
-            console.log("am here",filesEditable)
-            getBase64(file).then((data) => {
-                // const uploadDraft = JSON.parse(localStorage.getItem("upload_draft"))
-                Axios.post("/media", {
-                    //TODO: add project id
-                    // project_id:uploadDraft.id,
-                    method: "base64",
-                    album_id: filesEditable[fileIndex].album?.id ?? null,
-                    people_id: filesEditable[fileIndex].people?.id ?? null,
-                    group_id: filesEditable[fileIndex].group?.id ?? null,
-                    tags: filesEditable[fileIndex].tags,
-                    // project_id:localStorage.getItem()
-                    file: data
-                }, {
-                    onUploadProgress: (progressEvent) => {
-                        const percentage = (progressEvent.loaded * 100) / progressEvent.total;
-                        setUploadingProgress(+percentage.toFixed(2));
-                    },
-                }).then((res) => {
-                    if (+fileIndex + 1 == files.length) {
-                        setUploading(false)
-                        navigate("/admin/upload/success")
-                    }
-                }).catch((e) => {
-                    console.log(e)
-                }
-                )
-            })
+
+        for (const file of files) {
+            const index = files.indexOf(file);
+            console.log(file);
+            await delay(1000);
+            dispatch(uploadMedia({
+                data: {
+                    method: "form-data",
+                },
+                file: file,
+                id: index
+            }));
         }
 
+        // dispatch(uploadMedia({
+        //     data: {
+        //         method: "form-data",
+        //     },
+        //     file: files[3],
+        //     id: 4
+        // }));
+
+
+        console.log("filesEditable",filesEditable)
+        console.log("files",files)
     }
+
     return (
 
 
@@ -177,25 +165,7 @@ function Upload() {
                 backgroundImage: `url(https://combo.staticflickr.com/pw/images/editr-marc-by-marc-perry.png)`,
             }}
         >
-            {/* Album loading overlay */}
-            {/* <CustomLoadingOverlay setShow={setAlbumAddFormOpen} next={() => {
-                setAlbumAddFormOpen(true)
-            }} show={albumAddOpen} spinner={<PropagateLoader color="#fff" />} text=" " /> */}
 
-            {/*  Files loading overlay */}
-
-            <CustomLoadingOverlay setShow={setUploading} next={() => {
-                navigate("/upload/success")
-            }} show={uploading} spinner={
-                <>
-                    <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p>
-                    <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
-                        {uploadingProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
-                            width: `${uploadingProgress}%`
-                        }}> {`${uploadingProgress}%`}</div>}
-                    </div>
-                </>
-            } text=" " />
             <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterPeopleActionPane setOpen={setPeopleAddFormOpen} open={peopleAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
@@ -290,7 +260,6 @@ function Upload() {
                 setOpen={setDialogOpen}
                 itemsCount={files.length}
                 onContinue={handleUpload}
-
             />
 
             <RemoveDialog

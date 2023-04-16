@@ -82,7 +82,8 @@ function PhotosList() {
     useEffect(() => {
         console.log("photoState",photoState);
         if (photoState.delete.success) {
-            //reload
+            setSelectItemModel(null);
+            setCurrentFile(null);
             dispatch(getMedia());
         }
     },[photoState])

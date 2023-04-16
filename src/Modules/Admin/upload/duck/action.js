@@ -57,6 +57,22 @@ export const createAlbum = (data) => {
     }
 }
 
+export const uploadMedia  = (data) => {
+    return async function(dispatch) {
+        dispatch({ type: ActionTypes.UPLOAD_MEDIA_REQUEST(data.id), id: data.id });
+        makeHttpRequest({
+            path: `media`,
+            method: "POST",
+            file: data.file,
+            data: data.data,
+            id: data.id
+        },{
+            SUCCESS: ActionTypes.UPLOAD_MEDIA_SUCCESS(data.id),
+            ERROR: ActionTypes.UPLOAD_MEDIA_ERROR(data.id)
+        },dispatch);
+    }
+}
+
 
 
 

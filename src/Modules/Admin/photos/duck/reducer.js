@@ -59,7 +59,7 @@ export const MediaReducer = (state = initialState, action) => {
                 }
             }
 
-        //create ALBUM
+        //create media
         case ActionTypes.CREATE_MEDIA_REQUEST:
             return {
                 ...state,
@@ -85,6 +85,38 @@ export const MediaReducer = (state = initialState, action) => {
                 ...state,
                 create: {
                     ...state.create,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+        //delete media
+        case ActionTypes.DELETE_MEDIA_REQUEST:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.DELETE_MEDIA_SUCCESS:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.DELETE_MEDIA_ERROR:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
                     success: false,
                     loading: false,
                     error: action.payload

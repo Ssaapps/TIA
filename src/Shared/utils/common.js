@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 
 export const makeHttpRequest =  (request, dispatchVariables , dispatch, onSuccess = null,onError =  null,tag = null) => {
     const token = JSON.parse(localStorage.getItem("token") ?? "{}")
-    console.log("token",token)
     let options = {
         method: request.method,
         url: API_BASE_URL + request.path,
@@ -29,6 +28,24 @@ export const makeHttpRequest =  (request, dispatchVariables , dispatch, onSucces
             params: request.query
         }
     }
+
+    if (request.file) {
+        const formData = new FormData();
+        formData.append("file",request.file);
+        Object.keys(request.data).forEach((item,index) => {
+            formData.append(item, Object.values(request.data)[index])
+        })
+
+        options = {
+            ...options,
+            data: formData,
+            headers: {
+                ...options.headers,
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    }
+
     axios.request(options).then((response) => {
 
             // console.log(response);
@@ -38,6 +55,7 @@ export const makeHttpRequest =  (request, dispatchVariables , dispatch, onSucces
             }
 
             dispatch({
+                id: request.id,
                 type: dispatchVariables.SUCCESS,
                 tag: tag,
                 payload: response.data,
@@ -50,7 +68,9 @@ export const makeHttpRequest =  (request, dispatchVariables , dispatch, onSucces
             if (error.response && error.response.data) {
                 errorMessage = error.response.data.message;
             }
+            console.log("error",error)
             dispatch({
+                id: request.id,
                 type: dispatchVariables.ERROR,
                 payload: errorMessage,
                 tag: tag,

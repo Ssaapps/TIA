@@ -34,7 +34,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
   },[uploadState])
 
   useEffect(() => {
-    console.log("uploadState",uploadState)
+    // console.log("uploadState",uploadState)
   },[uploadState])
 
   const submitAlbumForm = async (e) => {
