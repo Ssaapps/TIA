@@ -97,6 +97,23 @@ export const niceBytes = (x) => {
     return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
 }
 
+export const  getLighterColor = (hexColor, percent = 0.5) => {
+    console.log("beforeColor",hexColor)
+    // Convert HEX color to RGB
+    let r = parseInt(hexColor.substring(1, 3), 16);
+    let g = parseInt(hexColor.substring(3, 5), 16);
+    let b = parseInt(hexColor.substring(5, 7), 16);
+    // Calculate new RGB values based on percent lightness
+    r = Math.round(r + ((255 - r) * percent));
+    g = Math.round(g + ((255 - g) * percent));
+    b = Math.round(b + ((255 - b) * percent));
+    // Convert RGB color back to HEX
+    const newHexColor = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
+    console.log("afterColor",newHexColor)
+
+    return newHexColor;
+}
+
 export const getTableData = (data,fields) => {
     return data && data.map((item) =>
     {

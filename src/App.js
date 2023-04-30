@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
-import Login from "./Modules/Login";
+import Login from "./Modules/Auth/Login";
 import { useSelector } from "react-redux";
 import Welcome from "./Modules/Welcome";
 import AppLayout from "./Modules/Layouts";
 import Photo from "./Modules/Photo";
-import Signup from './Modules/Login/Signup';
+import Signup from './Modules/Auth/Signup';
 import UploadSuccess from './Modules/Admin/upload/UploadSucess';
 import Upload from './Modules/Admin/upload/Upload';
 import Admin from './Modules/Admin';

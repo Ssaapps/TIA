@@ -7,6 +7,12 @@ const initialState = {
         error: null,
         data: []
     },
+    show: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
+    },
     delete: {
         success: false,
         loading: false,
@@ -53,6 +59,41 @@ export const MediaReducer = (state = initialState, action) => {
                 ...state,
                 fetch: {
                     ...state.fetch,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+        //show MEDIA
+        case ActionTypes.FETCH_MEDIA_DETAILS_REQUEST_1:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
+                    loading: true,
+                    success: false,
+                    error: null
+                },
+                delete: {
+                    ...initialState.delete
+                }
+            }
+        case ActionTypes.FETCH_MEDIA_DETAILS_SUCCESS_1:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.FETCH_MEDIA_DETAILS_ERROR_1:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
                     success: false,
                     loading: false,
                     error: action.payload

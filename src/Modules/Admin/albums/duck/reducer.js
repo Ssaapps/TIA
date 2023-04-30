@@ -7,6 +7,12 @@ const initialState = {
         error: null,
         data: []
     },
+    show: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
+    },
     create: {
         success: false,
         loading: false,
@@ -44,6 +50,39 @@ export const AlbumReducer = (state = initialState, action) => {
                 ...state,
                 fetch: {
                     ...state.fetch,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+
+        //show ALBUM
+        case ActionTypes.FETCH_ALBUM_REQUEST:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.FETCH_ALBUM_SUCCESS:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.FETCH_ALBUM_ERROR:
+            return {
+                ...state,
+                show: {
+                    ...state.show,
                     success: false,
                     loading: false,
                     error: action.payload

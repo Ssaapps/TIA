@@ -14,6 +14,19 @@ export const getMedia = () => {
     }
 }
 
+export const getMediaDetails = (id) => {
+    return async function(dispatch) {
+        dispatch({ type: ActionTypes.FETCH_MEDIA_DETAILS_REQUEST_1 });
+        makeHttpRequest({
+            path: `admin/media/${id}`,
+            method: "GET",
+        },{
+            SUCCESS: ActionTypes.FETCH_MEDIA_DETAILS_SUCCESS_1,
+            ERROR: ActionTypes.FETCH_MEDIA_DETAILS_ERROR_1
+        },dispatch);
+    }
+}
+
 export const deleteMedia = (id) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.DELETE_MEDIA_REQUEST });

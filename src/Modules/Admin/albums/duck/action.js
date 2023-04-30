@@ -14,6 +14,19 @@ export const getAlbums = () => {
     }
 }
 
+export const getAlbum = (id) => {
+    return async function(dispatch) {
+        dispatch({ type: ActionTypes.FETCH_ALBUM_REQUEST });
+        makeHttpRequest({
+            path: `admin/albums/${id}`,
+            method: "GET",
+        },{
+            SUCCESS: ActionTypes.FETCH_ALBUM_SUCCESS,
+            ERROR: ActionTypes.FETCH_ALBUM_ERROR
+        },dispatch);
+    }
+}
+
 export const createAlbum = (data) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.CREATE_ALBUMS_REQUEST });

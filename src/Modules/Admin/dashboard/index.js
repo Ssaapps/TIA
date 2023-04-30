@@ -14,8 +14,6 @@ function Dashboard() {
     const dashboardState = useSelector( (state) => state.dashboard);
 
 
-
-
     useEffect(() => {
         console.log("dashboardState",dashboardState)
         dispatch(getDashboard())
@@ -45,7 +43,7 @@ function Dashboard() {
 
                     <OverViewCard
                         icon={<RectangleStackIcon className='w-5 h-5 text-orange-500' />}
-                        text={`${dashboardState.fetch.data ?  dashboardState.fetch.data.count.media: '...'} Albums`} />
+                        text={`${dashboardState.fetch.data ?  dashboardState.fetch.data.count.albums: '...'} Albums`} />
 
                 </div>
 

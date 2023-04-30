@@ -1,12 +1,13 @@
 import {combineReducers} from "redux"
 import { UploadReducer } from "../Modules/Admin/upload/duck/reducer";
-import {LoginReducer} from "../Modules/Login/duck/reducer";
+import {LoginReducer} from "../Modules/Auth/duck/reducer";
 import {AlbumReducer} from "../Modules/Admin/albums/duck/reducer";
 import {TableReducer} from "../Shared/Component/Table/duck/reducer";
 import {GroupReducer} from "../Modules/Admin/groups/duck/reducer";
 import {OrdersReducer} from "../Modules/Admin/orders/duck/reducer";
 import {MediaReducer} from "../Modules/Admin/photos/duck/reducer";
 import {DashboardReducer} from "../Modules/Admin/dashboard/duck/reducer";
+import {HomeReducer} from "../Modules/Welcome/duck/reducer";
 
 
 const reducers = combineReducers({
@@ -17,7 +18,8 @@ const reducers = combineReducers({
     groups: GroupReducer,
     orders: OrdersReducer,
     media: MediaReducer,
-    dashboard: DashboardReducer
+    dashboard: DashboardReducer,
+    home: HomeReducer
 });
 
 

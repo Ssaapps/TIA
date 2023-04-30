@@ -1,6 +1,7 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getAlbums} from "../../albums/duck/action";
+import {useParams} from "react-router";
 
 export default function AlbumView(props) {
 
@@ -9,11 +10,14 @@ export default function AlbumView(props) {
 
     useEffect(() => {
         dispatch(getAlbums());
+
     },[]);
 
     const onItemClick = (album) => {
         props.onItemClicked({...album,type: 'album'});
     }
+
+
 
     return (
         <div className={"grid grid-cols-3 gap-1 outline-hidden"}>

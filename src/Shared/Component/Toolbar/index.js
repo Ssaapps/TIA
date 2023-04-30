@@ -20,7 +20,7 @@ export default function Toolbar() {
             <div className={"flex items-center cursor-pointer"} onClick={() => navigate('/')}>
                 {/*<MenuIcon fill={"#242A38"} className={"cursor-pointer"}/>*/}
                 {/*<Logo className={"h-4 mx-2"} />*/}
-                <img className={"h-10"} src={"logo.png"} />
+                <img className={"h-10"} src={"/logo.png"} />
             </div>
 
             <div>

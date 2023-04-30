@@ -2,11 +2,29 @@ import EyeIcon from "../../Shared/Component/Icons/EyeIcon";
 import CashIcon from "../../Shared/Component/Icons/CashIcon";
 import ClockIcon from "../../Shared/Component/Icons/ClockIcon";
 import CameraIcon from "../../Shared/Component/Icons/CameraIcon";
-import {useNavigate} from "react-router";
+import {useNavigate, useParams} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getAlbum} from "../Admin/albums/duck/action";
+import {getMedia, getMediaDetails} from "../Admin/photos/duck/action";
+import {getLighterColor} from "../../Shared/utils/common";
 
 export default function Photo() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const params = useParams();
+
+    const mediaState = useSelector( (state) => state.media)
+
+
+    useEffect(() => {
+        dispatch(getMediaDetails(params.id))
+    },[])
+
+    useEffect(() => {
+        console.log("mediaState",mediaState)
+    },[mediaState])
 
     const onPaymentClicked = () => {
         window.open('https://payment-web.simu.sips-services.com/en/payment/selectpaymentmethod/ppc0', '_blank', 'noreferrer');
@@ -29,11 +47,12 @@ export default function Photo() {
 
                 <div className={"w-3/4 bg-white h-full border"}>
 
-                    <div className={"flex items-center justify-center"} style={{height: '80vh'}}>
+
+                    <div className={"flex items-center justify-center"} style={{height: '80vh',backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0])}}>
 
                         <img
                             className={"object-contain h-full text-center p-2"}
-                            src={"https://media.istockphoto.com/id/1469531463/photo/woman-at-home-decor-store.jpg?s=2048x2048&w=is&k=20&c=ynz5MAv70AbkbYP74O5VfIDdKXvvxAdtGJIQIZNUxCU="}/>
+                            src={mediaState.show.data && `http://localhost:8000${mediaState.show.data.path}`}/>
 
                     </div>
 
@@ -48,7 +67,7 @@ export default function Photo() {
                         $10.00
                     </div>
 
-                    <button className={"w-full mt-8 mb-5 bg-red-500 py-4 border border-red-800 rounded text-white"}>
+                    <button className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
                         Continue to Purchase
                     </button>
 
