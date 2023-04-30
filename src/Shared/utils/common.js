@@ -83,6 +83,10 @@ export const makeHttpRequest =  (request, dispatchVariables , dispatch, onSucces
 }
 
 
+export const classNames = (...classes) => {
+    return classes.filter(Boolean).join(' ')
+}
+
 export const niceBytes = (x) => {
     const units = ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
     let l = 0, n = parseInt(x, 10) || 0;

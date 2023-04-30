@@ -6,6 +6,7 @@ import {TableReducer} from "../Shared/Component/Table/duck/reducer";
 import {GroupReducer} from "../Modules/Admin/groups/duck/reducer";
 import {OrdersReducer} from "../Modules/Admin/orders/duck/reducer";
 import {MediaReducer} from "../Modules/Admin/photos/duck/reducer";
+import {DashboardReducer} from "../Modules/Admin/dashboard/duck/reducer";
 
 
 const reducers = combineReducers({
@@ -16,6 +17,7 @@ const reducers = combineReducers({
     groups: GroupReducer,
     orders: OrdersReducer,
     media: MediaReducer,
+    dashboard: DashboardReducer
 });
 
 

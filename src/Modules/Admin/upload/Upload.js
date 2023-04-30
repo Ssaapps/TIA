@@ -4,7 +4,6 @@ import FilesUploadedGrid from "./FilesUploadedGrid";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import UploadConfirmDialog from "./UploadConfirmDialog";
 import { v5 as uuidv5, v4 as uuidv4 } from "uuid";
-import CustomLoadingOverlay from "../../../Shared/Component/CustomLoadingOverlay";
 import EnterAlbumActionPane from "./EnterAlbumNameInputActionPanel";
 import { useNavigate } from "react-router";
 import {doSetFiles, doSetFilesEditable, doSetSelected, uploadMedia} from "./duck/action";
@@ -26,9 +25,6 @@ function Upload() {
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
     const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
-    const [thumbs, setThumbs] = useState([])
-    const [currentFileUploading, setCurrentFileUploading] = useState(null)
-    const [uploadingProgress, setUploadingProgress] = useState(0)
     const navigate = useNavigate()
 
     const setFiles = (files) => {
@@ -129,28 +125,19 @@ function Upload() {
 
         for (const file of files) {
             const index = files.indexOf(file);
-            console.log(file);
+            const fileConf = filesEditable[index];
             await delay(1000);
+            let data = {
+                method: "form-data",
+            };
+            if (fileConf.album) {
+                data["album_id"] = fileConf.album.id
+            }
             dispatch(uploadMedia({
-                data: {
-                    method: "form-data",
-                },
-                file: file,
+                data,file,
                 id: index
             }));
         }
-
-        // dispatch(uploadMedia({
-        //     data: {
-        //         method: "form-data",
-        //     },
-        //     file: files[3],
-        //     id: 4
-        // }));
-
-
-        console.log("filesEditable",filesEditable)
-        console.log("files",files)
     }
 
     return (

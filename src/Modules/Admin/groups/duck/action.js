@@ -5,7 +5,7 @@ export const getGroups = () => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.FETCH_GROUPS_REQUEST });
         makeHttpRequest({
-            path: `groups`,
+            path: `admin/groups`,
             method: "GET",
         },{
             SUCCESS: ActionTypes.FETCH_GROUPS_SUCCESS,
@@ -18,7 +18,7 @@ export const createGroup = (data) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.CREATE_GROUPS_REQUEST });
         makeHttpRequest({
-            path: `groups`,
+            path: `admin/groups`,
             method: "POST",
             data: data
         },{

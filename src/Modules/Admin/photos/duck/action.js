@@ -5,7 +5,7 @@ export const getMedia = () => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.FETCH_MEDIA_REQUEST });
         makeHttpRequest({
-            path: `media`,
+            path: `admin/media`,
             method: "GET",
         },{
             SUCCESS: ActionTypes.FETCH_MEDIA_SUCCESS,
@@ -18,7 +18,7 @@ export const deleteMedia = (id) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.DELETE_MEDIA_REQUEST });
         makeHttpRequest({
-            path: `media/${id}`,
+            path: `admin/media/${id}`,
             method: "DELETE"
         },{
             SUCCESS: ActionTypes.DELETE_MEDIA_SUCCESS,
@@ -33,7 +33,7 @@ export const createAlbum = (data) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.CREATE_MEDIA_REQUEST });
         makeHttpRequest({
-            path: `media`,
+            path: `admin/media`,
             method: "POST",
             data: data
         },{

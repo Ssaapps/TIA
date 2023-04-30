@@ -5,7 +5,7 @@ export const getAlbums = () => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.FETCH_ALBUMS_REQUEST });
         makeHttpRequest({
-            path: `albums`,
+            path: `admin/albums`,
             method: "GET",
         },{
             SUCCESS: ActionTypes.FETCH_ALBUMS_SUCCESS,
@@ -18,7 +18,7 @@ export const createAlbum = (data) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.CREATE_ALBUMS_REQUEST });
         makeHttpRequest({
-            path: `albums`,
+            path: `admin/albums`,
             method: "POST",
             data: data
         },{

@@ -11,64 +11,37 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {deleteMedia, getMedia} from "./duck/action";
 import {MEDIA_URL} from "../../../Shared/utils/constants";
-import {niceBytes} from "../../../Shared/utils/common";
+import {classNames, niceBytes} from "../../../Shared/utils/common";
 import moment from "moment";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
+import PhotoView from "./components/photoView";
+import AlbumView from "./components/albumView";
 
-// const currentFile = {
-//     name: 'IMG_4985.HEIC',
-//     size: '3.9 MB',
-//     source:
-//         'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-//     information: {
-//         'Uploaded by': 'Marie Culver',
-//         Created: 'June 8, 2020',
-//         'Last modified': 'June 8, 2020',
-//         Dimensions: '4032 x 3024',
-//         Resolution: '72 x 72',
-//     },
-//     sharedWith: [
-//         {
-//             id: 1,
-//             name: 'Aimee Douglas',
-//             imageUrl:
-//                 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80',
-//         },
-//         {
-//             id: 2,
-//             name: 'Andrea McMillan',
-//             imageUrl:
-//                 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-//         },
-//     ],
-// }
+const initialTabs = [
+    { id: 0, name: 'Photo ', href: '#', current: true },
+    { id: 1, name: 'Album', href: '#', current: false },
+    { id: 2, name: 'Favorites', href: '#', current: false },
+]
 
-const tabs = [
-    { name: 'Photo ', href: '#', current: true },
-    { name: 'Album', href: '#', current: false },
-    { name: 'Favorites', href: '#', current: false },
-  ]
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
-  
 function PhotosList() {
 
     const dispatch = useDispatch();
     const [currentFile,setCurrentFile] = useState(null);
     const [selectedItemModel,setSelectItemModel] = useState(null);
     const photoState = useSelector( (state) => state.media)
-
+    const [tabs,setTabs] = useState(initialTabs)
 
     const onItemClicked = (file) => {
+        console.log("file is ",file)
         setCurrentFile({
+            type: file.type,
             id: file.id,
             name: file.name,
-            size: niceBytes(file.size),
+            size: file.type === 'file' ? niceBytes(file.size) : file.media_count+ " files",
             source: `${MEDIA_URL}${file.path}`,
             information: {
                 'Uploaded by': file.created_by.name,
-                Created: moment(file.created_at).format("MMM D, YYYY"),
+                'Created at ': moment(file.created_at).format("MMM D, YYYY"),
                 'Last modified': moment(file.updated_at).format("MMM D, YYYY"),
                 Dimensions: '4032 x 3024',
                 Resolution: '72 x 72',
@@ -88,9 +61,6 @@ function PhotosList() {
         }
     },[photoState])
 
-    useEffect(() => {
-        dispatch(getMedia());
-    },[]);
 
     return (
         <div className="flex flex-1 items-stretch overflow-hidden">
@@ -155,8 +125,15 @@ function PhotosList() {
                         <div className="hidden sm:block">
                             <div className="flex items-center border-b border-gray-200">
                                 <nav className="-mb-px flex flex-1 space-x-6 xl:space-x-8" aria-label="Tabs">
-                                    {tabs.map((tab) => (
+                                    {tabs.map((tab,index) => (
                                         <a
+                                            onClick={() => {
+                                                setTabs(tabs.map(it => ({
+                                                        ...it,
+                                                        current: it.name === tab.name
+                                                    }))
+                                                );
+                                            }}
                                             key={tab.name}
                                             href={tab.href}
                                             aria-current={tab.current ? 'page' : undefined}
@@ -196,40 +173,28 @@ function PhotosList() {
                         <h2 id="gallery-heading" className="sr-only">
                             Recently viewed
                         </h2>
-                        <ul
-                            role="list"
-                            className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
-                        >
-                            {photoState.fetch.data.map((file) => (
-                                <li onClick={() => onItemClicked(file)} key={file.name} className="relative">
-                                    <div
-                                        className={classNames(
-                                            file.current
-                                                ? 'ring-2 ring-offset-2 ring-indigo-500'
-                                                : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500',
-                                            'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'
-                                        )}
-                                    >
-                                        <img
-                                            src={`${MEDIA_URL}${file.path}`}
-                                            alt=""
-                                            className={classNames(
-                                                file.current ? '' : 'group-hover:opacity-75',
-                                                'object-cover pointer-events-none'
-                                            )}
-                                        />
-                                        <button type="button" className="absolute inset-0 focus:outline-none">
-                                            <span className="sr-only">View details for {file.name}</span>
-                                        </button>
-                                    </div>
-                                    <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
-                                        {file.name}
-                                    </p>
-                                    <p className="pointer-events-none block text-sm font-medium text-gray-500">{niceBytes(file.size)}</p>
-                                </li>
-                            ))}
-                        </ul>
+
+                        {
+                            tabs.map(item => {
+                                if (item.current && item.id === 0) {
+                                    return <PhotoView
+                                        onItemClicked={onItemClicked}
+                                        photos={photoState.fetch.data}
+                                    />
+                                }else if (item.current && item.id == 1){
+                                    return <AlbumView
+                                        onItemClicked={onItemClicked}
+                                    />
+                                }else {
+                                    return <div></div>
+                                }
+                            })
+                        }
+
+
                     </section>
+
+
                 </div>
             </main>
 

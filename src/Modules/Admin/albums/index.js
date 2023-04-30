@@ -49,7 +49,7 @@ export default function Albums() {
 
 
             <Table
-                link={"albums"}
+                link={"admin/albums"}
                 tag={"albums.accounts"}
                 columns={["id","name","description","media","action"]}
                 fields={["id","name","description",{

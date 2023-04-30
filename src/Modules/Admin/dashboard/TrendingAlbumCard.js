@@ -1,6 +1,6 @@
 import React from 'react'
 
-function TrendingAlbumCard({photo,name}) {
+function TrendingAlbumCard({photo,name,description}) {
   return (
     <div className=" rounded-lg border p-2 px-3 ">
         <div className="rounded-lg bg-red-500 w-full h-64 ">
@@ -8,7 +8,7 @@ function TrendingAlbumCard({photo,name}) {
         </div>
         <div className='mt-2 space-y-'>
             <h4 className='text font-medium'>{name}</h4>
-            <h4 className='text-sm text-gray-700'>Album Description</h4>
+            <h4 className='text-sm text-gray-700'>{description}</h4>
         </div>
     </div>
   )

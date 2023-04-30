@@ -15,6 +15,7 @@ import Settings from './Modules/Admin/settings';
 import Albums from './Modules/Admin/albums';
 import Groups from "./Modules/Admin/groups";
 import Orders from "./Modules/Admin/orders";
+import Album from "./Modules/Album";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route path="/" element={<Welcome />} />
           <Route path="/photo/:id" element={<Photo />} />
+          <Route path="/album/:id" element={<Album />} />
 
         </Route>
 

@@ -5,7 +5,7 @@ export const getOrders = () => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.FETCH_ORDERS_REQUEST });
         makeHttpRequest({
-            path: `ORDERS`,
+            path: `admin/orders`,
             method: "GET",
         },{
             SUCCESS: ActionTypes.FETCH_ORDERS_SUCCESS,
@@ -18,7 +18,7 @@ export const createGroup = (data) => {
     return async function(dispatch) {
         dispatch({ type: ActionTypes.CREATE_ORDERS_REQUEST });
         makeHttpRequest({
-            path: `ORDERS`,
+            path: `admin/orders`,
             method: "POST",
             data: data
         },{
