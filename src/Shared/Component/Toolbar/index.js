@@ -10,7 +10,7 @@ import {useEffect} from "react";
 
 export default function Toolbar() {
     const navigate = useNavigate();
-    const isAuth = !!useSelector((state) => state.login.token);
+    const isAuth = !!useSelector((state) => state.login.login.token);
     const [searchParams, setSearchParams] = useSearchParams();
 
 
@@ -36,7 +36,7 @@ export default function Toolbar() {
                 {
                     !isAuth ? <>
                         <button onClick={()=>navigate("/login")} className="text-sm rounded-3xl hover:bg-gray-50 px-4 py-1.5">Sign In</button>
-                        <button onClick={()=>navigate("/signup")} className="rounded-3xl text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
+                        <button onClick={()=>navigate("/register")} className="rounded-3xl text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
                     </> : (
                         <>
 

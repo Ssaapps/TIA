@@ -42,10 +42,36 @@ export default function Orders() {
 
 
             <Table
-                link={"orders"}
+                link={"admin/orders"}
                 tag={"albums.orders"}
-                columns={["id","name","description","action"]}
-                fields={["id","name","description",{
+                columns={["id","amount","description","paid","created_at","action"]}
+                fields={["id",{
+                    render: (content) => {
+                        return (
+                            <td className={"text-center"}>
+                               USD {content.amount}
+                            </td>
+                        )
+                    }
+                },{
+                    render: (content) => {
+                        return (
+                            <td className={"text-center"}>
+                                Purchase of {content.resource_name} Item of Id {content.resource_id}
+                            </td>
+                        )
+                    }
+                },{
+                    render: (content) => {
+                        return (
+                            <td className={"text-center"}>
+                                <span className={"bg-gray-100 p-1 border rounded"}>
+                                    not-paid
+                                </span>
+                            </td>
+                        )
+                    }
+                },"created_at",{
                     id: "id",
                     render: (content) => {
                         return (

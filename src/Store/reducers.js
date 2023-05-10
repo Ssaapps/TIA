@@ -8,6 +8,7 @@ import {OrdersReducer} from "../Modules/Admin/orders/duck/reducer";
 import {MediaReducer} from "../Modules/Admin/photos/duck/reducer";
 import {DashboardReducer} from "../Modules/Admin/dashboard/duck/reducer";
 import {HomeReducer} from "../Modules/Welcome/duck/reducer";
+import {PhotoDetailReducer} from "../Modules/Photo/duck/reducer";
 
 
 const reducers = combineReducers({
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     groups: GroupReducer,
     orders: OrdersReducer,
     media: MediaReducer,
+    photo_detail: PhotoDetailReducer,
     dashboard: DashboardReducer,
     home: HomeReducer
 });

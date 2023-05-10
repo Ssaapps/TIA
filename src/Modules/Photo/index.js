@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import {getAlbum} from "../Admin/albums/duck/action";
 import {getMedia, getMediaDetails} from "../Admin/photos/duck/action";
 import {getLighterColor} from "../../Shared/utils/common";
+import {purchaseMedia} from "./duck/action";
 
 export default function Photo() {
 
@@ -16,7 +17,12 @@ export default function Photo() {
     const params = useParams();
 
     const mediaState = useSelector( (state) => state.media)
+    const photoDetailState = useSelector( (state) => state.photo_detail)
 
+    const openInNewTab = (url) => {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
 
     useEffect(() => {
         dispatch(getMediaDetails(params.id))
@@ -26,9 +32,19 @@ export default function Photo() {
         console.log("mediaState",mediaState)
     },[mediaState])
 
+    useEffect(() => {
+        console.log("photoDetailState",photoDetailState)
+        if (photoDetailState.purchase.success) {
+            openInNewTab(photoDetailState.purchase.data.url)
+        }
+    },[photoDetailState])
+
     const onPaymentClicked = () => {
-        window.open('https://payment-web.simu.sips-services.com/en/payment/selectpaymentmethod/ppc0', '_blank', 'noreferrer');
+        dispatch(purchaseMedia(params.id))
     };
+
+
+
 
     return (
         <div>
@@ -67,7 +83,7 @@ export default function Photo() {
                         $10.00
                     </div>
 
-                    <button className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
+                    <button onClick={onPaymentClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
                         Continue to Purchase
                     </button>
 

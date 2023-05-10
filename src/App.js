@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import Welcome from "./Modules/Welcome";
 import AppLayout from "./Modules/Layouts";
 import Photo from "./Modules/Photo";
-import Signup from './Modules/Auth/Signup';
 import UploadSuccess from './Modules/Admin/upload/UploadSucess';
 import Upload from './Modules/Admin/upload/Upload';
 import Admin from './Modules/Admin';
@@ -16,19 +15,25 @@ import Albums from './Modules/Admin/albums';
 import Groups from "./Modules/Admin/groups";
 import Orders from "./Modules/Admin/orders";
 import Album from "./Modules/Album";
+import Register from "./Modules/Auth/Register";
+import {useEffect} from "react";
 
 
 function App() {
   const mSate = useSelector((state) => state)
-  const isAuth = !!useSelector((state) => state.login.token);
+  const isAuth = !!useSelector((state) => state.login.login.token);
 
+  useEffect(() => {
+
+    console.log("isAuth",isAuth)
+  },[isAuth])
 
   return (
     <Router>
       <Routes>
 
         <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
-        <Route exact path="/signup" element={isAuth ? <Navigate to="/" /> : <Signup />} />
+        <Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
 
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />

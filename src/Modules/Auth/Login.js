@@ -5,23 +5,10 @@ import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import Logo from "../../Shared/Component/Icons/Logo";
 import { login } from "./duck/action";
+import {useEffect} from "react";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 export default function Login() {
-    const { isLoading, errorMessage } = useSelector(state => state.login)
+    const loginState = useSelector(state => state.login)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSubmit = (e) => {
@@ -30,11 +17,19 @@ export default function Login() {
         const email = e.target.email.value;
         const password = e.target.password.value;
         dispatch(login(email,password))
-
     }
+
+    useEffect(() => {
+        console.log("loginState",loginState)
+        if (loginState.login.loginSuccess) {
+            navigate("/");
+        }
+    },[loginState])
+
+
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader  color="#fff"/>} text={""} show={isLoading} >
+        <CustomLoadingOverlay spinner={<PropagateLoader  color="#fff"/>} text={""} show={loginState.login.loading} >
             <div className="bg-[#F4F4F4] h-screen">
                 {/*
               This example requires updating your template:
@@ -117,7 +112,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            {errorMessage && <ErrorNotification errorMessage={errorMessage} />}
+            {loginState.login.error && <ErrorNotification errorMessage={loginState.login.error} />}
         </CustomLoadingOverlay>
     )
 }

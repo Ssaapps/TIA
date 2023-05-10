@@ -1,41 +1,105 @@
 import {ActionTypes} from "./type";
 import Cookies from "js-cookie";
 
-export const LoginReducer = (state = {
-    errorMessage: null,
-    loginSuccess: false,
-    isLoading: false,
-    // token: Cookies.get("javAdminAccessToken"),
-    // user: Cookies.get("javAdmin") && JSON.parse(Cookies.get("javAdmin") ),
-    token: localStorage.getItem("token") && JSON.parse(localStorage.getItem("token") ),
-    user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user") ),
-    permissions: Cookies.get("javPermissions") && JSON.parse(Cookies.get("javPermissions") )
-},action) => {
+const initialState = {
+    login: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null,
+        token: localStorage.getItem("token") && JSON.parse(localStorage.getItem("token") ),
+        user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user") )
+    },
+    register: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
+    }
+}
+export const LoginReducer = (state = initialState,action) => {
     switch (action.type) {
+
+
+
+
         case ActionTypes.REQUEST_LOGIN:
-            return {...state,isLoading: true,errorMessage: null,loginSuccess: false}
+            return {
+                ...state,
+                login: {
+                    ...state.login,
+                    isLoading: true,
+                    errorMessage: null,
+                    loginSuccess: false
+                }
+            }
         case ActionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                loginSuccess: true,
-                errorMessage: null,
-                user: action.payload.user,
-                token: action.payload.token.access_token,
-                // permissions: action.payload.permissions
+                login: {
+                    ...state.login,
+                    isLoading: false,
+                    loginSuccess: true,
+                    errorMessage: null,
+                    user: action.payload.user,
+                    token: action.payload.token.access_token,
+                }
             }
         case ActionTypes.LOGIN_ERROR:
             return {
                 ...state,
-                isLoading: false,
-                errorMessage: action.payload
+                login: {
+                    ...state.login,
+                    isLoading: false,
+                    errorMessage: action.payload
+                }
             }
+
+
+        case ActionTypes.REQUEST_REGISTER:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    isLoading: true,
+                    errorMessage: null,
+                    loginSuccess: false
+                }
+            }
+        case ActionTypes.REGISTER_SUCCESS:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    isLoading: false,
+                    loginSuccess: true,
+                    errorMessage: null,
+                    user: action.payload.user,
+                    token: action.payload.token.access_token,
+                }
+            }
+        case ActionTypes.REGISTER_ERROR:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    isLoading: false,
+                    errorMessage: action.payload
+                }
+            }
+
+
+
+
 
         case ActionTypes.LOGOUT:
             return {
                 ...state,
-                user: null,
-                token: null
+                login: {
+                    ...state.login,
+                    user: null,
+                    token: null
+                }
             }
         default:
             return state
