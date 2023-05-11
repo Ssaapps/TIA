@@ -6,17 +6,18 @@ import UploadConfirmDialog from "./UploadConfirmDialog";
 import { v5 as uuidv5, v4 as uuidv4 } from "uuid";
 import EnterAlbumActionPane from "./EnterAlbumNameInputActionPanel";
 import { useNavigate } from "react-router";
-import {doSetFiles, doSetFilesEditable, doSetSelected, uploadMedia} from "./duck/action";
+import { doSetFiles, doSetFilesEditable, doSetSelected, uploadMedia } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import RemoveDialog from "./RemoveDialog";
 import Axios from "../../../Shared/utils/axios_instance";
 import EnterGroupsActionPane from "./EnterGroupsNameInputActionPanel";
 import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
+import { default as UploadLoadingOverlay } from "../../../Shared/Component/CustomLoadingOverlay";
 
 
 function Upload() {
     const dispatch = useDispatch();
-    const { files, filesEditable, selected,media } = useSelector(state => state.upload)
+    const { files, filesEditable, selected, media, uploadProgress } = useSelector(state => state.upload)
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -54,8 +55,8 @@ function Upload() {
     }, [files])
 
     useEffect(() => {
-        console.log("media changes",media)
-    },[media]);
+        console.log("media changes", media)
+    }, [media]);
     const onDrop = (acceptedFiles) => {
         if (files.length === 0) {
             setFiles(
@@ -134,7 +135,7 @@ function Upload() {
                 data["album_id"] = fileConf.album.id
             }
             dispatch(uploadMedia({
-                data,file,
+                data, file,
                 id: index
             }));
         }
@@ -152,7 +153,19 @@ function Upload() {
                 backgroundImage: `url(https://combo.staticflickr.com/pw/images/editr-marc-by-marc-perry.png)`,
             }}
         >
-
+            <UploadLoadingOverlay setShow={setUploading} next={() => {
+                navigate("/upload/success")
+            }} show={!!uploadProgress} spinner={
+                <>
+                    {/* TODO:Get current file being uploaded */}
+                    {/* <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p> */}
+                    <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
+                        {!!uploadProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
+                            width: `${uploadProgress}%`
+                        }}> {`${uploadProgress}%`}</div>}
+                    </div>
+                </>
+            } text=" " />
             <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterPeopleActionPane setOpen={setPeopleAddFormOpen} open={peopleAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />

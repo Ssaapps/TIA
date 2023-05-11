@@ -3,6 +3,8 @@ export const ActionTypes = {
     SET_SELECTED_FILES: "SET_SELECTED_FILES",
     SET_FILES_EDITABLE: "SET_FILES_EDITABLE",
 
+    GET_UPLOAD_PROGRESS: "GET_UPLOAD_PROGRESS",
+
 
     FETCH_ALBUMS_REQUEST: "FETCH_ALBUMS_REQUEST",
     FETCH_ALBUMS_SUCCESS: "FETCH_ALBUMS_SUCCESS",
@@ -12,14 +14,16 @@ export const ActionTypes = {
     CREATE_ALBUMS_SUCCESS: "CREATE_ALBUMS_SUCCESS",
     CREATE_ALBUMS_ERROR: "CREATE_ALBUMS_ERROR",
 
+
+
     UPLOAD_MEDIA_REQUEST: (id) => {
-      return `UPLOAD_MEDIA_REQUEST_${id}`
+        return `UPLOAD_MEDIA_REQUEST_${id}`
     },
     UPLOAD_MEDIA_SUCCESS: (id) => {
         return `UPLOAD_MEDIA_SUCCESS_${id}`
     },
     UPLOAD_MEDIA_ERROR: (id) => {
         return `UPLOAD_MEDIA_ERROR${id}`
-    } ,
+    },
 
 }

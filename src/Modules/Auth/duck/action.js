@@ -32,7 +32,7 @@ export const login = (email, password) => {
     }
 }
 
-export const register = (name,email,password) => {
+export const register = (name, email, password) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.REQUEST_REGISTER });
 
@@ -45,7 +45,7 @@ export const register = (name,email,password) => {
 
             console.log(response.data)
             dispatch({ type: ActionTypes.REGISTER_SUCCESS, payload: response.data });
-        }catch (e) {
+        } catch (e) {
             console.log(e)
             let errMsg = 'Something went wrong';
             if (e.response) {
@@ -60,6 +60,9 @@ export const register = (name,email,password) => {
 
 export const logout = () => {
     return async (dispatch) => {
+        dispatch({ type: ActionTypes.LOGOUT })
+        //Local Storage should be cleared but token used in axios instance is not cleared
+        localStorage.clear();
         Cookies.remove("javAdminAccessToken");
         Cookies.remove("javAdmin");
         window.location.reload();

@@ -5,7 +5,7 @@ import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import Logo from "../../Shared/Component/Icons/Logo";
 import { login } from "./duck/action";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 export default function Login() {
     const loginState = useSelector(state => state.login)
@@ -16,20 +16,20 @@ export default function Login() {
         //Dispatch login action
         const email = e.target.email.value;
         const password = e.target.password.value;
-        dispatch(login(email,password))
+        dispatch(login(email, password))
     }
 
     useEffect(() => {
-        console.log("loginState",loginState)
+        console.log("loginState", loginState)
         if (loginState.login.loginSuccess) {
             navigate("/");
         }
-    },[loginState])
+    }, [loginState])
 
 
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader  color="#fff"/>} text={""} show={loginState.login.loading} >
+        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.login.isLoading} >
             <div className="bg-[#F4F4F4] h-screen">
                 {/*
               This example requires updating your template:

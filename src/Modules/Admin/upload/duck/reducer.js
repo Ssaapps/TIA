@@ -7,6 +7,7 @@ const initialState = {
     files: [],
     filesEditable: [],
     selected: [],
+    uploadProgress: null,
     albums: {
         fetch: {
             success: false,
@@ -36,7 +37,8 @@ export const UploadReducer = (state = initialState, action) => {
         case ActionTypes.SET_FILES_EDITABLE:
             return { ...state, filesEditable: action.payload }
 
-
+        case ActionTypes.GET_UPLOAD_PROGRESS:
+            return { ...state, uploadProgress: action.payload }
 
         //fetch ALBUMS
         case ActionTypes.FETCH_ALBUMS_REQUEST:
@@ -131,7 +133,7 @@ export const UploadReducer = (state = initialState, action) => {
                 ...state,
                 media: {
                     ...state.media,
-                    [action.id] : {
+                    [action.id]: {
                         success: false,
                         loading: true,
                         error: null,
@@ -145,10 +147,11 @@ export const UploadReducer = (state = initialState, action) => {
                 ...state,
                 media: {
                     ...state.media,
-                    [action.id] : {
+                    [action.id]: {
                         success: true,
                         loading: false,
                         error: null,
+                        uploadProgress: null,
                         data: action.payload
                     }
                 }
@@ -158,9 +161,10 @@ export const UploadReducer = (state = initialState, action) => {
                 ...state,
                 media: {
                     ...state.media,
-                    [action.id] : {
+                    [action.id]: {
                         success: false,
                         loading: false,
+                        uploadProgress: null,
                         error: action.payload,
                         data: null
                     }
