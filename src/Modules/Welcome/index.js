@@ -18,7 +18,7 @@ export default function Welcome() {
     const [hovered,setHovered] = useState(-1);
 
     const onAlbumItemClicked = (album) => {
-        navigate(`/album/${album.uuid}`)
+        navigate(`/album/${album.id}`)
     }
 
     const onMediaItemClicked = (media) => {
@@ -33,7 +33,7 @@ export default function Welcome() {
     return (
         <div className={""}>
 
-            <BreadCrumb/>
+            <BreadCrumb album={homeState.fetch.data && homeState.fetch.data.albums[0]}/>
 
             <div className={"px-10 py-5"}>
 
