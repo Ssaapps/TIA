@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 export default function Welcome() {
 
-    const categories = ["AI","Viral","Finance","Lifestyle","Accra","Africa","Entertainment"];
+    const categories = ["AI","Viral","Finance","Lifestyle","Accra","Africa","UIPM","World Cup","Mens Final","Women's Final","Horse Racing","Marathon","Swimming","Budapest","Entertainment"];
     const [selectedIndex,setSelectedIndex] = useState(0);
 
     const navigate = useNavigate();
@@ -138,8 +138,10 @@ export default function Welcome() {
                             homeState.fetch.data && homeState.fetch.data.photos.map((item,index) => {
                                 return (
                                     <div onClick={() => onMediaItemClicked(item) } className={` ${index % 3=== 0 ? 'row-span-2' : ''} cursor-pointer`}>
-                                        <img className={`${index % 3=== 0 ? 'h-144' : 'h-72'} object-cover w-full rounded`}
+
+                                        <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-cover w-full rounded`}
                                              src={`http://localhost:8000${item.path}`} alt="Large image"/>
+
                                     </div>
                                 )
                             })
