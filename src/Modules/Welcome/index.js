@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "../Cart/duck/action";
 
 export default function Welcome() {
 
@@ -19,13 +20,8 @@ export default function Welcome() {
 
 
     const onAlbumAddToCartClicked = (album) => {
-        var tempCartItems = [];
-        const cartItems = JSON.parse(localStorage.getItem("cart"));
-        if (cartItems) {
-            tempCartItems = cartItems;
-        }
-        tempCartItems = [...tempCartItems, album];
-        localStorage.setItem("cart", JSON.stringify(tempCartItems));
+        dispatch(addItemToCart(album))
+
     }
 
     const onAlbumItemClicked = (album) => {
@@ -58,11 +54,16 @@ export default function Welcome() {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
                             return (
                                 //TODO: add cart button and bind onpressed
-                                <div className={"cursor-pointer relative"} onClick={() => onAlbumItemClicked(album)}>
+                                <div className={"cursor-pointer group relative"} onClick={() => onAlbumItemClicked(album)}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
-                                        src={`http://localhost:8000${album.media[0].path}`}
+                                        src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
                                     />
+                                    {/* <div className="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
+                                        <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
+                                            View Album
+                                        </div>
+                                    </div> */}
                                     <div className={`absolute top-0 bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
 
                                     <div className={"absolute top-0 bottom-0 right-0 left-0"} onMouseOut={() => {
@@ -149,11 +150,17 @@ export default function Welcome() {
                         {
                             homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                 return (
-                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2' : ''} cursor-pointer`}>
+                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''} min-h-fit min-w-fit cursor-pointer group relative `}>
 
-                                        <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-cover w-full rounded`}
-                                            src={`http://localhost:8000${item.path}`} alt="Large image" />
-
+                                        <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-fill w-full rounded`}
+                                            src={`https://7206-154-160-11-174.ngrok-free.app${item.path}`} alt="Large image" />
+                                        <div className=" absolute bottom-1/2 right-1/3 flex items-start opacity-0 group-hover:opacity-100" onClick={() => {
+                                            onAlbumAddToCartClicked(item)
+                                        }} aria-hidden="true">
+                                            <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
+                                                Add to cart
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                             })

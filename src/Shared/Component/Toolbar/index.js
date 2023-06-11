@@ -14,29 +14,18 @@ export default function Toolbar() {
     const navigate = useNavigate();
     const isAuth = !!useSelector((state) => state.login.login.token);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [cartCount, setCartCount] = useState(0);
     const [showCart, setShowCart] = useState(true);
     const location = useLocation();
     const dispatch = useDispatch();
     const handleLogout = () => {
         dispatch(logout())
     }
+    const cart = useSelector((state) => state.cart.items);
 
-    const updateCartCount = () => {
-        const cart = JSON.parse(localStorage.getItem("cart"));
-        if (cart) {
-            const cartCount = cart?.length;
-            setCartCount(cartCount);
-
-        }
-    }
-
-    useEffect(() => {
-        updateCartCount();
-    }, [localStorage])
 
 
     useEffect(() => {
+        console.log(cart)
         location.pathname === "/cart" ? setShowCart(false) : setShowCart(true);
     }, [location])
 
@@ -87,7 +76,7 @@ export default function Toolbar() {
                         className="h-7 w-7 flex-shrink-0 text-[#242A38] group-hover:text-gray-500"
                         aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartCount}</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.length}</span>
                     <span className="sr-only">items in cart, view bag</span>
                 </button>
                 }

@@ -2,13 +2,13 @@ import EyeIcon from "../../Shared/Component/Icons/EyeIcon";
 import CashIcon from "../../Shared/Component/Icons/CashIcon";
 import ClockIcon from "../../Shared/Component/Icons/ClockIcon";
 import CameraIcon from "../../Shared/Component/Icons/CameraIcon";
-import {useNavigate, useParams} from "react-router";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {getAlbum} from "../Admin/albums/duck/action";
-import {getMedia, getMediaDetails} from "../Admin/photos/duck/action";
-import {getLighterColor} from "../../Shared/utils/common";
-import {purchaseMedia} from "./duck/action";
+import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAlbum } from "../Admin/albums/duck/action";
+import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
+import { getLighterColor } from "../../Shared/utils/common";
+import { purchaseMedia } from "./duck/action";
 
 export default function Photo() {
 
@@ -16,8 +16,8 @@ export default function Photo() {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const mediaState = useSelector( (state) => state.media)
-    const photoDetailState = useSelector( (state) => state.photo_detail)
+    const mediaState = useSelector((state) => state.media)
+    const photoDetailState = useSelector((state) => state.photo_detail)
 
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -26,18 +26,18 @@ export default function Photo() {
 
     useEffect(() => {
         dispatch(getMediaDetails(params.id))
-    },[])
+    }, [])
 
     useEffect(() => {
-        console.log("mediaState",mediaState)
-    },[mediaState])
+        console.log("mediaState", mediaState)
+    }, [mediaState])
 
     useEffect(() => {
-        console.log("photoDetailState",photoDetailState)
+        console.log("photoDetailState", photoDetailState)
         if (photoDetailState.purchase.success) {
             openInNewTab(photoDetailState.purchase.data.url)
         }
-    },[photoDetailState])
+    }, [photoDetailState])
 
     const onPaymentClicked = () => {
         dispatch(purchaseMedia(params.id))
@@ -64,11 +64,11 @@ export default function Photo() {
                 <div className={"w-3/4 bg-white h-full border"}>
 
 
-                    <div className={"flex items-center justify-center"} style={{height: '80vh',backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0])}}>
+                    <div className={"flex items-center justify-center"} style={{ height: '80vh', backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) }}>
 
                         <img
                             className={"object-contain h-full text-center p-2"}
-                            src={mediaState.show.data && `http://localhost:8000${mediaState.show.data.path}`}/>
+                            src={mediaState.show.data && `https://7206-154-160-11-174.ngrok-free.app${mediaState.show.data.path}`} />
 
                     </div>
 
@@ -87,13 +87,13 @@ export default function Photo() {
                         Continue to Purchase
                     </button>
 
-                    <div className={"h-0.5 my-1 bg-gray-200"}/>
+                    <div className={"h-0.5 my-1 bg-gray-200"} />
 
 
 
                     <div className={"flex items-center mt-4"}>
                         <div className={"border-2 border-[#1e4570] rounded-full"}>
-                            <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"}/>
+                            <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"} />
                         </div>
 
                         <h2 className={"mx-2 font-proximaBold"}>
@@ -113,7 +113,7 @@ export default function Photo() {
                     <div className={"my-4"}>
                         <h2 className={"mb-2"}>Tags</h2>
                         {
-                            [0,0,0,0].map(item => {
+                            [0, 0, 0, 0].map(item => {
                                 return (
                                     <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
                                         Food

@@ -1,23 +1,23 @@
 import { ChevronDownIcon, PhotoIcon, RectangleStackIcon, VideoCameraIcon } from '@heroicons/react/24/outline'
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import OverViewCard from './OverViewCard'
 import TrendingAlbumCard from './TrendingAlbumCard'
 import JavSelect from "../../../Shared/Component/Forms/JavSelect";
 import JavFormSelect from "../../../Shared/Component/Forms/JavFormSelect";
-import {useDispatch, useSelector} from "react-redux";
-import {getDashboard} from "./duck/action";
+import { useDispatch, useSelector } from "react-redux";
+import { getDashboard } from "./duck/action";
 
 function Dashboard() {
 
     const dispatch = useDispatch();
 
-    const dashboardState = useSelector( (state) => state.dashboard);
+    const dashboardState = useSelector((state) => state.dashboard);
 
 
     useEffect(() => {
-        console.log("dashboardState",dashboardState)
+        console.log("dashboardState", dashboardState)
         dispatch(getDashboard())
-    },[])
+    }, [])
     return (
         <div className="flex flex-1 items-stretch overflow-hidden">
 
@@ -25,7 +25,7 @@ function Dashboard() {
                 <div className="flex justify-between ">
                     <h4 className='text-xl font-medium'>Overview</h4>
                     <JavFormSelect
-                        items={["today","last week","last monthly","last year"]}
+                        items={["today", "last week", "last monthly", "last year"]}
                         position={"bottom"}
                     />
                 </div>
@@ -34,16 +34,16 @@ function Dashboard() {
 
                     <OverViewCard
                         icon={<PhotoIcon className='w-5 h-5 text-green-500' />}
-                        text={`${dashboardState.fetch.data ?  dashboardState.fetch.data.count.orders: '...'} Orders`} />
+                        text={`${dashboardState.fetch.data ? dashboardState.fetch.data.count.orders : '...'} Orders`} />
 
                     <OverViewCard
                         icon={<PhotoIcon className='w-5 h-5 text-blue-500' />}
-                        text={`${dashboardState.fetch.data ?  dashboardState.fetch.data.count.media: '...'} Media`} />
+                        text={`${dashboardState.fetch.data ? dashboardState.fetch.data.count.media : '...'} Media`} />
 
 
                     <OverViewCard
                         icon={<RectangleStackIcon className='w-5 h-5 text-orange-500' />}
-                        text={`${dashboardState.fetch.data ?  dashboardState.fetch.data.count.albums: '...'} Albums`} />
+                        text={`${dashboardState.fetch.data ? dashboardState.fetch.data.count.albums : '...'} Albums`} />
 
                 </div>
 
@@ -54,8 +54,8 @@ function Dashboard() {
                             dashboardState.fetch.data && dashboardState.fetch.data.tending_albums.map(album => {
                                 return (
                                     <TrendingAlbumCard name={album.name}
-                                                       description={album.description}
-                                                       photo={`http://localhost:8000${album.media[0].path}`}/>
+                                        description={album.description}
+                                        photo={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`} />
                                 )
                             })
                         }
@@ -64,17 +64,17 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <hr className='mx-[-40px]'/>
+                <hr className='mx-[-40px]' />
                 <div className='mt-4'>
-                <div className='flex justify-between'>
-                    <h4 className='text-xl font-medium'>Recent Offers</h4>
-                    <button className='flex justify-center px-3 py-1.5 rounded-lg border items-center'>
-                        <span className='text-gray-500 text-sm'>All bids</span>
-                        <ChevronDownIcon className="w-4 h-4 text-gray-500 ml-1" />
-                    </button>
-                </div>
+                    <div className='flex justify-between'>
+                        <h4 className='text-xl font-medium'>Recent Offers</h4>
+                        <button className='flex justify-center px-3 py-1.5 rounded-lg border items-center'>
+                            <span className='text-gray-500 text-sm'>All bids</span>
+                            <ChevronDownIcon className="w-4 h-4 text-gray-500 ml-1" />
+                        </button>
+                    </div>
 
-                {/* <table>
+                    {/* <table>
                     <thead>
                     <tr
                         className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">

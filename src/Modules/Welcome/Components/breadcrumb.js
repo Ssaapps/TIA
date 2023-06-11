@@ -1,12 +1,12 @@
 import LockIcon from "../../../Shared/Component/Icons/LockIcon";
 import EyeIcon from "../../../Shared/Component/Icons/EyeIcon";
 import CashIcon from "../../../Shared/Component/Icons/CashIcon";
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BreadCrumb(props) {
 
-    const homeState = useSelector( (state) => state.home)
+    const homeState = useSelector((state) => state.home)
 
     const [currentImage, setCurrentImage] = useState(0);
 
@@ -22,16 +22,16 @@ export default function BreadCrumb(props) {
 
     useEffect(() => {
         if (homeState.fetch.data) {
-            console.log("album",homeState.fetch.data.albums[0])
+            console.log("album", homeState.fetch.data.albums[0])
         }
-    },[homeState]);
+    }, [homeState]);
 
 
 
     return (
-        <div style={{height: '600px'}} className={"bg-gray-200 flex flex-row items-center px-12"}>
+        <div style={{ height: '600px' }} className={"bg-gray-200 flex flex-row items-center px-12"}>
             <img
-                src={homeState.fetch.data && `https://ac60-197-251-253-115.ngrok-free.app${homeState.fetch.data.albums[0].media[currentImage].path}`}
+                src={homeState.fetch.data && `https://7206-154-160-11-174.ngrok-free.app${homeState.fetch.data.albums[0].media[currentImage].path}`}
                 className={"h-5/6 w-3/5 object-cover transition-transform duration-500 ease-in-out rounded"}
             />
             <div className={"px-20"}>
@@ -41,7 +41,7 @@ export default function BreadCrumb(props) {
                 </h1>
                 <div className={"flex my-2 items-center"}>
                     <div className={"border-2 border-[#1e4570] rounded-full"}>
-                        <img className={"h-12 w-12 object-contain rounded-full"} src={"/logo.png"}/>
+                        <img className={"h-12 w-12 object-contain rounded-full"} src={"/logo.png"} />
                     </div>
 
                     <h2 className={"mx-2 font-proximaBold"}>
@@ -53,22 +53,22 @@ export default function BreadCrumb(props) {
 
 
                     <div className={"flex items-center"}>
-                        <LockIcon className={"h-4"}/>
+                        <LockIcon className={"h-4"} />
                         <div className={"h-2 relative rounded w-44 bg-gray-500"}>
                             <div className={"absolute h-2 outline-none rounded-full bg-black top-0 left-0 w-1/2"}></div>
                         </div>
-                        <LockIcon className={"h-4"}/>
+                        <LockIcon className={"h-4"} />
 
                     </div>
 
 
                     <div className={"flex ml-44 items-center"}>
-                        <EyeIcon/>
+                        <EyeIcon />
                         <span>2k</span>
                     </div>
 
                     <div className={"flex mx-6 items-center"}>
-                        <CashIcon/>
+                        <CashIcon />
                         <span>2k</span>
                     </div>
 
