@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import {useDispatch, useSelector} from "react-redux";
-import {getAlbums} from "./duck/action";
+import { useDispatch, useSelector } from "react-redux";
+import { getAlbums } from "./duck/action";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
@@ -9,11 +9,11 @@ import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
 export default function Albums() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
-    const [selectedItemModel,setSelectItemModel] = useState(null);
+    const [selectedItemModel, setSelectItemModel] = useState(null);
 
 
 
-    const albumState = useSelector( (state) => state.albums)
+    const albumState = useSelector((state) => state.albums)
 
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function Albums() {
 
 
     return (
-        <div className={"p-10"}>
+        <div className={"p-10 overflow-y-auto"}>
 
 
 
@@ -51,38 +51,38 @@ export default function Albums() {
             <Table
                 link={"admin/albums"}
                 tag={"albums.accounts"}
-                columns={["id","name","description","media","action"]}
-                fields={["id","name","description",{
+                columns={["id", "name", "description", "media", "action"]}
+                fields={["id", "name", "description", {
                     id: "order_id",
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
-                                        <span className={"underline bg-blue-200 rounded px-5 py-2 cursor-pointer text-blue-500"}>
-                                            {content.media_count} pictures
-                                        </span>
+                                <span className={"underline bg-blue-200 rounded px-5 py-2 cursor-pointer text-blue-500"}>
+                                    {content.media_count} pictures
+                                </span>
                             </td>
                         )
                     }
-                },{
-                    id: "id",
-                    render: (content) => {
-                        return (
-                            <td>
-                                <div className={`flex justify-center`}>
+                }, {
+                        id: "id",
+                        render: (content) => {
+                            return (
+                                <td>
+                                    <div className={`flex justify-center`}>
 
-                                    <JavButton onClick={() => {
-                                        alert("clicked")
-                                        setSelectItemModel(content)
-                                    }} className={"p-1"} bgColor={"bg-gray-200 "}>
-                                        <DeleteIcon/>
-                                    </JavButton>
+                                        <JavButton onClick={() => {
+                                            alert("clicked")
+                                            setSelectItemModel(content)
+                                        }} className={"p-1"} bgColor={"bg-gray-200 "}>
+                                            <DeleteIcon />
+                                        </JavButton>
 
 
-                                </div>
-                            </td>
-                        )
-                    }
-                }]}
+                                    </div>
+                                </td>
+                            )
+                        }
+                    }]}
             />
         </div>
     )
