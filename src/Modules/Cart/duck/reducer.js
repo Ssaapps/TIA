@@ -15,7 +15,7 @@ export const CartReducer = (state = initialState, action) => {
         case ActionTypes.CART_ADD:
             return {
                 ...state,
-                items: [...state.items, action.payload]
+                items: state.items.find((item) => item.id === action.payload.id) ? [...state.items] : [...state.items, action.payload]
             }
         case ActionTypes.CART_REMOVE:
             return {

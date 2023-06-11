@@ -12,7 +12,7 @@
   }
   ```
 */
-import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { CheckIcon, ClockIcon, PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeItemFromCart } from './duck/action'
@@ -38,7 +38,7 @@ export default function Cart() {
                                 <li key={album.id} className="flex py-6 sm:py-10">
                                     <div className="flex-shrink-0">
                                         <img
-                                            src={`https://7206-154-160-11-174.ngrok-free.app${album.path}`}
+                                            src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
                                             alt={album.name}
                                             className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                                         />
@@ -49,13 +49,13 @@ export default function Cart() {
                                             <div>
                                                 <div className="flex justify-between">
                                                     <h3 className="text-sm">
-                                                        <a href={album.href} className="font-medium text-gray-700 hover:text-gray-800">
+                                                        <a href={album.href} className="font-medium text-gray-900 hover:text-gray-800">
                                                             {album.name}
                                                         </a>
                                                     </h3>
                                                 </div>
 
-                                                <p className="mt-1 text-sm font-medium text-gray-900">{album.price}</p>
+                                                <p className="mt-1 text-sm font-medium text-gray-700">{album.description}</p>
                                             </div>
 
                                             <div className="mt-4 sm:mt-0 sm:pr-9">
@@ -73,13 +73,12 @@ export default function Cart() {
                                         </div>
 
                                         <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-                                            {album.inStock ? (
-                                                <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
-                                            ) : (
-                                                <ClockIcon className="h-5 w-5 flex-shrink-0 text-gray-300" aria-hidden="true" />
-                                            )}
 
-                                            {/* <span>{album.inStock ? 'In stock' : `Ships in ${album.leadTime}`}</span> */}
+                                            <PhotoIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
+
+
+
+                                            <span>{album.media.length > 1 ? `${album.media.length} photos` : `${album.media.length} photo`}</span>
                                         </p>
                                     </div>
                                 </li>

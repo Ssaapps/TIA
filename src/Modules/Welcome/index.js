@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Cart/duck/action";
+import { ShoppingCartIcon } from "@heroicons/react/20/solid";
 
 export default function Welcome() {
 
@@ -54,33 +55,44 @@ export default function Welcome() {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
                             return (
                                 //TODO: add cart button and bind onpressed
-                                <div className={"cursor-pointer group relative"} onClick={() => onAlbumItemClicked(album)}>
+                                <div className={"cursor-pointer group relative"} >
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
                                         src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
                                     />
+                                    <div className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
+                                        setHovered(-1)
+                                    }} onMouseOver={() => {
+                                        setHovered(album.id)
+                                    }}>
+                                        <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
+
+                                        <div className=" flex items-start gap-x-5" onClick={() => {
+                                            onAlbumAddToCartClicked(album)
+                                        }} aria-hidden="true">
+                                            <div className="p-2 rounded-full hover:bg-gray-200 z-10">
+                                                <EyeIcon onClick={() => onAlbumItemClicked(album)} className={"h-8 w-8 text-white  "} />
+                                            </div>
+                                            <div className="p-2 rounded-full hover:bg-gray-200 z-10">
+                                                <ShoppingCartIcon onClick={() => { onAlbumAddToCartClicked(album) }} className={"h-8 w-8 text-white "} />
+                                            </div>
+                                        </div>
+                                    </div>
                                     {/* <div className="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
                                         <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
                                             View Album
                                         </div>
                                     </div> */}
-                                    <div className={`absolute top-0 bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
 
-                                    <div className={"absolute top-0 bottom-0 right-0 left-0"} onMouseOut={() => {
-                                        setHovered(-1)
-                                    }} onMouseOver={() => {
-                                        setHovered(album.id)
-                                    }}>
-                                        <div className={"flex h-full items-end justify-start"}>
-                                            {
-                                                hovered === album.id &&
-                                                <h3 className={"w-3/4 leading-none p-3 text-white text-sm font-proximaBold"}>
-                                                    {
-                                                        album.name
-                                                    }
-                                                </h3>
-                                            }
-                                        </div>
+                                    <div className={"absolute  bottom-0  left-0"}>
+                                        {
+                                            hovered === album.id &&
+                                            <h3 className={" leading-none p-3 text-white text-sm font-proximaBold"}>
+                                                {
+                                                    album.name
+                                                }
+                                            </h3>
+                                        }
                                     </div>
 
                                     {/*<h3 className={"w-3/4 leading-none p-1 text-lg"}>*/}
@@ -154,13 +166,7 @@ export default function Welcome() {
 
                                         <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-fill w-full rounded`}
                                             src={`https://7206-154-160-11-174.ngrok-free.app${item.path}`} alt="Large image" />
-                                        <div className=" absolute bottom-1/2 right-1/3 flex items-start opacity-0 group-hover:opacity-100" onClick={() => {
-                                            onAlbumAddToCartClicked(item)
-                                        }} aria-hidden="true">
-                                            <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
-                                                Add to cart
-                                            </div>
-                                        </div>
+
                                     </div>
                                 )
                             })
