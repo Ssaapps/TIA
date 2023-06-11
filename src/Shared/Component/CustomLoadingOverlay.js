@@ -7,33 +7,33 @@ import LoadingOverlay from 'react-loading-overlay';
 const CustomLoadingOverlay = ({ spinner, text, show, setShow, children, next, }) => {
     // const [show, setShow] = useState(false);
 
-    // useEffect(() => {
-    //     if (show == true) {
-    //         setTimeout(() => {
-    //             setShow(false);
-    //             next()
-    //         }, 3000)
-    //     }
-    // }, [show]);
+    useEffect(() => {
+        if (show == true) {
+            setTimeout(() => {
+                setShow(false);
+                next()
+            }, 3000)
+        }
+    }, [show]);
 
     return (
         <LoadingOverlay
-        active={show}
-        spinner={spinner ??  <PropagateLoader />}
-        styles={{
-            overlay: (base) => ({
-                ...base,
-                width: '100vw',
-                height: '100vh',
-                position: "fixed",
-                overflow: 'hidden'
-            })
-        }}
-        text={text ?? "Loading..."}
+            active={show}
+            spinner={spinner ?? <PropagateLoader />}
+            styles={{
+                overlay: (base) => ({
+                    ...base,
+                    width: '100vw',
+                    height: '100vh',
+                    position: "fixed",
+                    overflow: 'hidden'
+                })
+            }}
+            text={text ?? "Loading..."}
 
-    >
-        {children}
-    </LoadingOverlay>
+        >
+            {children}
+        </LoadingOverlay>
     );
 };
 

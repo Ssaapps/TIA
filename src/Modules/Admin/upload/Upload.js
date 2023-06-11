@@ -154,7 +154,7 @@ function Upload() {
             }}
         >
             <UploadLoadingOverlay setShow={setUploading} next={() => {
-                navigate("/upload/success")
+                navigate("/admin/upload/success")
             }} show={!!uploadProgress} spinner={
                 <>
                     {/* TODO:Get current file being uploaded */}
