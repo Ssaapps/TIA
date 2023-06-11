@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_BASE_URL } from "./constants";
 import Cookies from "js-cookie";
 
-export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess = null, onError = null, tag = null) => {
+export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess = null, onError = null, tag = null, onUploadProgress) => {
     const token = JSON.parse(localStorage.getItem("token") ?? "{}")
     let options = {
         method: request.method,
@@ -18,9 +18,7 @@ export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess 
             );
             // console.log("download completed : ",percentCompleted)
         },
-        onUploadProgress: progress => {
-            console.log("onUploadProgress -> ", progress);
-        }
+        onUploadProgress: onUploadProgress
     }
     if (request.query) {
         options = {

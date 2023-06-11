@@ -65,7 +65,15 @@ export const uploadMedia = (data) => {
             method: "POST",
             file: data.file,
             data: data.data,
-            id: data.id
+            id: data.id,
+            onUploadProgress: (progressEvent) => {
+                const percentage = (progressEvent.loaded * 100) / progressEvent.total;
+                dispatch({
+                    id: data.id,
+                    type: ActionTypes.GET_UPLOAD_PROGRESS,
+                    payload: +percentage.toFixed(2),
+                });
+            }
         }, {
             SUCCESS: ActionTypes.UPLOAD_MEDIA_SUCCESS(data.id),
             ERROR: ActionTypes.UPLOAD_MEDIA_ERROR(data.id),
