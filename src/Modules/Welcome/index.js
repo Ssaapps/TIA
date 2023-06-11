@@ -2,20 +2,31 @@ import LockIcon from "../../Shared/Component/Icons/LockIcon";
 import EyeIcon from "../../Shared/Component/Icons/EyeIcon";
 import CashIcon from "../../Shared/Component/Icons/CashIcon";
 import BreadCrumb from "./Components/breadcrumb";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router";
-import {getHome} from "./duck/action";
-import {useDispatch, useSelector} from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { getHome } from "./duck/action";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Welcome() {
 
-    const categories = ["AI","Viral","Finance","Lifestyle","Accra","Africa","UIPM","World Cup","Mens Final","Women's Final","Horse Racing","Marathon","Swimming","Budapest","Entertainment"];
-    const [selectedIndex,setSelectedIndex] = useState(0);
+    const categories = ["AI", "Viral", "Finance", "Lifestyle", "Accra", "Africa", "UIPM", "World Cup", "Mens Final", "Women's Final", "Horse Racing", "Marathon", "Swimming", "Budapest", "Entertainment"];
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const homeState = useSelector( (state) => state.home)
-    const [hovered,setHovered] = useState(-1);
+    const homeState = useSelector((state) => state.home)
+    const [hovered, setHovered] = useState(-1);
+
+
+    const onAlbumAddToCartClicked = (album) => {
+        var tempCartItems = [];
+        const cartItems = JSON.parse(localStorage.getItem("cart"));
+        if (cartItems) {
+            tempCartItems = cartItems;
+        }
+        tempCartItems = [...tempCartItems, album];
+        localStorage.setItem("cart", JSON.stringify(tempCartItems));
+    }
 
     const onAlbumItemClicked = (album) => {
         navigate(`/album/${album.id}`)
@@ -27,13 +38,13 @@ export default function Welcome() {
 
     useEffect(() => {
         dispatch(getHome());
-    },[])
+    }, [])
 
 
     return (
         <div className={""}>
 
-            <BreadCrumb album={homeState.fetch.data && homeState.fetch.data.albums[0]}/>
+            <BreadCrumb album={homeState.fetch.data && homeState.fetch.data.albums[0]} />
 
             <div className={"px-10 py-5"}>
 
@@ -46,12 +57,13 @@ export default function Welcome() {
                     {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
                             return (
+                                //TODO: add cart button and bind onpressed
                                 <div className={"cursor-pointer relative"} onClick={() => onAlbumItemClicked(album)}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
                                         src={`http://localhost:8000${album.media[0].path}`}
                                     />
-                                    <div className={`absolute top-0 bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`}/>
+                                    <div className={`absolute top-0 bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
 
                                     <div className={"absolute top-0 bottom-0 right-0 left-0"} onMouseOut={() => {
                                         setHovered(-1)
@@ -118,7 +130,7 @@ export default function Welcome() {
 
 
                     {
-                        categories.map((item,index) => {
+                        categories.map((item, index) => {
                             return (
                                 <div onClick={() => setSelectedIndex(index)} className={"my-2 flex items-center justify-start"}>
                                     <div className={` ${selectedIndex === index ? 'bg-gray-700 text-white' : 'bg-gray-200'} border px-5 py-1.5 rounded-full cursor-pointer text-sm font-proximaBold`}>
@@ -135,12 +147,12 @@ export default function Welcome() {
                 <div className={"w-5/6"}>
                     <div className="grid grid-cols-3 gap-4">
                         {
-                            homeState.fetch.data && homeState.fetch.data.photos.map((item,index) => {
+                            homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                 return (
-                                    <div onClick={() => onMediaItemClicked(item) } className={` ${index % 3=== 0 ? 'row-span-2' : ''} cursor-pointer`}>
+                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2' : ''} cursor-pointer`}>
 
                                         <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-cover w-full rounded`}
-                                             src={`http://localhost:8000${item.path}`} alt="Large image"/>
+                                            src={`http://localhost:8000${item.path}`} alt="Large image" />
 
                                     </div>
                                 )

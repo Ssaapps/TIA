@@ -16,7 +16,8 @@ import Groups from "./Modules/Admin/groups";
 import Orders from "./Modules/Admin/orders";
 import Album from "./Modules/Album";
 import Register from "./Modules/Auth/Register";
-import {useEffect} from "react";
+import { useEffect } from "react";
+import Cart from './Modules/Cart';
 
 
 function App() {
@@ -25,8 +26,8 @@ function App() {
 
   useEffect(() => {
 
-    console.log("isAuth",isAuth)
-  },[isAuth])
+    console.log("isAuth", isAuth)
+  }, [isAuth])
 
   return (
     <Router>
@@ -50,6 +51,7 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/photo/:id" element={<Photo />} />
           <Route path="/album/:id" element={<Album />} />
+          <Route path='/cart' element={<Cart />} />
 
         </Route>
 

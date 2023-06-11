@@ -2,21 +2,44 @@ import MenuIcon from "../Icons/MenuIcon";
 import Logo from "../Icons/Logo";
 import SearchIcon from "../Icons/SearchIcon";
 import { PostIcon } from "../Icons/PostIcon";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { logout } from "../../../Modules/Auth/duck/action";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 export default function Toolbar() {
     const navigate = useNavigate();
     const isAuth = !!useSelector((state) => state.login.login.token);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [cartCount, setCartCount] = useState(0);
+    const [showCart, setShowCart] = useState(true);
+    const location = useLocation();
     const dispatch = useDispatch();
     const handleLogout = () => {
         dispatch(logout())
     }
+
+    const updateCartCount = () => {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart) {
+            const cartCount = cart?.length;
+            setCartCount(cartCount);
+
+        }
+    }
+
+    useEffect(() => {
+        updateCartCount();
+    }, [localStorage])
+
+
+    useEffect(() => {
+        location.pathname === "/cart" ? setShowCart(false) : setShowCart(true);
+    }, [location])
+
 
     return (
         <div className={"h-16 flex items-center px-10 justify-between bg-white"}>
@@ -55,8 +78,19 @@ export default function Toolbar() {
                             </button>
                         </>
                     )
-                }
 
+                }
+                {showCart && <button className="group -m-2 flex items-center p-4" onClick={() => {
+                    navigate("/cart")
+                }}>
+                    <ShoppingBagIcon
+                        className="h-7 w-7 flex-shrink-0 text-[#242A38] group-hover:text-gray-500"
+                        aria-hidden="true"
+                    />
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartCount}</span>
+                    <span className="sr-only">items in cart, view bag</span>
+                </button>
+                }
             </div>
 
 
