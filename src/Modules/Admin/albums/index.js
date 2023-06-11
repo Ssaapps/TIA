@@ -71,7 +71,6 @@ export default function Albums() {
                                     <div className={`flex justify-center`}>
 
                                         <JavButton onClick={() => {
-                                            alert("clicked")
                                             setSelectItemModel(content)
                                         }} className={"p-1"} bgColor={"bg-gray-200 "}>
                                             <DeleteIcon />
