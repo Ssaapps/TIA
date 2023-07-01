@@ -39,18 +39,12 @@ const navigation = [
   { name: 'Photos', href: '/admin/photos', icon: PhotoIcon, current: true },
   { name: 'Groups', href: '/admin/groups', icon: RectangleGroupIcon, current: false },
   { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
-  { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
+  // { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
 ]
 const userNavigation = [
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
-const tabs = [
-  { name: 'Recently Viewed', href: '#', current: true },
-  { name: 'Recently Added', href: '#', current: false },
-  { name: 'Favorited', href: '#', current: false },
-]
-
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

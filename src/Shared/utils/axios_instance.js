@@ -1,4 +1,6 @@
 import axios from "axios";
+import { API_BASE_URL } from "./constants";
+
 // TODO: change token
 
 const getToken = () => {
@@ -12,7 +14,7 @@ const getToken = () => {
 }
 
 const Axios = axios.create({
-  baseURL: "https://7206-154-160-11-174.ngrok-free.app/api/v1/",
+  baseURL: API_BASE_URL,
   // timeout: 10000,
   validateStatus: function (status) {
     if (status > 200 < 300) {

@@ -6,6 +6,7 @@ import JavSelect from "../../../Shared/Component/Forms/JavSelect";
 import JavFormSelect from "../../../Shared/Component/Forms/JavFormSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboard } from "./duck/action";
+import {MEDIA_URL} from "../../../Shared/utils/constants";
 
 function Dashboard() {
 
@@ -55,7 +56,7 @@ function Dashboard() {
                                 return (
                                     <TrendingAlbumCard name={album.name}
                                         description={album.description}
-                                        photo={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`} />
+                                        photo={`${MEDIA_URL}${album.media[0].path}`} />
                                 )
                             })
                         }

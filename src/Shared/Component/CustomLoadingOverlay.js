@@ -5,13 +5,12 @@ import LoadingOverlay from 'react-loading-overlay';
 // import { AiOutlineLoading } from 'react-icons/ai';
 
 const CustomLoadingOverlay = ({ spinner, text, show, setShow, children, next, }) => {
-    // const [show, setShow] = useState(false);
 
     useEffect(() => {
-        if (show == true) {
+        if (show) {
             setTimeout(() => {
-                setShow(false);
-                next()
+                // setShow(false);
+                next && next()
             }, 3000)
         }
     }, [show]);

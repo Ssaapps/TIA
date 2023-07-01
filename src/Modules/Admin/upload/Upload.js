@@ -154,8 +154,13 @@ function Upload() {
             }}
         >
             <UploadLoadingOverlay setShow={setUploading} next={() => {
-                navigate("/admin/upload/success")
-            }} show={!!uploadProgress} spinner={
+                navigate("/admin/upload/success");
+                setUploading(false);
+                setFiles([]);
+                setSelected([]);
+                setFilesEditable([]);
+
+            }} show={!!uploading} spinner={
                 <>
                     {/* TODO:Get current file being uploaded */}
                     {/* <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p> */}

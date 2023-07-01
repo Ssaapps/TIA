@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useEffect } from "react";
 import { getAlbum, getAlbums } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
+import {MEDIA_URL} from "../../Shared/utils/constants";
 
 export default function Album() {
 
@@ -26,7 +27,7 @@ export default function Album() {
 
                 <img
                     className={"object-cover w-full h-full"}
-                    src={albumState.show.data && `https://7206-154-160-11-174.ngrok-free.app${albumState.show.data.media[0].path}`}
+                    src={albumState.show.data && `${MEDIA_URL}${albumState.show.data.media[0].path}`}
                 />
                 <div className={"absolute top-0 right-0 bg-black bottom-0 left-0 opacity-50"} />
                 <div className={"absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center"}>
@@ -54,7 +55,7 @@ export default function Album() {
                                 className={`relative bg-gray-200  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
                                 style={
                                     {
-                                        backgroundImage: `url(https://7206-154-160-11-174.ngrok-free.app${media.path})`,
+                                        backgroundImage: `url(${MEDIA_URL}${media.path})`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: "left-top",
                                         height: (index + 1) % 6 === 4 ? '1000px' : '500px',

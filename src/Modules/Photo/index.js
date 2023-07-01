@@ -9,6 +9,7 @@ import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
 import { getLighterColor } from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
+import {MEDIA_URL} from "../../Shared/utils/constants";
 
 export default function Photo() {
 
@@ -68,7 +69,7 @@ export default function Photo() {
 
                         <img
                             className={"object-contain h-full text-center p-2"}
-                            src={mediaState.show.data && `https://7206-154-160-11-174.ngrok-free.app${mediaState.show.data.path}`} />
+                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
 
                     </div>
 
@@ -79,15 +80,21 @@ export default function Photo() {
 
                 <div className={"w-1/4 px-10"}>
 
-                    <div className={"font-proximaBold text-4xl"}>
-                        $10.00
-                    </div>
+                    {
+                        1 === 2 &&
+                        <div>
+                            <div className={"font-proximaBold text-4xl"}>
+                                $10.00
+                            </div>
 
-                    <button onClick={onPaymentClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
-                        Continue to Purchase
-                    </button>
+                            <button onClick={onPaymentClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
+                                Continue to Purchase
+                            </button>
 
-                    <div className={"h-0.5 my-1 bg-gray-200"} />
+                            <div className={"h-0.5 my-1 bg-gray-200"} />
+                        </div>
+                    }
+
 
 
 

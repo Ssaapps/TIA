@@ -1,21 +1,7 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { CheckIcon, ClockIcon, PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { useEffect } from 'react'
+import { PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeItemFromCart } from './duck/action'
+import {MEDIA_URL} from "../../Shared/utils/constants";
 
 
 
@@ -38,7 +24,7 @@ export default function Cart() {
                                 <li key={album.id} className="flex py-6 sm:py-10">
                                     <div className="flex-shrink-0">
                                         <img
-                                            src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
+                                            src={`${MEDIA_URL}${album.media[0].path}`}
                                             alt={album.name}
                                             className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                                         />

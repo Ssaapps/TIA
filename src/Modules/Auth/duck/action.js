@@ -1,6 +1,5 @@
 import { ActionTypes } from "./type";
 import Cookies from "js-cookie";
-// import { makeJavolinRequest } from "../../../Shared/Utils/common";
 import Axios from "../../../Shared/utils/axios_instance";
 
 

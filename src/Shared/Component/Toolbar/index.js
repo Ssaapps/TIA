@@ -26,7 +26,7 @@ export default function Toolbar() {
 
     useEffect(() => {
         console.log(cart)
-        location.pathname === "/cart" ? setShowCart(false) : setShowCart(true);
+        setShowCart(location.pathname !== "/cart");
     }, [location])
 
 
@@ -60,11 +60,12 @@ export default function Toolbar() {
                             {/*<img*/}
                             {/*    className={"h-8  rounded-full w-8"}*/}
                             {/*    src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}*/}
-                            {/*/> */}
+                            {/*/>*/}
                             <button onClick={handleLogout} className="text-red-500 flex gap-x-2 px-3 py-1 border items-center text-sm rounded hover:bg-red-300 border-red-500">
                                 <ArrowLeftOnRectangleIcon className="h-4 w-4" />
                                 Logout
                             </button>
+
                         </>
                     )
 
@@ -80,6 +81,7 @@ export default function Toolbar() {
                     <span className="sr-only">items in cart, view bag</span>
                 </button>
                 }
+
             </div>
 
 

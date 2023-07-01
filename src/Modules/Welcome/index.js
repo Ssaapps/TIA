@@ -8,6 +8,7 @@ import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Cart/duck/action";
 import { ShoppingCartIcon } from "@heroicons/react/20/solid";
+import {MEDIA_URL} from "../../Shared/utils/constants";
 
 export default function Welcome() {
 
@@ -26,7 +27,7 @@ export default function Welcome() {
     }
 
     const onAlbumItemClicked = (album) => {
-        navigate(`/album/${album.id}`)
+        navigate(`/album/${album.uuid}`)
     }
 
     const onMediaItemClicked = (media) => {
@@ -58,7 +59,7 @@ export default function Welcome() {
                                 <div className={"cursor-pointer group relative"} >
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
-                                        src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
+                                        src={`${MEDIA_URL}${album.media[0].path}`}
                                     />
                                     <div className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
                                         setHovered(-1)
@@ -162,10 +163,13 @@ export default function Welcome() {
                         {
                             homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                 return (
-                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''} min-h-fit min-w-fit cursor-pointer group relative `}>
+                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group relative `}>
 
-                                        <img className={`${index % 3 === 0 ? 'h-144' : 'h-72'} object-fill w-full rounded`}
-                                            src={`https://7206-154-160-11-174.ngrok-free.app${item.path}`} alt="Large image" />
+                                        <img className={`${index % 3 === 0 ? 'h-full' : 'h-72'} object-cover w-full rounded`}
+                                            src={`${MEDIA_URL}${item.path}`} alt="Large image" />
+                                        <div className={"absolute "}>
+                                            {/*{index % 3}*/}
+                                        </div>
 
                                     </div>
                                 )
