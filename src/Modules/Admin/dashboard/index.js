@@ -7,6 +7,11 @@ import JavFormSelect from "../../../Shared/Component/Forms/JavFormSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboard } from "./duck/action";
 import {MEDIA_URL} from "../../../Shared/utils/constants";
+import DashboardChart from '../../../Shared/Component/Chart/DashboardChart';
+import OrdersLineChart from './OrdersLineChart';
+import StorageCapacityDougnutChart from './StorageCapacityDougnutChart';
+import OtherChart from './OtherChart';
+import AlbumsDownloadedDoughnutChart from './AlbumsDownloadedDoughnutChart';
 
 function Dashboard() {
 
@@ -19,6 +24,11 @@ function Dashboard() {
         console.log("dashboardState", dashboardState)
         dispatch(getDashboard())
     }, [])
+
+
+
+
+
     return (
         <div className="flex flex-1 items-stretch overflow-hidden">
 
@@ -67,27 +77,14 @@ function Dashboard() {
 
                 <hr className='mx-[-40px]' />
                 <div className='mt-4'>
-                    <div className='flex justify-between'>
-                        <h4 className='text-xl font-medium'>Recent Offers</h4>
-                        <button className='flex justify-center px-3 py-1.5 rounded-lg border items-center'>
-                            <span className='text-gray-500 text-sm'>All bids</span>
-                            <ChevronDownIcon className="w-4 h-4 text-gray-500 ml-1" />
-                        </button>
-                    </div>
-
-                    {/* <table>
-                    <thead>
-                    <tr
-                        className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <th className="px-6 py-3">List items</th>
-
-                        </tr>
-                        <?
-                </table> */}
-
+                    <OrdersLineChart />
                 </div>
             </main>
-            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white py-2 lg:block ">
+                <StorageCapacityDougnutChart />
+                <hr className='mb-8' />
+                <AlbumsDownloadedDoughnutChart />
+
             </aside>
         </div>
     )

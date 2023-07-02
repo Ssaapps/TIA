@@ -21,9 +21,9 @@ export default function Album() {
 
 
     return (
-        <div>
+        <div className="overflow-y-auto">
 
-            <div style={{ height: '50vh' }} className={"bg-red-200 relative"}>
+            <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>
 
                 <img
                     className={"object-cover w-full h-full"}

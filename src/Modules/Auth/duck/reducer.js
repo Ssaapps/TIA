@@ -1,4 +1,4 @@
-import {ActionTypes} from "./type";
+import { ActionTypes } from "./type";
 import Cookies from "js-cookie";
 
 const initialState = {
@@ -7,8 +7,8 @@ const initialState = {
         loading: false,
         error: null,
         data: null,
-        token: localStorage.getItem("token") && JSON.parse(localStorage.getItem("token") ),
-        user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user") )
+        token: localStorage.getItem("token") && JSON.parse(localStorage.getItem("token")),
+        user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user"))
     },
     register: {
         success: false,
@@ -17,7 +17,7 @@ const initialState = {
         data: null
     }
 }
-export const LoginReducer = (state = initialState,action) => {
+export const LoginReducer = (state = initialState, action) => {
     switch (action.type) {
 
 
@@ -41,8 +41,8 @@ export const LoginReducer = (state = initialState,action) => {
                     isLoading: false,
                     loginSuccess: true,
                     errorMessage: null,
-                    user: action.payload.user,
-                    token: action.payload.token.access_token,
+                    user: action?.payload?.user,
+                    token: action?.payload?.token,
                 }
             }
         case ActionTypes.LOGIN_ERROR:
@@ -51,7 +51,7 @@ export const LoginReducer = (state = initialState,action) => {
                 login: {
                     ...state.login,
                     isLoading: false,
-                    errorMessage: action.payload
+                    errorMessage: action?.payload
                 }
             }
 
@@ -75,7 +75,7 @@ export const LoginReducer = (state = initialState,action) => {
                     loginSuccess: true,
                     errorMessage: null,
                     user: action.payload.user,
-                    token: action.payload.token.access_token,
+                    token: action?.payload?.token,
                 }
             }
         case ActionTypes.REGISTER_ERROR:

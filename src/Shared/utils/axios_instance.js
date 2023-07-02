@@ -15,16 +15,19 @@ const getToken = () => {
 
 const Axios = axios.create({
   baseURL: API_BASE_URL,
-  // timeout: 10000,
-  validateStatus: function (status) {
-    if (status > 200 < 300) {
-      return true
-    }
-    // if(status == 403){
-    //   localStorage.clear()
-    //   window.location.replace("/login")
-    // } 
-  },
+   timeout: 10000,
+  // validateStatus: function (status) {
+  //   if (status > 200 && status < 300) {
+  //     return true
+  //   }
+  //   // if(status == 403){
+  //   //   localStorage.clear()
+  //   //   window.location.replace("/login")
+  //   // }
+  // },
+
+
+
   headers: {
     Authorization: `Bearer ${getToken()}`,
     Accept: "application/json",

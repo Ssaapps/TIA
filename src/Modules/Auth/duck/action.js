@@ -15,16 +15,21 @@ export const login = (email, password) => {
             if (response && response.data) {
                 localStorage.setItem("token", JSON.stringify(response.data.token))
                 localStorage.setItem("user", JSON.stringify(response.data.user))
-                dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: response.data });
+                dispatch({
+                    type: ActionTypes.LOGIN_SUCCESS, payload: {
+                        token: response.data.token,
+                        user: response.data.user
+                    }
+                });
             }
             // window.location.reload();
         }
         catch (e) {
-            console.log(e)
             let errMsg = 'Something went wrong';
             if (e.response) {
                 errMsg = e.response.data.message
             }
+            console.log(e.response.data.message)
             dispatch({ type: ActionTypes.LOGIN_ERROR, payload: errMsg });
         }
 
