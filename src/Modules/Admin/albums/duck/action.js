@@ -39,6 +39,18 @@ export const getAlbum = (id) => {
         }, dispatch);
     }
 }
+export const shareAlbum = (id) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.SHARE_ALBUM_REQUEST });
+        makeHttpRequest({
+            path: ` /api/album/${id}/share`,
+            method: "POST",
+        }, {
+            SUCCESS: ActionTypes.SHARE_ALBUM_SUCCESS,
+            ERROR: ActionTypes.SHARE_ALBUM_ERROR
+        }, dispatch);
+    }
+}
 
 export const createAlbum = (data) => {
     return async function (dispatch) {

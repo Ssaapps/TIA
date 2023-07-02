@@ -24,6 +24,12 @@ const initialState = {
         loading: false,
         error: null,
     },
+    share: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
+    }
 
 };
 
@@ -128,13 +134,47 @@ export const AlbumReducer = (state = initialState, action) => {
         case ActionTypes.CREATE_ALBUMS_REQUEST:
             return {
                 ...state,
-                create: {
-                    ...state.create,
+                share: {
+                    ...state.share,
                     loading: true,
                     success: false,
                     error: null
                 }
             }
+        case ActionTypes.SHARE_ALBUM_SUCCESS:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.SHARE_ALBUM_ERROR:
+            return {
+                ...state,
+                share: {
+                    ...state.share,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+        //create ALBUM
+        case ActionTypes.SHARE_ALBUMS_REQUEST:
+            return {
+                ...state,
+                share: {
+                    ...state.share,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+
+
         case ActionTypes.CREATE_ALBUMS_SUCCESS:
             return {
                 ...state,

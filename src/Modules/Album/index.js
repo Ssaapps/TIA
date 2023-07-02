@@ -1,8 +1,11 @@
 import { useParams } from "react-router";
 import { useEffect } from "react";
-import { getAlbum, getAlbums } from "../Admin/albums/duck/action";
+import { getAlbum, getAlbums, shareAlbum } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
-import {MEDIA_URL} from "../../Shared/utils/constants";
+import { MEDIA_URL } from "../../Shared/utils/constants";
+import { ShareIcon } from "@heroicons/react/24/outline";
+import CartIcon from "../../Shared/Component/Icons/CartIcon";
+import { addItemToCart } from "../Cart/duck/action";
 
 export default function Album() {
 
@@ -19,9 +22,40 @@ export default function Album() {
         console.log("albumState", albumState)
     }, [albumState])
 
+    function share() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Album share',
+                url: document.URL,
+                text: `Check out this album ${albumState.show.data && albumState.show.data.name} on TIA`
+            }).then(() => {
+                dispatch(shareAlbum(albumState.show.data.id))
+            }).catch(err => {
+                // Handle errors, if occured
+            });
+        } else {
+            // Alerts user if API not available 
+            alert("Browser doesn't support this API !");
+        }
+    }
 
     return (
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto relative">
+
+
+            <div className="fixed top-20 z-50 flex flex-col gap-y-4 right-10">
+                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
+                    <ShareIcon className="w-5 h-5" onClick={async () => {
+
+                    }} />
+                </div>
+                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
+                    <CartIcon className="w-5 h-5" onClick={() => {
+                        dispatch(addItemToCart(albumState.show.data))
+                    }} />
+                </div>
+            </div>
+
 
             <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>
 

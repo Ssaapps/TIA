@@ -3,8 +3,17 @@ import { API_BASE_URL } from "./constants";
 
 // TODO: change token
 
+var isJsonParsable = string => {
+  try {
+    JSON.parse(string);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 const getToken = () => {
-  const rawToken = localStorage.getItem("token");
+  const rawToken = isJsonParsable(localStorage.getItem("token")) ? localStorage.getItem("token") : null;
   if (rawToken) {
     return JSON.parse(rawToken)?.access_token;
   }
@@ -15,7 +24,7 @@ const getToken = () => {
 
 const Axios = axios.create({
   baseURL: API_BASE_URL,
-   timeout: 10000,
+  timeout: 10000,
   // validateStatus: function (status) {
   //   if (status > 200 && status < 300) {
   //     return true

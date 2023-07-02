@@ -32,6 +32,8 @@ import {
 } from '@heroicons/react/20/solid'
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import Logo from "../../Shared/Component/Icons/Logo";
+import { useDispatch } from 'react-redux'
+import { logout } from '../Auth/duck/action'
 
 const navigation = [
   { name: 'Home', href: '/admin', icon: HomeIcon, current: false },
@@ -41,10 +43,7 @@ const navigation = [
   { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
   // { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
 ]
-const userNavigation = [
-  { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -53,26 +52,36 @@ function classNames(...classes) {
 export default function Admin() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   useEffect(() => {
 
     document.body.classList.add("h-full")
     document.body.classList.add("overflow-hidden")
   }, [])
+  const userNavigation = [
+    { name: 'Your profile', href: '#', onClick: () => { } },
+    {
+      name: 'Sign out', href: '#', onClick: () => {
+        dispatch(logout())
+        window.location.replace("/")
+      }
+    },
+  ]
   return (
 
-    <React.Fragment>
+    < React.Fragment >
 
       <div className="flex h-screen overflow-auto">
         {/* Narrow sidebar */}
         <div className="hidden w-28 overflow-y-auto bg-indigo-700 md:block">
           <div className="flex w-full flex-col items-center py-6">
             <div className="flex flex-shrink-0 items-center">
-            <Logo className={"h-10 fill-white"} />
+              <Logo className={"h-10 fill-white"} />
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
               {navigation.map((item) => {
                 const current = window.location.pathname === item.href
-               return <Link
+                return <Link
                   key={item.name}
                   to={item.href}
                   href={item.href}
@@ -156,7 +165,7 @@ export default function Admin() {
                           const current = window.location.pathname === item.href
 
                           return <Link
-                          to={item.href}
+                            to={item.href}
                             key={item.name}
                             href={item.href}
                             className={classNames(
@@ -169,7 +178,7 @@ export default function Admin() {
                           >
                             <item.icon
                               className={classNames(
-                               current ? 'text-white' : 'text-indigo-300 group-hover:text-white',
+                                current ? 'text-white' : 'text-indigo-300 group-hover:text-white',
                                 'mr-3 h-6 w-6'
                               )}
                               aria-hidden="true"
@@ -255,7 +264,7 @@ export default function Admin() {
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         {userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
+                          <Menu.Item key={item.name} onClick={item.onClick}>
                             {({ active }) => (
                               <a
                                 href={item.href}
@@ -275,7 +284,7 @@ export default function Admin() {
 
                   <button
                     type="button"
-                    onClick={()=>{navigate("/admin/upload")}}
+                    onClick={() => { navigate("/admin/upload") }}
                     className="flex items-center justify-center rounded-full bg-indigo-600 p-1 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     <PlusIconOutline className="h-6 w-6" aria-hidden="true" />

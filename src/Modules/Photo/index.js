@@ -9,7 +9,7 @@ import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
 import { getLighterColor } from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
-import {MEDIA_URL} from "../../Shared/utils/constants";
+import { MEDIA_URL } from "../../Shared/utils/constants";
 
 export default function Photo() {
 
@@ -132,45 +132,18 @@ export default function Photo() {
                     </div>
 
                     <div className={"mt-10"}>
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Largest size: </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
+                        {mediaState.show.data &&
+                            Object.keys(JSON.parse(mediaState.show.data.meta)).map((key, index) => {
+                                const item = JSON.parse(mediaState.show.data.meta)
+                                if (key === "COMPUTED") return null
+                                return (<div className={"flex my-2 items-center"} key={index}>
+                                    <div className={"w-1/2"}>{key}</div>
+                                    <div className={"w-1/2 font-proximaBold"}>{item[key]}</div>
+                                </div>
+                                )
+                            })
+                        }
 
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Uploaded At: </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Camera : </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Aperture: </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Focal Lenth : </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Exposure Time : </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> ISO : </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
-
-                        <div className={"flex my-2 items-center"}>
-                            <div className={"w-1/2"}> Flash : </div>
-                            <div className={"w-1/2 font-proximaBold"}> 8192 x 5464 px  </div>
-                        </div>
 
 
 
