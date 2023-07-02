@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { getAlbums } from "./duck/action";
+import { deleteAlbum, getAlbums } from "./duck/action";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
+import ErrorAlert from "../../../Shared/Component/Alert/Error";
 
 export default function Albums() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
     const [selectedItemModel, setSelectItemModel] = useState(null);
+    const [deleteError, setDeleteError] = useState(null)
 
 
 
@@ -19,6 +21,11 @@ export default function Albums() {
     useEffect(() => {
         dispatch(getAlbums())
     }, [])
+
+    useEffect(() => {
+        const deleteError = albumState.delete?.error
+        setDeleteError(deleteError)
+    }, [albumState])
 
 
     return (
@@ -32,6 +39,14 @@ export default function Albums() {
                 yesLoading={false}
                 onYesClicked={() => {
 
+                    dispatch(deleteAlbum(selectedItemModel.id, () => {
+                        setSelectItemModel(null)
+                        window.location.reload()
+
+                    }, () => {
+                        setSelectItemModel(null)
+                    }))
+
                 }}
                 onNoClicked={() => setSelectItemModel(null)}
                 onCloseClicked={() => setSelectItemModel(null)}
@@ -41,6 +56,7 @@ export default function Albums() {
                 </div>
             </YesNoDialog>
 
+            <ErrorAlert open={!!deleteError} message={deleteError} onClose={() => { setDeleteError(null) }} />
 
 
 

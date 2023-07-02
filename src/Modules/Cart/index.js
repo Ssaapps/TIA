@@ -38,7 +38,7 @@ export default function Cart() {
                                 <li key={album.id} className="flex py-6 sm:py-10">
                                     <div className="flex-shrink-0">
                                         <img
-                                            src={`https://7206-154-160-11-174.ngrok-free.app${album.media[0].path}`}
+                                            src={`http://193.70.40.48${album.media[0].path}`}
                                             alt={album.name}
                                             className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                                         />

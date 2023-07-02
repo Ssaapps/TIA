@@ -10,8 +10,15 @@ const CustomLoadingOverlay = ({ spinner, text, show, setShow, children, next, })
     useEffect(() => {
         if (show == true) {
             setTimeout(() => {
-                setShow(false);
-                next()
+                if (setShow) {
+                    setShow(false);
+
+                }
+                if (next) {
+                    next()
+
+                }
+
             }, 3000)
         }
     }, [show]);

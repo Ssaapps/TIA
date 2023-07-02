@@ -9,7 +9,7 @@ export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess 
         url: API_BASE_URL + request.path,
         data: request.data,
         headers: {
-            Authorization: "Bearer " + token.access_token ?? ""
+            Authorization: "Bearer " + token?.access_token ?? ""
         },
         onDownloadProgress: process => {
             console.log(process)

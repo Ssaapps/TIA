@@ -1,5 +1,4 @@
-import CollectionsIcon from "../Icons/CollectionsIcon";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 export default function ErrorAlert(props) {
 
@@ -7,9 +6,9 @@ export default function ErrorAlert(props) {
         if (props.open) {
             setTimeout(() => {
                 props.onClose();
-            },1500)
+            }, 1500)
         }
-    },[props.open])
+    }, [props.open])
     return (
         <div className={`
             ${props.open && props.open ? 'block' : 'hidden'}
@@ -29,14 +28,14 @@ export default function ErrorAlert(props) {
                                  cursor-pointer z-50`}>
 
                     <svg className="w-4 h-4 fill-red-600"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
 
                         <path strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={4}
-                              d="M6 18L18 6M6 6l12 12" />
+                            strokeLinejoin="round"
+                            strokeWidth={4}
+                            d="M6 18L18 6M6 6l12 12" />
 
                     </svg>
 

@@ -5,11 +5,13 @@ import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import Logo from "../../Shared/Component/Icons/Logo";
 import { login } from "./duck/action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ErrorAlert from "../../Shared/Component/Alert/Error";
 
 export default function Login() {
     const loginState = useSelector(state => state.login)
     const dispatch = useDispatch();
+    const [authError, setAuthError] = useState(null)
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,9 +29,15 @@ export default function Login() {
     }, [loginState])
 
 
+    useEffect(() => {
+        const error = loginState.login.errorMessage || loginState.register.errorMessage
+        setAuthError(error)
+    }, [loginState])
+
+
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.login.isLoading} >
+        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.login.isLoading} setShow={() => { }}>
             <div className="bg-[#F4F4F4] h-screen">
                 {/*
               This example requires updating your template:
@@ -38,6 +46,9 @@ export default function Login() {
               <body class="h-full">
               ```
             */}
+                <ErrorAlert open={!!authError} message={authError} onClose={() => {
+                    setAuthError(null)
+                }} />
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-md">
                         <div className={"flex items-center cursor-pointer justify-center mx-auto max-w-min rounded-full w-20 h-20 box-border bg-white shadow-sm"} onClick={() => navigate('/')}>

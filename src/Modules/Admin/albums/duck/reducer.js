@@ -18,7 +18,13 @@ const initialState = {
         loading: false,
         error: null,
         data: null
-    }
+    },
+    delete: {
+        success: false,
+        loading: false,
+        error: null,
+    },
+
 };
 
 export const AlbumReducer = (state = initialState, action) => {
@@ -83,6 +89,35 @@ export const AlbumReducer = (state = initialState, action) => {
                 ...state,
                 show: {
                     ...state.show,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+        case ActionTypes.DELETE_ALBUM_REQUEST:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.DELETE_ALBUM_SUCCESS:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
+                    success: true,
+                    loading: false,
+                }
+            }
+        case ActionTypes.DELETE_ALBUM_ERROR:
+            return {
+                ...state,
+                delete: {
+                    ...state.delete,
                     success: false,
                     loading: false,
                     error: action.payload

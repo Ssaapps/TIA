@@ -31,7 +31,7 @@ export default function BreadCrumb(props) {
     return (
         <div style={{ height: '600px' }} className={"bg-gray-200 flex flex-row items-center px-12"}>
             <img
-                src={homeState.fetch.data && `https://7206-154-160-11-174.ngrok-free.app${homeState.fetch.data.albums[0].media[currentImage].path}`}
+                src={homeState.fetch.data && `http://193.70.40.48${homeState.fetch.data.albums[0].media[currentImage].path}`}
                 className={"h-5/6 w-3/5 object-cover transition-transform duration-500 ease-in-out rounded"}
             />
             <div className={"px-20"}>

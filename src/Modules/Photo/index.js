@@ -68,7 +68,7 @@ export default function Photo() {
 
                         <img
                             className={"object-contain h-full text-center p-2"}
-                            src={mediaState.show.data && `https://7206-154-160-11-174.ngrok-free.app${mediaState.show.data.path}`} />
+                            src={mediaState.show.data && `http://193.70.40.48${mediaState.show.data.path}`} />
 
                     </div>
 
