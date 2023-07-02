@@ -1,6 +1,6 @@
 import CloseIcon from "../../Icons/CloseIcon";
 import JavInput from "../../Forms/JavInput";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getData} from "./duck/action";
 
@@ -35,7 +35,7 @@ export default function ListSelectDialog(props) {
 
 
     if (!props.open) {
-        return <></>;
+        return <React.Fragment></React.Fragment>;
     }
 
     return (

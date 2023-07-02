@@ -50,10 +50,10 @@ export default function Toolbar() {
 
             <div className={"flex items-center gap-x-4"}>
                 {
-                    !isAuth ? <>
+                    !isAuth ? <React.Fragment>
                         <button onClick={() => navigate("/login")} className="text-sm rounded-3xl hover:bg-gray-50 px-4 py-1.5">Sign In</button>
                         <button onClick={() => navigate("/register")} className="rounded-3xl text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
-                    </> : (
+                    </React.Fragment> : (
                         <React.Fragment>
 
                             <PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />

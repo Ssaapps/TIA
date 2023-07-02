@@ -161,7 +161,7 @@ function Upload() {
                 setFilesEditable([]);
 
             }} show={!!uploading} spinner={
-                <>
+                <React.Fragment>
                     {/* TODO:Get current file being uploaded */}
                     {/* <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p> */}
                     <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
@@ -169,7 +169,7 @@ function Upload() {
                             width: `${uploadProgress}%`
                         }}> {`${uploadProgress}%`}</div>}
                     </div>
-                </>
+                </React.Fragment>
             } text=" " />
             <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
@@ -240,7 +240,7 @@ function Upload() {
                     setPeopleAddFormOpen={setPeopleAddFormOpen}
                 />
             ) : (
-                <>
+                <React.Fragment>
                     <section className='text-center py-32'>
                         <h4 className='text-gray-300 text-2xl font-bold'>
                             Drag & drop photos and videos here
@@ -257,7 +257,7 @@ function Upload() {
                         <input {...getInputProps()} />
                         {/* <input {...getInputProps()} type="file" name="" id="file" /> */}
                     </section>
-                </>
+                </React.Fragment>
             )}
 
             <UploadConfirmDialog

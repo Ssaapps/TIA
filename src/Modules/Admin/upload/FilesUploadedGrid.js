@@ -24,7 +24,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
 
                     }
                     {selected.length > 0 && (
-                        <>
+                        <React.Fragment>
                             <div onClick={() => {
                                 setIsEditingTitle(true)
                             }} onMouseLeave={e => setIsEditingTitle(false)} className='px-3 py-2 text-[13px] text-gray-100  border-b border-b-gray-600'>
@@ -123,7 +123,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 </div>
                             </div>
 
-                        </>
+                        </React.Fragment>
                     )}
                 </div>
                 <div style={{

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import AlbumTile from './AlbumTile'
@@ -119,16 +119,16 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                       </div>
                       <div className='mt-3 flex flex-col gap-y-2'>
                         {uploadState.albums.fetch.loading ? (
-                          <>
+                          <React.Fragment>
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
-                          </>
+                          </React.Fragment>
                         ) :
                             uploadState.albums.fetch.data.length > 0 ?
-                            <>
+                            <React.Fragment>
                               {uploadState.albums.fetch.data.filter((album) => {
                                 if (!searchTerm) return true
                                 if (album.name.toLowerCase().includes(searchTerm.toLowerCase()) || album.description.toLowerCase().includes(searchTerm.toLowerCase())) return true
@@ -144,7 +144,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                                 setOpen(false)
                               }} />)
                               )}
-                            </>
+                            </React.Fragment>
 
                             : <div>
                               No alums created

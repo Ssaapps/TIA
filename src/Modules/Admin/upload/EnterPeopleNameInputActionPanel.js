@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import AlbumTile from './AlbumTile'
@@ -134,16 +134,16 @@ export default function EnterGroupsActionPane({ open, setOpen, selected, setSele
                       </div>
                       <div className='mt-3 flex flex-col gap-y-2'>
                         {fetchingAlbums ? (
-                          <>
+                          <React.Fragment>
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
                             <AlbumTitleShimmer />
-                          </>
+                          </React.Fragment>
                         ) :
                           albums.length != 0 ?
-                            <>
+                            <React.Fragment>
                               {albums.filter((album) => {
                                 if (!searchTerm) return true
                                 if (album.name.toLowerCase().includes(searchTerm.toLowerCase()) || album.description.toLowerCase().includes(searchTerm.toLowerCase())) return true
@@ -159,7 +159,7 @@ export default function EnterGroupsActionPane({ open, setOpen, selected, setSele
                                 setOpen(false)
                               }} />)
                               )}
-                            </>
+                            </React.Fragment>
 
                             : <div>
                               No people created
