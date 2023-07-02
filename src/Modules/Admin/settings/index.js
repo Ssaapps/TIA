@@ -141,7 +141,7 @@ function Settings() {
                 }
               >
                 {({ active, checked }) => (
-                  <>
+                  <React.Fragment>
                     <span
                       className={classNames(
                         checked ? 'bg-sky-600 border-transparent' : 'bg-white border-gray-300',
@@ -169,7 +169,7 @@ function Settings() {
                         {setting.description}
                       </RadioGroup.Description>
                     </span>
-                  </>
+                  </React.Fragment>
                 )}
               </RadioGroup.Option>
             ))}

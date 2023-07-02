@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -7,7 +7,7 @@ export default function ErrorNotification({errorMessage}) {
   const [show, setShow] = useState(true)
 
   return (
-    <>
+    <React.Fragment>
       {/* Global notification live region, render this permanently at the end of the document */}
       <div
         aria-live="assertive"
@@ -53,6 +53,6 @@ export default function ErrorNotification({errorMessage}) {
           </Transition>
         </div>
       </div>
-    </>
+    </React.Fragment>
   )
 }

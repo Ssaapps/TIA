@@ -13,7 +13,7 @@
   }
   ```
 */
-import { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   Bars3BottomLeftIcon,
@@ -60,7 +60,7 @@ export default function Admin() {
   }, [])
   return (
 
-    <>
+    <React.Fragment>
 
       <div className="flex h-screen overflow-auto">
         {/* Narrow sidebar */}
@@ -288,6 +288,6 @@ export default function Admin() {
           <Outlet />
         </div>
       </div>
-    </>
+    </React.Fragment>
   )
 }

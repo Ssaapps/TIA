@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -10,7 +10,7 @@ setShow(false)
     }, [5000])
   }, [show])
   return (
-    <>
+    <React.Fragment>
       {/* Global notification live region, render this permanently at the end of the document */}
       <div
         aria-live="assertive"
@@ -56,6 +56,6 @@ setShow(false)
           </Transition>
         </div>
       </div>
-    </>
+    </React.Fragment>
   )
 }

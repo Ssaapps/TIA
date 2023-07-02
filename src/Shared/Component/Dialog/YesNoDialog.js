@@ -1,5 +1,5 @@
 import CloseIcon from "../Icons/CloseIcon";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import JavButton from "../Buttons/JavButton";
 
 export default function YesNoDialog(props) {
@@ -9,7 +9,7 @@ export default function YesNoDialog(props) {
     },[]);
 
     if (!props.open) {
-        return <></>;
+        return <React.Fragment></React.Fragment>;
     }
 
     return (

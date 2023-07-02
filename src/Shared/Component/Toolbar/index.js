@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { logout } from "../../../Modules/Auth/duck/action";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
@@ -54,7 +54,7 @@ export default function Toolbar() {
                         <button onClick={() => navigate("/login")} className="text-sm rounded-3xl hover:bg-gray-50 px-4 py-1.5">Sign In</button>
                         <button onClick={() => navigate("/register")} className="rounded-3xl text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
                     </> : (
-                        <>
+                        <React.Fragment>
 
                             <PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />
                             {/*<img*/}
@@ -66,7 +66,7 @@ export default function Toolbar() {
                                 Logout
                             </button>
 
-                        </>
+                        </React.Fragment>
                     )
 
                 }
