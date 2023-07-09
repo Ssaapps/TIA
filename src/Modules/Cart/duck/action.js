@@ -42,10 +42,10 @@ export const checkout = (cartItems, callback) => {
             })
             console.log(response.data)
             if (response && response.data) {
+                await callback(response.data)
                 dispatch({
                     type: ActionTypes.CHECKOUT_SUCCESS, payload: response.data
                 });
-                callback(response.data)
             }
         }
         catch (e) {
