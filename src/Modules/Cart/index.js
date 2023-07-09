@@ -1,7 +1,8 @@
 import { PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeItemFromCart } from './duck/action'
-import {MEDIA_URL} from "../../Shared/utils/constants";
+import { checkout, removeItemFromCart } from './duck/action'
+import { MEDIA_URL } from "../../Shared/utils/constants";
+import { useRef } from 'react';
 
 
 
@@ -9,11 +10,28 @@ import {MEDIA_URL} from "../../Shared/utils/constants";
 export default function Cart() {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.items)
+    const paymentGateWayFormRef = useRef()
+
+    const handleCheckout = (e) => {
+        e.preventDefault()
+        dispatch(checkout(cart, (data) => {
+            paymentGateWayFormRef.current.action = data.payment_data.link
+            paymentGateWayFormRef.current.querySelector('input[name="AMOUNT"]').value = data.payment_data.form_params.AMOUNT;
+            paymentGateWayFormRef.current.querySelector('input[name="CURRENCY"]').value = data.payment_data.form_params.CURRENCY;
+            paymentGateWayFormRef.current.querySelector('input[name="LANGUAGE"]').value = data.payment_data.form_params.LANGUAGE;
+            paymentGateWayFormRef.current.querySelector('input[name="ORDERID"]').value = data.payment_data.form_params.ORDERID;
+            paymentGateWayFormRef.current.querySelector('input[name="PSPID"]').value = data.payment_data.form_params.PSPID;
+            paymentGateWayFormRef.current.querySelector('input[name="SHASIGN"]').value = data.payment_data.form_params.SHASIGN;
+            paymentGateWayFormRef.current.submit()
+
+
+        }))
+    }
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Cart</h1>
-                <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+                <form onSubmit={handleCheckout} className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                     <section aria-labelledby="cart-heading" className="lg:col-span-7">
                         <h2 id="cart-heading" className="sr-only">
                             Items in your  cart
@@ -121,6 +139,14 @@ export default function Cart() {
                             </button>
                         </div>
                     </section>
+                </form>
+                <form action="" ref={paymentGateWayFormRef} className='hidden'>
+                    <input type="hidden" name="AMOUNT" value="" />
+                    <input type="hidden" name="CURRENCY" value="" />
+                    <input type="hidden" name="LANGUAGE" value="" />
+                    <input type="hidden" name="ORDERID" value="" />
+                    <input type="hidden" name="PSPID" value="" />
+                    <input type="hidden" name="SHASIGN" value="" />
                 </form>
             </div>
         </div>

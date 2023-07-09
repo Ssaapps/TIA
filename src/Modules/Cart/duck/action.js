@@ -31,3 +31,26 @@ export const removeItemFromCart = (item) => {
     }
 }
 
+
+
+export const checkout = (cartItems, callback) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.CHECKOUT_REQUEST });
+        try {
+            const response = await Axios.post("/orders", {
+                albums: cartItems.map((item) => item.id)
+            })
+            console.log(response.data)
+            if (response && response.data) {
+                dispatch({
+                    type: ActionTypes.CHECKOUT_SUCCESS, payload: response.data
+                });
+                callback(response.data)
+            }
+        }
+        catch (e) {
+            dispatch({ type: ActionTypes.CHECKOUT_ERROR, payload: e?.response?.data?.message ?? 'Something went wrong' });
+        }
+
+    }
+}

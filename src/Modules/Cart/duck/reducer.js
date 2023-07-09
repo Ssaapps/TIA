@@ -5,7 +5,13 @@ import Cookies from "js-cookie";
 const cartItems = JSON.parse(localStorage.getItem("cart")) ?? [];
 
 const initialState = {
-    items: cartItems
+    items: cartItems,
+    checkout: {
+        loading: false,
+        data: null,
+        success: false,
+        error: null
+    }
 
 }
 
@@ -21,6 +27,42 @@ export const CartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items: state.items.filter((item) => item.id !== action.payload.id)
+
+
+
+
+            }
+        ///Checkout
+        case ActionTypes.CHECKOUT_REQUEST:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.CHECKOUT_SUCCESS:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    loading: false,
+                    data: action.payload,
+                    success: true,
+                    error: null
+                }
+            }
+        case ActionTypes.CHECKOUT_ERROR:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    loading: false,
+                    success: false,
+                    error: action.payload
+                }
             }
         default:
             return state
