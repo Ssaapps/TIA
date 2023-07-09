@@ -131,6 +131,9 @@ function Upload() {
             let data = {
                 method: "form-data",
             };
+            if (fileConf.tags) {
+                data["tags"] = fileConf.tags
+            }
             if (fileConf.album) {
                 data["album_id"] = fileConf.album.id
             }
@@ -265,6 +268,7 @@ function Upload() {
                 setOpen={setDialogOpen}
                 itemsCount={files.length}
                 onContinue={handleUpload}
+
             />
 
             <RemoveDialog

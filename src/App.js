@@ -41,7 +41,7 @@ function App() {
           <Route path='photos' element={<PhotosList />} />
           <Route path='settings' element={<Settings />} />
           <Route path='albums' element={<Albums />} />
-          <Route path='groups' element={<Groups />} />
+          {/* <Route path='groups' element={<Groups />} /> */}
           <Route path='orders' element={<Orders />} />
           <Route path="upload/success" element={<UploadSuccess />} />
           <Route path="upload" element={<Upload />} />

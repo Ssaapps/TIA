@@ -2,9 +2,35 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon, RectangleStackIcon, TagIcon } from '@heroicons/react/24/outline'
 import AlbumTile from './AlbumTile'
+import { useSelector } from 'react-redux'
 
 export default function UploadConfirmDialog({ open, setOpen, itemsCount, onContinue }) {
   const cancelButtonRef = useRef(null)
+  const { files, filesEditable, } = useSelector(state => state.upload)
+
+  const getEditedFileProperties = () => {
+    const editedProps = {
+      tags: false,
+      albums: false
+    }
+    for (const file of files) {
+      const index = files.indexOf(file);
+      const fileConf = filesEditable[index];
+
+      if (fileConf.tags.length > 0) {
+        editedProps.tags = true
+        break
+      }
+      if (fileConf.album) {
+        break
+        editedProps.albums = true
+      }
+
+
+    }
+    return editedProps
+
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -45,14 +71,16 @@ export default function UploadConfirmDialog({ open, setOpen, itemsCount, onConti
                         <div className='bg-green-600 h-3 w-3   rounded-sm'></div>
                         <span className='text-sm'>Visible to everyone</span>
                       </div>
-                      <div className="flex items-center gap-x-2 mt-2">
+                      {getEditedFileProperties().tags && <div className="flex items-center gap-x-2 mt-2">
                         <TagIcon className=' h-4 w-4   ' />
                         <span className='text-sm'>Tags</span>
-                      </div>
-                      <div className="flex items-center gap-x-2 mt-2">
+                      </div>}
+                      {getEditedFileProperties().albums && <div className="flex items-center gap-x-2 mt-2">
                         <RectangleStackIcon className=' h-4 w-4   ' />
                         <span className='text-sm'>Albums</span>
-                      </div>
+                      </div>}
+
+
                     </div>
                   </div>
                 </div>

@@ -14,7 +14,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
     return (
         <div className='py-5 h-5/6'>
             <div className="container flex mx-auto h-full">
-                <div className='h-full border border-gray-600 bg-b flex-1  mr-5' style={{
+                <div className='h-full border border-gray-600 bg-b flex-1 max-w-[275px] mr-5' style={{
                     flex: "2"
                 }}>
                     {selected.length > 0 ? <span className='block px-3 py-2 text-gray-400 border-b border-b-gray-600'> Editing {selected.length} {selected.length > 1 ? "photos" : "photo"}</span> :
@@ -59,11 +59,10 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 setIsEditingTags(true)
                             }} onMouseLeave={e => setIsEditingTags(false)} className='px-3 py-2 text-[13px] text-gray-100  border-b border-b-gray-600'>
                                 <span>Add tags</span>
-                                <div className='flex items-center gap-x-1'>
+                                <div className='flex items-center flex-wrap gap-1'>
 
                                     {
                                         filesEditable.find((file, index) => selected.includes(index)).tags.map((tag, index) => (
-
                                             <div key={index} className='bg-gray-600 px-2 py-1 rounded-sm'>
                                                 <span>{tag}</span>
                                             </div>
@@ -74,7 +73,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                     }
                                 </div>
 
-                                {isEditingTags && <input className='text-black' onEnter onChange={(e) => {
+                                {isEditingTags && <input className='text-black' defaultValue={filesEditable.find((file, index) => selected.includes(index)).tags.map((tag, index) => tag)} onEnter onChange={(e) => {
                                     const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
                                     const filesEditableCopy = [...filesEditable];
                                     selected.forEach((index) => {
@@ -87,14 +86,6 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 }} placeholder={`Seperate tags with space`} />}
                             </div>
 
-                            <div onClick={() => {
-                                setPeopleAddFormOpen(true)
-                            }} className='px-3 py-2 text-[13px] text-gray-100 border-b border-b-gray-600'>
-                             <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
-                                    filesEditable.find((file, index) => selected.includes(index)).people ? filesEditable.find((file, index) => selected.includes(index)).people.name : "None"
-                                }</div>
-                                Add people
-                            </div>
 
                             <div onClick={() => {
                                 setAlbumAddFormOpen(true)
@@ -105,14 +96,14 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 Add to album
                             </div>
 
-                            <div onClick={() => {
+                            {/* <div onClick={() => {
                                 setGroupsAddFormOpen(true)
                             }} className='px-3 py-2 text-sm text-gray-100 border-b border-b-gray-600'>
-                             <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
+                                <div className='bg-gray-600 px-2 py-1 mb-0.5 rounded-sm w-min'>{
                                     filesEditable.find((file, index) => selected.includes(index)).group ? filesEditable.find((file, index) => selected.includes(index)).group.name : "None"
                                 }</div>
                                 Add to groups
-                            </div>
+                            </div> */}
                             <div className='px-3 py-2 text-[13px] text-gray-100 border-b  '>
                                 <div className="flex items-center mb-2">Owner Settings <ChevronDownIcon className='text-gray-100 w-2 h-2 ml-2' /></div>
                                 <span> &#169;</span> All rights reserved

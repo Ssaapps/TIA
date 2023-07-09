@@ -39,7 +39,7 @@ const navigation = [
   { name: 'Home', href: '/admin', icon: HomeIcon, current: false },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingCartIcon, current: false },
   { name: 'Photos', href: '/admin/photos', icon: PhotoIcon, current: true },
-  { name: 'Groups', href: '/admin/groups', icon: RectangleGroupIcon, current: false },
+  // { name: 'Groups', href: '/admin/groups', icon: RectangleGroupIcon, current: false },
   { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
   // { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
 ]
