@@ -4,8 +4,8 @@ import { checkout, removeItemFromCart } from './duck/action'
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { useRef } from 'react';
 import CustomLoadingOverlay from '../../Shared/Component/CustomLoadingOverlay';
-import SuccessAlert from '../../Shared/Component/Alert/Success';
 import ErrorAlert from '../../Shared/Component/Alert/Error';
+import {useNavigate} from "react-router";
 
 
 
@@ -14,9 +14,14 @@ export default function Cart() {
     const dispatch = useDispatch()
     const cartState = useSelector((state) => state.cart)
     const paymentGateWayFormRef = useRef()
+    const isAuth = !!useSelector((state) => state.login.login.token);
+    const navigate = useNavigate();
 
     const handleCheckout = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        if (!isAuth) {
+            navigate('/login');
+        }
         dispatch(checkout(cartState.items, async (data) => {
             paymentGateWayFormRef.current.action = data.payment_data.link
             paymentGateWayFormRef.current.querySelector('input[name="AMOUNT"]').value = data.payment_data.form_params.AMOUNT;
@@ -26,8 +31,6 @@ export default function Cart() {
             paymentGateWayFormRef.current.querySelector('input[name="PSPID"]').value = data.payment_data.form_params.PSPID;
             paymentGateWayFormRef.current.querySelector('input[name="SHASIGN"]').value = data.payment_data.form_params.SHASIGN;
             await paymentGateWayFormRef.current.submit()
-
-
         }))
     }
     return (

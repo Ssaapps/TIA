@@ -40,11 +40,11 @@ export default function Toolbar() {
             </div>
 
             <div>
-                {/*Search*/}
-                <div className={"border flex items-center  rounded py-1.5 px-2"}>
-                    <input placeholder={"Search"} className={"outline-none text-sm w-96"} />
-                    <SearchIcon />
-                </div>
+                {/*/!*Search*!/*/}
+                {/*<div className={"border flex items-center  rounded py-1.5 px-2"}>*/}
+                {/*    <input placeholder={"Search"} className={"outline-none text-sm w-96"} />*/}
+                {/*    <SearchIcon />*/}
+                {/*</div>*/}
             </div>
 
 
