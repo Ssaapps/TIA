@@ -83,7 +83,7 @@ export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess 
             tag: tag,
         })
         if (onError != null) {
-            onError();
+            onError(error);
         }
 
     })

@@ -13,6 +13,7 @@ import Axios from "../../../Shared/utils/axios_instance";
 import EnterGroupsActionPane from "./EnterGroupsNameInputActionPanel";
 import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
 import { default as UploadLoadingOverlay } from "../../../Shared/Component/CustomLoadingOverlay";
+import ErrorAlert from "../../../Shared/Component/Alert/Error";
 
 
 function Upload() {
@@ -26,6 +27,7 @@ function Upload() {
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
     const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
+    const [uploadError, setUploadError] = useState(false)
     const navigate = useNavigate()
 
     const setFiles = (files) => {
@@ -123,7 +125,7 @@ function Upload() {
 
     const handleUpload = async () => {
         setUploading(true)
-
+        let errorOccured = false;
         for (const file of files) {
             const index = files.indexOf(file);
             const fileConf = filesEditable[index];
@@ -137,16 +139,31 @@ function Upload() {
             if (fileConf.album) {
                 data["album_id"] = fileConf.album.id
             }
-            dispatch(uploadMedia({
+            dispatch(await uploadMedia({
                 data, file,
                 id: index
+            }, (res) => {
+                if (index == files.length - 1) {
+                    navigate("/admin/upload/success");
+                    setUploading(false);
+                    setFiles([]);
+                    setSelected([]);
+                    setFilesEditable([]);
+                }
+            }, (err) => {
+                errorOccured = true;
+
             }));
+            if (errorOccured) {
+                setUploading(false)
+                setDialogOpen(false)
+                setUploadError(true)
+                break;
+            }
         }
     }
 
     return (
-
-
         <div
             {...getRootProps({
                 onClick: (event) => event.stopPropagation(),
@@ -157,11 +174,7 @@ function Upload() {
             }}
         >
             <UploadLoadingOverlay setShow={setUploading} next={() => {
-                navigate("/admin/upload/success");
-                setUploading(false);
-                setFiles([]);
-                setSelected([]);
-                setFilesEditable([]);
+
 
             }} show={!!uploading} spinner={
                 <React.Fragment>
@@ -276,6 +289,7 @@ function Upload() {
                 setOpen={setRemoveDialogOpen}
                 onConfirm={onRemoveConfirm}
             />
+            <ErrorAlert open={uploadError} onClose={() => setUploadError(false)} message="An error occured while uploading files" />
         </div>
 
 
