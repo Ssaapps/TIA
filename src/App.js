@@ -32,28 +32,30 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Login />} />
 
-        <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
-        <Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
+        {/*<Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />*/}
+        {/*<Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />*/}
 
-        <Route path="/admin" element={<Admin />}>
-          <Route index element={<Dashboard />} />
-          <Route path='photos' element={<PhotosList />} />
-          <Route path='settings' element={<Settings />} />
-          <Route path='albums' element={<Albums />} />
-          {/* <Route path='groups' element={<Groups />} /> */}
-          <Route path='orders' element={<Orders />} />
-          <Route path="upload/success" element={<UploadSuccess />} />
-          <Route path="upload" element={<Upload />} />
+        {/*<Route path="/admin" element={<Admin />}>*/}
+        {/*  <Route index element={<Dashboard />} />*/}
+        {/*  <Route path='photos' element={<PhotosList />} />*/}
+        {/*  <Route path='settings' element={<Settings />} />*/}
+        {/*  <Route path='albums' element={<Albums />} />*/}
+        {/*  /!* <Route path='groups' element={<Groups />} /> *!/*/}
+        {/*  <Route path='orders' element={<Orders />} />*/}
+        {/*  <Route path="upload/success" element={<UploadSuccess />} />*/}
+        {/*  <Route path="upload" element={<Upload />} />*/}
 
-        </Route>
-        <Route path="/" element={<AppLayout />}>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/photo/:id" element={<Photo />} />
-          <Route path="/album/:id" element={<Album />} />
-          <Route path='/cart' element={<Cart />} />
+        {/*</Route>*/}
 
-        </Route>
+
+        {/*<Route path="/" element={<AppLayout />}>*/}
+        {/*  <Route path="/" element={<Welcome />} />*/}
+        {/*  <Route path="/photo/:id" element={<Photo />} />*/}
+        {/*  <Route path="/album/:id" element={<Album />} />*/}
+        {/*  <Route path='/cart' element={<Cart />} />*/}
+        {/*</Route>*/}
 
       </Routes>
     </Router>
