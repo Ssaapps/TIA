@@ -57,7 +57,7 @@ export const createAlbum = (data) => {
     }
 }
 
-export const uploadMedia = (data) => {
+export const uploadMedia = (data, onSuccess, onError) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.UPLOAD_MEDIA_REQUEST(data.id), id: data.id });
         makeHttpRequest({
@@ -78,7 +78,14 @@ export const uploadMedia = (data) => {
             SUCCESS: ActionTypes.UPLOAD_MEDIA_SUCCESS(data.id),
             ERROR: ActionTypes.UPLOAD_MEDIA_ERROR(data.id),
             PROGRESS: ActionTypes.GET_UPLOAD_PROGRESS
-        }, dispatch);
+        }, dispatch, onSuccess, (error) => {
+            onError(error)
+            dispatch({
+                id: data.id,
+                type: ActionTypes.GET_UPLOAD_PROGRESS,
+                payload: null,
+            });
+        });
     }
 }
 
