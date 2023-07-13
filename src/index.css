@@ -2,24 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities{
-    .text-shadow{
-        text-shadow: 0px 1px 1px #000;
-    }
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0px 1px 1px #000;
+  }
+}
+@layer base {
+  :root {
+    --swiper-theme-color: #fff !important;
+  }
+}
+@font-face {
+  font-family: "rubik";
+  src: url("../public/fonts/rubik/RubikMonoOne-Regular.ttf");
 }
 
 @font-face {
-    font-family: "rubik";
-    src: url("../public/fonts/rubik/RubikMonoOne-Regular.ttf");
+  font-family: "proxima";
+  src: url("../public/fonts/proxima/ProximaNovaA-Regular.ea830e6b.woff");
 }
 
 @font-face {
-    font-family: "proxima";
-    src: url("../public/fonts/proxima/ProximaNovaA-Regular.ea830e6b.woff");
+  font-family: "proxima-bold";
+  src: url("../public/fonts/proxima/ProximaNovaA-Semibold.a3357887.woff");
 }
-
-@font-face {
-    font-family: "proxima-bold";
-    src: url("../public/fonts/proxima/ProximaNovaA-Semibold.a3357887.woff");
-}
-

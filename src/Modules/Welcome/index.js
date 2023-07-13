@@ -8,7 +8,14 @@ import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Cart/duck/action";
 import { ShoppingCartIcon } from "@heroicons/react/20/solid";
-import {MEDIA_URL} from "../../Shared/utils/constants";
+import { MEDIA_URL } from "../../Shared/utils/constants";
+import { convertToSentenceCase } from "../../Shared/Component/Chart/utilities";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 export default function Welcome() {
 
@@ -23,7 +30,6 @@ export default function Welcome() {
 
     const onAlbumAddToCartClicked = (album) => {
         dispatch(addItemToCart(album))
-
     }
 
     const onAlbumItemClicked = (album) => {
@@ -41,8 +47,53 @@ export default function Welcome() {
 
     return (
         <div className={""}>
+            <div className="px-10 ">
+                <Swiper
+                    spaceBetween={30}
+                    effect={'fade'}
+                    // loop={true}
+                    speed={1000}
+                    autoplay={{
+                        pauseOnMouseEnter: false,
+                        delay: 2500,
 
-            <BreadCrumb album={homeState.fetch.data && homeState.fetch.data.albums[0]} />
+                        disableOnInteraction: false, waitForTransition: true
+                    }}
+                    fadeEffect={{
+                        crossFade: true
+
+                    }}
+                    navigation={true}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    modules={[Autoplay, EffectFade, Navigation, Pagination]}
+                    className="h-full px-auto swiper-button-white"
+                >
+                    {homeState.fetch?.data?.photos.map((item, index) => (
+                        <SwiperSlide className="relative">
+                            <img src={`${MEDIA_URL}${item.path}`} alt="Large image" className="w-full mx-auto" />
+                            <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0" ></div>
+                            <div className={"absolute bottom-5 md:bottom-10 lg:bottom-40 xl:bottom-80  md:right-20 left-5 lg:left-auto z-30"}>
+                                <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Editor Pick</h2>
+                                <h1 className={"md:text-3xl text-xl font-proxima text-white"}>
+                                    {homeState.fetch.data && homeState.fetch.data.albums.length > 0 && homeState.fetch.data.albums[0].name}
+                                </h1>
+                                <div className={"flex my-2 items-center"}>
+                                    <div className={"border-2 border-white rounded-full"}>
+                                        <img className={"md:h-12 md:w-12 h-8 w-8 object-contain rounded-full"} src={"/logo.png"} />
+                                    </div>
+
+                                    <h2 className={"mx-2 font-proximaBold text-white"}>
+                                        UIPM Worldwide
+                                    </h2>
+                                </div>
+                            </div>
+
+                        </SwiperSlide>)
+                    )}
+                </Swiper>
+            </div>
 
             <div className={"px-10 py-5"}>
 
@@ -50,7 +101,7 @@ export default function Welcome() {
                     Newly Uploaded
                 </h2>
 
-                <div className={"grid gap-4 grid-cols-4"}>
+                <div className={"grid gap-4 md:grid-cols-4 grid-cols-2"}>
 
                     {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
@@ -144,11 +195,11 @@ export default function Welcome() {
 
 
                     {
-                        categories.map((item, index) => {
+                        homeState.fetch.data?.tags.map((item, index) => {
                             return (
                                 <div onClick={() => setSelectedIndex(index)} className={"my-2 flex items-center justify-start"}>
                                     <div className={` ${selectedIndex === index ? 'bg-gray-700 text-white' : 'bg-gray-200'} border px-5 py-1.5 rounded-full cursor-pointer text-sm font-proximaBold`}>
-                                        {item}
+                                        {convertToSentenceCase(item)}
                                     </div>
                                 </div>
                             )
@@ -159,7 +210,7 @@ export default function Welcome() {
                 </div>
 
                 <div className={"w-5/6"}>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
                         {
                             homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                 return (
