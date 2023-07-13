@@ -46,7 +46,7 @@ export default function BreadCrumb(props) {
                     </div>
 
                     <h2 className={"mx-2 font-proximaBold"}>
-                        UIPM Worldwide
+                        UIPM World Pentathlon
                     </h2>
                 </div>
 

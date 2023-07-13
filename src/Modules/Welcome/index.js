@@ -19,7 +19,6 @@ import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 export default function Welcome() {
 
-    const categories = ["AI", "Viral", "Finance", "Lifestyle", "Accra", "Africa", "UIPM", "World Cup", "Mens Final", "Women's Final", "Horse Racing", "Marathon", "Swimming", "Budapest", "Entertainment"];
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const navigate = useNavigate();
@@ -85,7 +84,7 @@ export default function Welcome() {
                                     </div>
 
                                     <h2 className={"mx-2 font-proximaBold text-white"}>
-                                        UIPM Worldwide
+                                        UIPM World Pentathlon
                                     </h2>
                                 </div>
                             </div>
@@ -95,13 +94,13 @@ export default function Welcome() {
                 </Swiper>
             </div>
 
-            <div className={"px-10 py-5"}>
+            <div className={"px-10 py-1 lg:py-4"}>
 
                 <h2 className={"font-rubik mb-4"}>
                     Newly Uploaded
                 </h2>
 
-                <div className={"grid gap-4 md:grid-cols-4 grid-cols-2"}>
+                <div className={"grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2"}>
 
                     {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
@@ -147,35 +146,6 @@ export default function Welcome() {
                                         }
                                     </div>
 
-                                    {/*<h3 className={"w-3/4 leading-none p-1 text-lg"}>*/}
-                                    {/*    {*/}
-                                    {/*        album.name*/}
-                                    {/*    }*/}
-                                    {/*</h3>*/}
-
-
-                                    {/*<div className={"flex items-center"}>*/}
-                                    {/*    <div className={"border-2 border-[#1e4570] rounded-full"}>*/}
-                                    {/*        <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"}/>*/}
-                                    {/*    </div>*/}
-
-                                    {/*    <h2 className={"mx-2 font-proximaBold"}>*/}
-                                    {/*        UIMP Worldwide*/}
-                                    {/*    </h2>*/}
-
-                                    {/*    <div className={"flex ml-4 items-center"}>*/}
-                                    {/*        <EyeIcon/>*/}
-                                    {/*        <span>2k</span>*/}
-                                    {/*    </div>*/}
-
-                                    {/*    <div className={"flex mx-2 items-center"}>*/}
-                                    {/*        <CashIcon/>*/}
-                                    {/*        <span>2k</span>*/}
-                                    {/*    </div>*/}
-
-                                    {/*</div>*/}
-
-
 
                                 </div>
                             )
@@ -189,10 +159,9 @@ export default function Welcome() {
             </div>
 
 
-            <div className={"flex mt-5 pb-10 px-10"}>
+            <div className={"flex flex-col xl:flex-row mt-2 mb-2 xl:pb-10 px-10"}>
 
-                <div className={"w-1/6 h-72 sticky top-0 flex flex-col"}>
-
+                <div className={"w-full xl:w-1/6 xl:h-72 sticky top-0 flex xl:flex-col"}>
 
                     {
                         homeState.fetch.data?.tags.map((item, index) => {
@@ -209,8 +178,8 @@ export default function Welcome() {
 
                 </div>
 
-                <div className={"w-5/6"}>
-                    <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+                <div className={"w-full xl:w-5/6"}>
+                    <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
                         {
                             homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                 return (
