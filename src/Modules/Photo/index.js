@@ -4,7 +4,7 @@ import ClockIcon from "../../Shared/Component/Icons/ClockIcon";
 import CameraIcon from "../../Shared/Component/Icons/CameraIcon";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
 import { getLighterColor } from "../../Shared/utils/common";
@@ -19,6 +19,7 @@ export default function Photo() {
 
     const mediaState = useSelector((state) => state.media)
     const photoDetailState = useSelector((state) => state.photo_detail)
+    const [metaDetails, setMetaDetails] = useState(null)
 
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -30,7 +31,10 @@ export default function Photo() {
     }, [])
 
     useEffect(() => {
-        console.log("mediaState", mediaState)
+        if (mediaState.show.data?.meta) {
+            setMetaDetails(JSON.parse(mediaState.show.data.meta))
+        }
+
     }, [mediaState])
 
     useEffect(() => {
@@ -55,20 +59,23 @@ export default function Photo() {
                     new
                 </span>
                 <h2 className={"text-lg"}>
-                    Woman at Home Decor Store stock photo
+                    {mediaState.show?.data?.album?.name}
                 </h2>
             </div>
 
             <div className={"flex px-10"}>
 
 
-                <div className={"w-3/4 bg-white h-full border"}>
+                <div className={`w-3/4 h-full  ${!mediaState.show.data ? "border bg-white " : ""} `}>
 
 
-                    <div className={"flex items-center justify-center"} style={{ height: '80vh', backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) }}>
+                    <div className={"flex items-center justify-center"} style={{
+                        height: '80vh',
+                        //  backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) 
+                    }}>
 
                         <img
-                            className={"object-contain h-full text-center p-2"}
+                            className={"object-contain w-full h-full text-center p-2"}
                             src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
 
                     </div>
@@ -112,18 +119,17 @@ export default function Photo() {
                     <div className={"my-4"}>
                         <h2>Description</h2>
                         <span>
-                            Woman shopping at home decor store
-                        </span>
+                            {mediaState.show?.data?.album?.description}                  </span>
                     </div>
 
 
                     <div className={"my-4"}>
                         <h2 className={"mb-2"}>Tags</h2>
                         {
-                            [0, 0, 0, 0].map(item => {
+                            mediaState.show?.data?.tags?.map(item => {
                                 return (
                                     <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
-                                        Food
+                                        {item}
                                     </span>
                                 )
                             })
@@ -132,17 +138,48 @@ export default function Photo() {
                     </div>
 
                     <div className={"mt-10"}>
-                        {mediaState.show.data &&
-                            Object.keys(JSON.parse(mediaState.show.data.meta)).map((key, index) => {
-                                const item = JSON.parse(mediaState.show.data.meta)
-                                if (key === "COMPUTED") return null
-                                return (<div className={"flex my-2 items-center"} key={index}>
-                                    <div className={"w-1/2"}>{key}</div>
-                                    <div className={"w-1/2 font-proximaBold"}>{item[key]}</div>
-                                </div>
-                                )
-                            })
+                        {
+                            metaDetails && (
+                                <>
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Aperture:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.COMPUTER?.ApertureFNumber}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Shutter Speed:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ShutterSpeedValue}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>File Size:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.FileSize}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Camera Name:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Make}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Camera Model:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Model}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Software:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Software}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Resolution:</div>
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ResolutionUnit}</div>
+                                    </div>}
+                                    {<div className={"flex my-2 items-center"} >
+                                        <div className={"w-1/2"}>Original Date:</div>
+                                        {/* TODO: */}
+                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.DateTimeOriginal}</div>
+                                    </div>}
+                                    <a href="" className="text-blue-500 underline">For Nerds ...</a>
+                                </>
+
+                            )
                         }
+
 
 
 

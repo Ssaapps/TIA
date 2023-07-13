@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import { getAlbum, getAlbums, shareAlbum } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ export default function Album() {
 
     const dispatch = useDispatch();
     const params = useParams();
-
+    const navigate = useNavigate();
     const albumState = useSelector((state) => state.albums)
 
     useEffect(() => {
@@ -21,6 +21,9 @@ export default function Album() {
     useEffect(() => {
         console.log("albumState", albumState)
     }, [albumState])
+    const onMediaClick = (media) => {
+        navigate(`/photo/${media.id}`)
+    }
 
     function share() {
         if (navigator.share) {
@@ -86,6 +89,9 @@ export default function Album() {
                         return (
                             <div
                                 key={index}
+                                onClick={() => {
+                                    onMediaClick(media)
+                                }}
                                 className={`relative bg-gray-200  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
                                 style={
                                     {
