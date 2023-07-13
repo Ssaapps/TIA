@@ -50,14 +50,10 @@ export default function Login() {
                     setAuthError(null)
                 }} />
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-                    <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                        <div className={"flex items-center cursor-pointer justify-center mx-auto max-w-min rounded-full w-20 h-20 box-border bg-white shadow-sm"} onClick={() => navigate('/')}>
-                            {/*<MenuIcon fill={"#242A38"} className={"cursor-pointer"}/>*/}
-                            <Logo className={"h-16 mx-2"} />
-                        </div>
-
+                    <div className={"flex items-center justify-center"}>
+                        <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"}/>
                     </div>
-                    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <h6>Sign in to your account</h6>
