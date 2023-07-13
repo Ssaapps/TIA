@@ -51,8 +51,8 @@ export default function Toolbar() {
             <div className={"flex items-center gap-x-4"}>
                 {
                     !isAuth ? <React.Fragment>
-                        <button onClick={() => navigate("/login")} className="text-sm rounded-3xl hover:bg-gray-50 px-4 py-1.5">Sign In</button>
-                        <button onClick={() => navigate("/register")} className="rounded-3xl text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
+                        <button onClick={() => navigate("/login")} className="text-xs  sm:text-sm rounded-3xl hover:bg-gray-50 px-4 py-1.5">Sign In</button>
+                        <button onClick={() => navigate("/register")} className="rounded-3xl text-xs  sm:text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
                     </React.Fragment> : (
                         <React.Fragment>
 
@@ -61,8 +61,8 @@ export default function Toolbar() {
                             {/*    className={"h-8  rounded-full w-8"}*/}
                             {/*    src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}*/}
                             {/*/>*/}
-                            <button onClick={handleLogout} className="text-red-500 flex gap-x-2 px-3 py-1 border items-center text-sm rounded hover:bg-red-300 border-red-500">
-                                <ArrowLeftOnRectangleIcon className="h-4 w-4" />
+                            <button onClick={handleLogout} className="text-red-500 flex gap-x-2 px-3 py-1 border items-center text-xs  sm:text-sm rounded-3xl hover:bg-red-300 border-red-500">
+                                {/* <ArrowLeftOnRectangleIcon className="h-4 w-4" /> */}
                                 Logout
                             </button>
 

@@ -89,3 +89,8 @@ export const customTooltips = function (context) {
     tooltipEl.style.padding = `${tooltipModel.yPadding}px ${tooltipModel.xPadding}px`;
 };
 
+
+
+export function convertToSentenceCase(str) {
+    return str.toLowerCase().replaceAll("_", " ").replace(/(^|\s)\S/g, char => char.toUpperCase());
+}

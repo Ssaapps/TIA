@@ -14,19 +14,23 @@ import EnterGroupsActionPane from "./EnterGroupsNameInputActionPanel";
 import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
 import { default as UploadLoadingOverlay } from "../../../Shared/Component/CustomLoadingOverlay";
 import ErrorAlert from "../../../Shared/Component/Alert/Error";
+import axios from "axios";
 
 
 function Upload() {
     const dispatch = useDispatch();
-    const { files, filesEditable, selected, media, uploadProgress } = useSelector(state => state.upload)
+    const { files, filesEditable, selected, media, } = useSelector(state => state.upload)
 
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [uploadProgress, setUploadingProgress] = useState(null)
     const [uploading, setUploading] = useState(false);
     const [albumAddOpen, setAlbumAddOpen] = useState(false);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
     const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
+    const [currentFileUploading, setCurrentFileUploading] = useState(null)
+
     const [uploadError, setUploadError] = useState(false)
     const navigate = useNavigate()
 
@@ -124,12 +128,19 @@ function Upload() {
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
     const handleUpload = async () => {
+        setDialogOpen(false)
         setUploading(true)
         let errorOccured = false;
-        for (const file of files) {
-            const index = files.indexOf(file);
-            const fileConf = filesEditable[index];
-            await delay(1000);
+
+        const filesUploaded = []
+
+        const token = JSON.parse(localStorage.getItem("token") ?? "{}")
+
+        for (var fileIndex in files) {
+            const file = files[fileIndex]
+
+            setCurrentFileUploading(+fileIndex + 1)
+            const fileConf = filesEditable[fileIndex];
             let data = {
                 method: "form-data",
             };
@@ -139,28 +150,45 @@ function Upload() {
             if (fileConf.album) {
                 data["album_id"] = fileConf.album.id
             }
-            dispatch(await uploadMedia({
-                data, file,
-                id: index
-            }, (res) => {
-                if (index == files.length - 1) {
-                    navigate("/admin/upload/success");
-                    setUploading(false);
-                    setFiles([]);
-                    setSelected([]);
-                    setFilesEditable([]);
-                }
-            }, (err) => {
-                errorOccured = true;
-
-            }));
-            if (errorOccured) {
+            const formData = new FormData();
+            formData.append("file", file);
+            Object.keys(data).forEach((item, index) => {
+                formData.append(item, Object.values(data)[index])
+            })
+            try {
+                await axios.post("http://193.70.40.48/api/v1/admin/media", formData, {
+                    headers: {
+                        Authorization: "Bearer " + token?.access_token ?? "",
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const percentage = (progressEvent.loaded * 100) / progressEvent.total;
+                        setUploadingProgress(Math.round(+percentage))
+                    }
+                })
+                filesUploaded.push(fileIndex)
+            }
+            catch (err) {
+                //Filter by filesUploaded and remove them from files and filesEditable
+                const newFiles = files.filter((file, index) => !filesUploaded.includes(index))
+                const newFilesEditable = filesEditable.filter((file, index) => !filesUploaded.includes(index))
+                setFiles(newFiles)
+                setFilesEditable(newFilesEditable)
                 setUploading(false)
                 setDialogOpen(false)
                 setUploadError(true)
-                break;
+                errorOccured = true;
+                break
             }
         }
+        if (!errorOccured) {
+            navigate("/admin/upload/success");
+            setUploading(false);
+            setFiles([]);
+            setSelected([]);
+            setFilesEditable([]);
+        }
+
     }
 
     return (
@@ -179,7 +207,7 @@ function Upload() {
             }} show={!!uploading} spinner={
                 <React.Fragment>
                     {/* TODO:Get current file being uploaded */}
-                    {/* <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p> */}
+                    <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p>
                     <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
                         {!!uploadProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
                             width: `${uploadProgress}%`

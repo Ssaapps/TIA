@@ -7,6 +7,7 @@ const initialState = {
         error: null,
         data: null
     }
+
 };
 
 export const HomeReducer = (state = initialState, action) => {
