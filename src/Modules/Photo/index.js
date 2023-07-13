@@ -63,8 +63,7 @@ export default function Photo() {
                 </h2>
             </div>
 
-            <div className={"flex px-10"}>
-
+            <div className={"flex lg:flex-row flex-col px-10"}>
 
                 <div className={`w-3/4 h-full  ${!mediaState.show.data ? "border bg-white " : ""} `}>
 
@@ -85,7 +84,7 @@ export default function Photo() {
                     </div>
                 </div>
 
-                <div className={"w-1/4 px-10"}>
+                <div className={"lg:w-1/4 w-full px-10 mb-10 lg:mb-0"}>
 
                     {
                         1 === 2 &&
