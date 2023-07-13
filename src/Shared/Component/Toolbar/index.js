@@ -56,7 +56,7 @@ export default function Toolbar() {
                     </React.Fragment> : (
                         <React.Fragment>
 
-                            <PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />
+                            {/*<PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />*/}
                             {/*<img*/}
                             {/*    className={"h-8  rounded-full w-8"}*/}
                             {/*    src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}*/}
