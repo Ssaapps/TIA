@@ -1,13 +1,8 @@
-import LockIcon from "../../Shared/Component/Icons/LockIcon";
-import EyeIcon from "../../Shared/Component/Icons/EyeIcon";
-import CashIcon from "../../Shared/Component/Icons/CashIcon";
-import BreadCrumb from "./Components/breadcrumb";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Cart/duck/action";
-import { ShoppingCartIcon } from "@heroicons/react/20/solid";
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { convertToSentenceCase } from "../../Shared/Component/Chart/utilities";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -105,29 +100,28 @@ export default function Welcome() {
                     {
                         homeState.fetch.data && homeState.fetch.data.albums.map((album) => {
                             return (
-                                //TODO: add cart button and bind onpressed
                                 <div className={"cursor-pointer group relative"} >
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
                                         src={`${MEDIA_URL}${album.media[0].path}`}
                                     />
-                                    <div className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
+                                    <div onClick={() => onAlbumItemClicked(album)} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
                                         setHovered(-1)
                                     }} onMouseOver={() => {
                                         setHovered(album.id)
                                     }}>
                                         <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
 
-                                        <div className=" flex items-start gap-x-5" onClick={() => {
-                                            onAlbumAddToCartClicked(album)
-                                        }} aria-hidden="true">
-                                            <div className="p-2 rounded-full hover:bg-gray-200 z-10">
-                                                <EyeIcon onClick={() => onAlbumItemClicked(album)} className={"h-8 w-8 text-white  "} />
-                                            </div>
-                                            <div className="p-2 rounded-full hover:bg-gray-200 z-10">
-                                                <ShoppingCartIcon onClick={() => { onAlbumAddToCartClicked(album) }} className={"h-8 w-8 text-white "} />
-                                            </div>
-                                        </div>
+                                        {/*<div className=" flex items-start gap-x-5" onClick={() => {*/}
+                                        {/*    onAlbumAddToCartClicked(album)*/}
+                                        {/*}} aria-hidden="true">*/}
+                                        {/*    <div className="p-2 rounded-full hover:bg-gray-200 z-10">*/}
+                                        {/*        <EyeIcon onClick={() => onAlbumItemClicked(album)} className={"h-8 w-8 text-white  "} />*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="p-2 rounded-full hover:bg-gray-200 z-10">*/}
+                                        {/*        <ShoppingCartIcon onClick={() => { onAlbumAddToCartClicked(album) }} className={"h-8 w-8 text-white "} />*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
                                     </div>
                                     {/* <div className="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
                                         <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
@@ -159,38 +153,19 @@ export default function Welcome() {
             </div>
 
 
-            <div className={"flex flex-col xl:flex-row mt-2 mb-2 xl:pb-10 px-10"}>
+            {
+                1 === 2 &&
+                <div className={"flex flex-col xl:flex-row mt-2 mb-2 xl:pb-10 px-10"}>
 
-                <div className={"w-full xl:w-1/6 xl:h-72 sticky top-0 flex xl:flex-col"}>
+                    <div className={"w-full xl:w-1/6 xl:h-72 sticky top-0 flex xl:flex-col"}>
 
-                    {
-                        homeState.fetch.data?.tags.map((item, index) => {
-                            return (
-                                <div onClick={() => setSelectedIndex(index)} className={"my-2 flex items-center justify-start"}>
-                                    <div className={` ${selectedIndex === index ? 'bg-gray-700 text-white' : 'bg-gray-200'} border px-5 py-1.5 rounded-full cursor-pointer text-sm font-proximaBold`}>
-                                        {convertToSentenceCase(item)}
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-
-
-                </div>
-
-                <div className={"w-full xl:w-5/6"}>
-                    <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
                         {
-                            homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
+                            homeState.fetch.data?.tags.map((item, index) => {
                                 return (
-                                    <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group relative `}>
-
-                                        <img className={`${index % 3 === 0 ? 'h-full' : 'h-72'} object-cover w-full rounded`}
-                                            src={`${MEDIA_URL}${item.path}`} alt="Large image" />
-                                        <div className={"absolute "}>
-                                            {/*{index % 3}*/}
+                                    <div onClick={() => setSelectedIndex(index)} className={"my-2 flex items-center justify-start"}>
+                                        <div className={` ${selectedIndex === index ? 'bg-gray-700 text-white' : 'bg-gray-200'} border px-5 py-1.5 rounded-full cursor-pointer text-sm font-proximaBold`}>
+                                            {convertToSentenceCase(item)}
                                         </div>
-
                                     </div>
                                 )
                             })
@@ -199,9 +174,31 @@ export default function Welcome() {
 
                     </div>
 
-                </div>
+                    <div className={"w-full xl:w-5/6"}>
+                        <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+                            {
+                                homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
+                                    return (
+                                        <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group relative `}>
 
-            </div>
+                                            <img className={`${index % 3 === 0 ? 'h-full' : 'h-72'} object-cover w-full rounded`}
+                                                 src={`${MEDIA_URL}${item.path}`} alt="Large image" />
+                                            <div className={"absolute "}>
+                                                {/*{index % 3}*/}
+                                            </div>
+
+                                        </div>
+                                    )
+                                })
+                            }
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
 
         </div>
     )

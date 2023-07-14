@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
-import Logo from "../../Shared/Component/Icons/Logo";
 import { login } from "./duck/action";
 import { useEffect, useState } from "react";
 import ErrorAlert from "../../Shared/Component/Alert/Error";
@@ -13,6 +12,7 @@ export default function Login() {
     const dispatch = useDispatch();
     const [authError, setAuthError] = useState(null)
     const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch login action
@@ -116,7 +116,11 @@ export default function Login() {
                             </form>
 
                         </div>
+                        <div className={"mt-2"}>
+                            <span className={"text-sm"}>Don't have an account ? <a className={"font-proximaBold underline text-blue-800"} href={"/register"}>Create account</a></span>
+                        </div>
                     </div>
+
                 </div>
             </div>
             {loginState.login.error && <ErrorNotification errorMessage={loginState.login.error} />}

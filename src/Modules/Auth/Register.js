@@ -7,11 +7,13 @@ import Logo from "../../Shared/Component/Icons/Logo";
 import { register } from "./duck/action";
 import { useEffect, useState } from "react";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
+import ErrorAlert from "../../Shared/Component/Alert/Error";
 
 
 export default function Register() {
     const loginState = useSelector(state => state.login)
     const [registerSucess, setRegisterSuccess] = useState(null)
+    const [error,setError] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSubmit = (e) => {
@@ -29,14 +31,25 @@ export default function Register() {
             setRegisterSuccess("Account created successfully")
             setTimeout(() => {
                 window.location.replace("/")
-            }, [4000])
+            }, [1000])
         }
+
+        if (loginState.register.errorMessage) {
+            setError(loginState.register.errorMessage)
+        }
+
         console.log(loginState)
     }, [loginState])
     return (
 
         <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.register.isLoading} >
             <SuccessAlert open={!!registerSucess} message={registerSucess} onClose={() => { }} />
+
+            <ErrorAlert open={error != null}
+                        message={error}
+                        onClose = { () => {setError(null)} }
+            />
+
             <div className="bg-[#F4F4F4] h-screen">
 
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -124,7 +137,11 @@ export default function Register() {
                             </form>
 
                         </div>
+                        <div className={"mt-2"}>
+                            <span className={"text-sm"}>Already have an account ? <a className={"font-proximaBold underline text-blue-800"} href={"/login"}>Login</a></span>
+                        </div>
                     </div>
+
                 </div>
             </div>
             {loginState.register.error && <ErrorNotification errorMessage={loginState.register.error} />}
