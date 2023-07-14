@@ -4,12 +4,14 @@ import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import Logo from "../../Shared/Component/Icons/Logo";
-import {register} from "./duck/action";
-import {useEffect} from "react";
+import { register } from "./duck/action";
+import { useEffect, useState } from "react";
+import SuccessAlert from "../../Shared/Component/Alert/Success";
 
 
 export default function Register() {
     const loginState = useSelector(state => state.login)
+    const [registerSucess, setRegisterSuccess] = useState(null)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSubmit = (e) => {
@@ -18,17 +20,23 @@ export default function Register() {
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        dispatch(register(name,email,password))
-
+        dispatch(register(name, email, password))
     }
 
 
     useEffect(() => {
-        console.log("loginState",loginState);
-    },[loginState])
+        if (loginState.register.loginSuccess) {
+            setRegisterSuccess("Account created successfully")
+            setTimeout(() => {
+                window.location.replace("/")
+            }, [4000])
+        }
+        console.log(loginState)
+    }, [loginState])
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader  color="#fff"/>} text={""} show={loginState.register.loading} >
+        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.register.isLoading} >
+            <SuccessAlert open={!!registerSucess} message={registerSucess} onClose={() => { }} />
             <div className="bg-[#F4F4F4] h-screen">
 
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
