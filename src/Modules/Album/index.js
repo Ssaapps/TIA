@@ -102,8 +102,8 @@ export default function Album() {
                                 style={
                                     {
                                         backgroundImage: `url(${MEDIA_URL}${media.path})`,
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: "left-top",
+                                        backgroundSize: 'scale-down',
+                                        backgroundPosition: "center",
                                         height: (index + 1) % 6 === 4 ? '1000px' : '500px',
                                         marginTop: (index + 1) % 6 === 4 ? '-500px' : ''
                                     }

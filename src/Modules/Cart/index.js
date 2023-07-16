@@ -8,12 +8,14 @@ import ErrorAlert from '../../Shared/Component/Alert/Error';
 import { useNavigate, Link } from "react-router-dom";
 import { convertToKBorMB } from '../../Shared/utils/common';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import {useLocation} from "react-router";
 
 
 
 
 export default function Cart() {
     const dispatch = useDispatch()
+    const location = useLocation();
     const cartState = useSelector((state) => state.cart)
     const paymentGateWayFormRef = useRef()
     const isAuth = !!useSelector((state) => state.login.login.token);
@@ -23,7 +25,9 @@ export default function Cart() {
     const handleCheckout = (e) => {
         e.preventDefault();
         if (!isAuth) {
-            navigate('/login');
+            navigate('/login',{
+                state: {from: location}
+            });
         }
         dispatch(checkout(cartState.items, async (data) => {
             paymentGateWayFormRef.current.action = data.payment_data.link

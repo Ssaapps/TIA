@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
@@ -9,10 +9,11 @@ import ErrorAlert from "../../Shared/Component/Alert/Error";
 import { Link } from "react-router-dom";
 
 export default function Login() {
-    const loginState = useSelector(state => state.login)
     const dispatch = useDispatch();
-    const [authError, setAuthError] = useState(null)
+    const [authError, setAuthError] = useState(null);
+    const loginState = useSelector(state => state.login);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,15 +23,19 @@ export default function Login() {
         dispatch(login(email, password))
     }
 
+
+
     useEffect(() => {
         console.log("loginState", loginState)
         if (loginState.login.loginSuccess) {
-            navigate("/");
+            navigate(-1);
         }
     }, [loginState])
 
 
     useEffect(() => {
+        const previousPage = location.state?.from;
+        console.log("previousPage",previousPage);
         const error = loginState.login.errorMessage || loginState.register.errorMessage
         setAuthError(error)
     }, [loginState])

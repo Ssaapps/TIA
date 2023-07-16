@@ -22,13 +22,6 @@ export default function Welcome() {
     const [albumHovered, setAlbumHovered] = useState(-1);
     const [carouselLoading, setCarouselLoading] = useState(true);
     const counter = useRef(0);
-    const imageLoaded = () => {
-        counter.current += 1;
-        console.log(counter.current)
-        if (counter.current >= homeState.fetch?.data?.photos.length) {
-            setCarouselLoading(false);
-        }
-    }
 
     const onAlbumAddToCartClicked = (album) => {
         dispatch(addItemToCart(album))
@@ -167,55 +160,6 @@ export default function Welcome() {
                 </div>
 
             </div>
-
-
-            {
-                1 === 2 &&
-                <div className={"flex flex-col xl:flex-row mt-2 mb-2 xl:pb-10 px-10"}>
-
-                    <div className={"w-full xl:w-1/6 xl:h-72 sticky top-0 flex xl:flex-col"}>
-
-                        {
-                            homeState.fetch.data?.tags.map((item, index) => {
-                                return (
-                                    <div onClick={() => setSelectedIndex(index)} className={"my-2 flex items-center justify-start"}>
-                                        <div className={` ${selectedIndex === index ? 'bg-gray-700 text-white' : 'bg-gray-200'} border px-5 py-1.5 rounded-full cursor-pointer text-sm font-proximaBold`}>
-                                            {convertToSentenceCase(item)}
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
-
-
-                    </div>
-
-                    <div className={"w-full xl:w-5/6"}>
-                        <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-                            {
-                                homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
-                                    return (
-                                        <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group  `}>
-
-                                            <img className={`${index % 3 === 0 ? 'h-full' : 'h-72'} object-cover w-full rounded`}
-                                                src={`${MEDIA_URL}${item.path}`} alt="Large image" />
-                                            <div className={"absolute "}>
-                                                {/*{index % 3}*/}
-                                            </div>
-
-                                        </div>
-                                    )
-                                })
-                            }
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-            }
-
         </div>
     )
 }
