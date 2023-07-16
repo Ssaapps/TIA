@@ -6,6 +6,7 @@ import { MEDIA_URL } from "../../Shared/utils/constants";
 import { EyeIcon, ShareIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import CartIcon from "../../Shared/Component/Icons/CartIcon";
 import { addItemToCart } from "../Cart/duck/action";
+import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 
 export default function Album() {
 
@@ -65,19 +66,20 @@ export default function Album() {
 
 
             <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>
-
-                <img
-                    className={"object-cover w-full h-full"}
-                    src={albumState.show.data && `${MEDIA_URL}${albumState.show.data.media[0].path}`}
-                />
+                {!albumState.show.data ? <Shimmer className={"w-full h-[50vh]"} /> :
+                    <img
+                        className={"object-cover w-full h-full"}
+                        src={albumState.show.data && `${MEDIA_URL}${albumState.show.data.media[0].path}`}
+                    />}
                 <div className={"absolute top-0 right-0 bg-black bottom-0 left-0 opacity-50"} />
                 <div className={"absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center"}>
                     <div className={"text-center flex flex-col justify-center items-center  text-white"}>
                         <h2 className={"text-4xl font-proximaBold"}>{albumState.show.data && albumState.show.data.name}</h2>
+                        <h2 className={"text-2xl font-normal"}>{albumState.show.data && albumState.show.data.description}</h2>
                         <div className={"flex my-2"}>
-                            <div>2 views</div>
-                            <div className={"mx-2"}>2 shares</div>
-                            <div className={"mx-2"}>2 shares</div>
+                            <div>{albumState.show.data && albumState.show.data.views + ` view${albumState.show.data.views > 1 ? "s" : ""}`} </div>
+                            <div className={"mx-2"}>{albumState.show.data && albumState.show.data.shares + ` share${albumState.show.data.shares > 1 ? "s" : ""}`} </div>
+                            <div className={"mx-2"}>{albumState.show.data && albumState.show.data.media_count + ` photo${albumState.show.data.media_count > 1 ? "s" : ""}`}</div>
 
                         </div>
                     </div>
@@ -89,7 +91,7 @@ export default function Album() {
             <div className={"grid grid-cols-3 gap-4 m-10"}>
 
                 {
-                    albumState.show.data && albumState.show.data.media.map((media, index) => {
+                    !albumState.show.data ? [0, 0, 0].map(item => <Shimmer className={"w-full h-[500px]"} />) : albumState.show.data.media.map((media, index) => {
                         return (
                             <div
                                 key={index}
@@ -120,7 +122,7 @@ export default function Album() {
                                 }}>
                                     <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${hovered === media.id ? 'bg-blue-800' : 'bg-black'}`} />
 
-                                    <div className=" flex items-start gap-x-5"
+                                    {/* <div className=" flex items-start gap-x-5"
                                         aria-hidden="true">
                                         <div className="p-2 rounded-full hover:bg-gray-200 z-10">
                                             <EyeIcon onClick={() => onMediaClick(media)} className={"h-8 w-8 text-white  "} />
@@ -132,7 +134,7 @@ export default function Album() {
                                                 setCartButtonHovered(false)
                                             }} onClick={() => { onMediaAddToCartClick(media) }} className={"h-8 w-8 text-white "} />
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 

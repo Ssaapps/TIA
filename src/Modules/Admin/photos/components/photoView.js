@@ -1,22 +1,22 @@
-import {MEDIA_URL} from "../../../../Shared/utils/constants";
-import {classNames, niceBytes} from "../../../../Shared/utils/common";
-import React, {useEffect, useState} from "react";
-import {getMedia} from "../duck/action";
-import {useDispatch} from "react-redux";
+import { MEDIA_URL } from "../../../../Shared/utils/constants";
+import { classNames, niceBytes } from "../../../../Shared/utils/common";
+import React, { useEffect, useState } from "react";
+import { getMedia } from "../duck/action";
+import { useDispatch } from "react-redux";
 
 export default function PhotoView(props) {
 
     const dispatch = useDispatch();
-    const [selectedFile,setSelectedFile] = useState(-1);
+    const [selectedFile, setSelectedFile] = useState(-1);
 
     const onItemClicked = (file) => {
-        props.onItemClicked({...file,type: 'file'});
+        props.onItemClicked({ ...file, type: 'file' });
         setSelectedFile(file.id)
     };
 
     useEffect(() => {
         dispatch(getMedia());
-    },[]);
+    }, []);
 
 
 
@@ -25,7 +25,7 @@ export default function PhotoView(props) {
             role="list"
             className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
         >
-            {props.photos.map((file,index) => (
+            {props.photos.map((file, index) => (
                 <li onClick={() => onItemClicked(file)} key={file.name} className="relative">
                     <div
                         className={classNames(

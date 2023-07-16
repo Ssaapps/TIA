@@ -12,6 +12,7 @@ import { purchaseMedia } from "./duck/action";
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { addItemToCart } from "../Cart/duck/action";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
+import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 
 export default function Photo() {
 
@@ -34,6 +35,7 @@ export default function Photo() {
 
     useEffect(() => {
         if (mediaState.show.data?.meta) {
+            console.log(JSON.parse(mediaState.show.data.meta))
             setMetaDetails(JSON.parse(mediaState.show.data.meta))
         }
 
@@ -76,7 +78,7 @@ export default function Photo() {
                     new
                 </span>
                 <h2 className={"text-lg"}>
-                    {mediaState.show?.data?.album?.name}
+                    {!mediaState.show.data ? <Shimmer className={"w-60 h-[18px]"} /> : mediaState.show?.data?.album?.name}
                 </h2>
             </div>
 
@@ -89,11 +91,12 @@ export default function Photo() {
                         height: '80vh',
                         //  backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) 
                     }}>
+                        {!mediaState.show.data ? <Shimmer className={"w-full h-full"} /> :
 
-                        <img
-                            className={"object-contain w-full h-full text-center p-2"}
-                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
-
+                            <img
+                                className={"object-contain w-full h-full text-center p-2"}
+                                src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
+                        }
                     </div>
 
                     <div className={""}>
@@ -107,12 +110,12 @@ export default function Photo() {
                         1 === 1 &&
                         <div>
                             <div className={"font-proximaBold text-4xl"}>
-                                {mediaState.show.data && '\u20AC' + mediaState.show.data.item_price.price}
+                                {!mediaState.show.data ? <Shimmer className={"w-60 h-[40px] mt-8 mb-5"} /> : '\u20AC' + mediaState.show.data.item_price.price}
                             </div>
 
-                            <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
+                            {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
                                 Add To Cart
-                            </button>
+                            </button>}
 
                             <div className={"h-0.5 my-1 bg-gray-200"} />
                         </div>
@@ -121,7 +124,7 @@ export default function Photo() {
 
 
 
-                    <div className={"flex items-center mt-4"}>
+                    {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] mt-4"} /> : <div className={"flex items-center mt-4"}>
                         <div className={"border-2 border-[#1e4570] rounded-full"}>
                             <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"} />
                         </div>
@@ -130,62 +133,65 @@ export default function Photo() {
                             UIMP Worldwide
                         </h2>
 
-                    </div>
+                    </div>}
 
-                    <div className={"my-4"}>
+
+
+                    {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] my-4"} /> : <div className={"my-4"}>
                         <h2>Description</h2>
                         <span>
                             {mediaState.show?.data?.album?.description}                  </span>
-                    </div>
+                    </div>}
 
 
-                    <div className={"my-4"}>
-                        <h2 className={"mb-2"}>Tags</h2>
-                        {
-                            mediaState.show?.data?.tags?.split(",").map(item => {
-                                return (
-                                    <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
-                                        {item}
-                                    </span>
-                                )
-                            })
-                        }
+                    {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] my-4"} /> :
+                        <div className={"my-4"}>
+                            <h2 className={"mb-2"}>Tags</h2>
+                            {
+                                mediaState.show?.data?.tags?.split(",").map(item => {
+                                    return (
+                                        <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
+                                            {item}
+                                        </span>
+                                    )
+                                })
+                            }
 
-                    </div>
+                        </div>}
 
                     <div className={"mt-10"}>
-                        {
+                        {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] mt-4"} /> :
                             metaDetails && (
                                 <>
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.COMPUTER?.ApertureFNumber && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Aperture:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.COMPUTER?.ApertureFNumber}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.ShutterSpeedValue && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Shutter Speed:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ShutterSpeedValue}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.FileSize && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>File Size:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.FileSize}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.Make && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Camera Name:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Make}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.Model && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Camera Model:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Model}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.Software && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Software:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Software}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.ResolutionUnit && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Resolution:</div>
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ResolutionUnit}</div>
                                     </div>}
-                                    {<div className={"flex my-2 items-center"} >
+                                    {metaDetails?.DateTimeOriginal && <div className={"flex my-2 items-center"} >
                                         <div className={"w-1/2"}>Original Date:</div>
                                         {/* TODO: */}
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.DateTimeOriginal}</div>

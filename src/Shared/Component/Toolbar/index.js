@@ -74,7 +74,7 @@ export default function Toolbar() {
                     navigate("/cart")
                 }}>
                     <ShoppingBagIcon
-                        className="h-7 w-7 flex-shrink-0 text-[#242A38] group-hover:text-gray-500"
+                        className="h-7 w-7 flex-shrink-0 text-gray-600  group-hover:text-gray-500"
                         aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.length}</span>

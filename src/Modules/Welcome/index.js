@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { getHome } from "./duck/action";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,15 @@ export default function Welcome() {
     const dispatch = useDispatch();
     const homeState = useSelector((state) => state.home)
     const [albumHovered, setAlbumHovered] = useState(-1);
-
+    const [carouselLoading, setCarouselLoading] = useState(true);
+    const counter = useRef(0);
+    const imageLoaded = () => {
+        counter.current += 1;
+        console.log(counter.current)
+        if (counter.current >= homeState.fetch?.data?.photos.length) {
+            setCarouselLoading(false);
+        }
+    }
 
     const onAlbumAddToCartClicked = (album) => {
         dispatch(addItemToCart(album))
@@ -55,7 +63,6 @@ export default function Welcome() {
                     }}
                     fadeEffect={{
                         crossFade: true
-
                     }}
                     navigation={true}
                     pagination={{
@@ -68,8 +75,15 @@ export default function Welcome() {
                         (homeState.fetch?.data?.photos.map((item, index) => (
                             <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative">
-                                    <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
-                                        <img src={`${MEDIA_URL}${item.path}`} alt="Large image" className="w-full mx-auto" loading="lazy" /></Suspense>
+                                    <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>
+                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto" onLoad={() => {
+                                        if (index == 0) {
+                                            setCarouselLoading(false);
+                                        }
+                                        else {
+                                            return
+                                        }
+                                    }} />
                                     <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0" ></div>
                                     <div className={"absolute bottom-5 md:bottom-10 lg:bottom-40 xl:bottom-80  md:right-20 left-5 lg:left-auto z-30"}>
                                         <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Editor Pick</h2>
@@ -102,7 +116,7 @@ export default function Welcome() {
                     {
                         !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
                             return (
-                                <div className={"cursor-pointer group relative"} >
+                                <div className={"cursor-pointer group relative"} key={album.uuid}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
                                         src={`${MEDIA_URL}${album.media[0].path}`}
