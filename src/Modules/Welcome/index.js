@@ -119,18 +119,8 @@ export default function Welcome() {
                                     }} onMouseOver={() => {
                                         setAlbumHovered(album.id)
                                     }}>
-                                        <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${albumHovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
+                                        <div className={`absolute bottom-0 right-0 left-0 opacity-20 bg-blue-800`} />
 
-                                        {/*<div className=" flex items-start gap-x-5" onClick={() => {*/}
-                                        {/*    onAlbumAddToCartClicked(album)*/}
-                                        {/*}} aria-hidden="true">*/}
-                                        {/*    <div className="p-2 rounded-full hover:bg-gray-200 z-10">*/}
-                                        {/*        <EyeIcon onClick={() => onAlbumItemClicked(album)} className={"h-8 w-8 text-white  "} />*/}
-                                        {/*    </div>*/}
-                                        {/*    <div className="p-2 rounded-full hover:bg-gray-200 z-10">*/}
-                                        {/*        <ShoppingCartIcon onClick={() => { onAlbumAddToCartClicked(album) }} className={"h-8 w-8 text-white "} />*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
                                     </div>
                                     {/* <div className="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
                                         <div className="w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
@@ -138,9 +128,13 @@ export default function Welcome() {
                                         </div>
                                     </div> */}
 
-                                    <div className={"absolute  bottom-0  left-0"}>
+                                    <div className={"absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-700 to-transparent"}>
+
+                                    </div>
+
+                                    <div className={"absolute bottom-0  left-0"}>
                                         {
-                                            albumHovered === album.id &&
+
                                             <h3 className={" leading-none p-3 text-white text-sm font-proximaBold"}>
                                                 {
                                                     album.name
