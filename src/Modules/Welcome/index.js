@@ -19,7 +19,7 @@ export default function Welcome() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const homeState = useSelector((state) => state.home)
-    const [hovered, setHovered] = useState(-1);
+    const [albumHovered, setAlbumHovered] = useState(-1);
 
 
     const onAlbumAddToCartClicked = (album) => {
@@ -106,11 +106,11 @@ export default function Welcome() {
                                         src={`${MEDIA_URL}${album.media[0].path}`}
                                     />
                                     <div onClick={() => onAlbumItemClicked(album)} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
-                                        setHovered(-1)
+                                        setAlbumHovered(-1)
                                     }} onMouseOver={() => {
-                                        setHovered(album.id)
+                                        setAlbumHovered(album.id)
                                     }}>
-                                        <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${hovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
+                                        <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${albumHovered === album.id ? 'bg-blue-800' : 'bg-black'}`} />
 
                                         {/*<div className=" flex items-start gap-x-5" onClick={() => {*/}
                                         {/*    onAlbumAddToCartClicked(album)*/}
@@ -131,7 +131,7 @@ export default function Welcome() {
 
                                     <div className={"absolute  bottom-0  left-0"}>
                                         {
-                                            hovered === album.id &&
+                                            albumHovered === album.id &&
                                             <h3 className={" leading-none p-3 text-white text-sm font-proximaBold"}>
                                                 {
                                                     album.name
@@ -179,10 +179,10 @@ export default function Welcome() {
                             {
                                 homeState.fetch.data && homeState.fetch.data.photos.map((item, index) => {
                                     return (
-                                        <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group relative `}>
+                                        <div onClick={() => onMediaItemClicked(item)} className={` ${index % 3 === 0 ? 'row-span-2 ' : ''}relative border min-h-fit min-w-fit cursor-pointer group  `}>
 
                                             <img className={`${index % 3 === 0 ? 'h-full' : 'h-72'} object-cover w-full rounded`}
-                                                 src={`${MEDIA_URL}${item.path}`} alt="Large image" />
+                                                src={`${MEDIA_URL}${item.path}`} alt="Large image" />
                                             <div className={"absolute "}>
                                                 {/*{index % 3}*/}
                                             </div>

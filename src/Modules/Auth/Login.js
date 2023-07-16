@@ -6,6 +6,7 @@ import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import { login } from "./duck/action";
 import { useEffect, useState } from "react";
 import ErrorAlert from "../../Shared/Component/Alert/Error";
+import { Link } from "react-router-dom";
 
 export default function Login() {
     const loginState = useSelector(state => state.login)
@@ -51,7 +52,7 @@ export default function Login() {
                 }} />
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
                     <div className={"flex items-center justify-center"}>
-                        <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"}/>
+                        <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"} />
                     </div>
                     <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -88,7 +89,7 @@ export default function Login() {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
+                                    {/* <div className="flex items-center">
                                         <input
                                             id="remember-me"
                                             name="remember-me"
@@ -98,11 +99,11 @@ export default function Login() {
                                         <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                                             Remember me
                                         </label>
-                                    </div>
+                                    </div> */}
                                     <div className="text-sm">
-                                        <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                        <Link to={"/forgot-password"} className="font-medium text-indigo-600 hover:text-indigo-500">
                                             Forgot your password?
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div>

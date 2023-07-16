@@ -6,7 +6,7 @@ export default function ErrorAlert(props) {
         if (props.open) {
             setTimeout(() => {
                 props.onClose();
-            }, 1500)
+            }, props.timeout ?? 1500)
         }
     }, [props.open])
     return (

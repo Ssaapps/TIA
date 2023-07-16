@@ -13,7 +13,7 @@ import ErrorAlert from "../../Shared/Component/Alert/Error";
 export default function Register() {
     const loginState = useSelector(state => state.login)
     const [registerSucess, setRegisterSuccess] = useState(null)
-    const [error,setError] = useState(null);
+    const [error, setError] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSubmit = (e) => {
@@ -46,15 +46,16 @@ export default function Register() {
             <SuccessAlert open={!!registerSucess} message={registerSucess} onClose={() => { }} />
 
             <ErrorAlert open={error != null}
-                        message={error}
-                        onClose = { () => {setError(null)} }
+                message={error}
+                timeout={4000}
+                onClose={() => { setError(null) }}
             />
 
             <div className="bg-[#F4F4F4] h-screen">
 
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
                     <div className={"flex items-center justify-center"}>
-                        <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"}/>
+                        <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"} />
                     </div>
                     <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -108,7 +109,7 @@ export default function Register() {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-between">
+                                {/* <div className="flex items-center justify-between">
                                     <div className="flex items-center">
                                         <input
                                             id="remember-me"
@@ -125,7 +126,7 @@ export default function Register() {
                                             Forgot your password?
                                         </a>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div>
                                     <button
                                         type="submit"

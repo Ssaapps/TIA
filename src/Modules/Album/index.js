@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAlbum, getAlbums, shareAlbum } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { MEDIA_URL } from "../../Shared/utils/constants";
-import { ShareIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, ShareIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import CartIcon from "../../Shared/Component/Icons/CartIcon";
 import { addItemToCart } from "../Cart/duck/action";
 
@@ -13,7 +13,8 @@ export default function Album() {
     const params = useParams();
     const navigate = useNavigate();
     const albumState = useSelector((state) => state.albums)
-
+    const [hovered, setHovered] = useState(-1);
+    const [cartButtonHovered, setCartButtonHovered] = useState(false)
     useEffect(() => {
         dispatch(getAlbum(params.id))
     }, [])
@@ -23,6 +24,9 @@ export default function Album() {
     }, [albumState])
     const onMediaClick = (media) => {
         navigate(`/photo/${media.id}`)
+    }
+    const onMediaAddToCartClick = (media) => {
+        dispatch(addItemToCart(media))
     }
 
     function share() {
@@ -46,7 +50,7 @@ export default function Album() {
         <div className="overflow-y-auto relative">
 
 
-            <div className="fixed top-20 z-50 flex flex-col gap-y-4 right-10">
+            {/* <div className="fixed top-20 z-50 flex flex-col gap-y-4 right-10">
                 <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
                     <ShareIcon className="w-5 h-5" onClick={async () => {
 
@@ -57,7 +61,7 @@ export default function Album() {
                         dispatch(addItemToCart(albumState.show.data))
                     }} />
                 </div>
-            </div>
+            </div> */}
 
 
             <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>
@@ -89,10 +93,10 @@ export default function Album() {
                         return (
                             <div
                                 key={index}
-                                onClick={() => {
-                                    onMediaClick(media)
-                                }}
-                                className={`relative bg-gray-200  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
+                                // onClick={() => {
+                                //     onMediaClick(media)
+                                // }}
+                                className={`relative group bg-gray-200 cursor-pointer  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
                                 style={
                                     {
                                         backgroundImage: `url(${MEDIA_URL}${media.path})`,
@@ -105,6 +109,31 @@ export default function Album() {
                             >
 
                                 <div className={"absolute top-0 left-0 right-0 cursor-pointer bottom-0 bg-black opacity-10"} />
+                                <div onClick={() => {
+                                    if (!cartButtonHovered) {
+                                        onMediaClick(media)
+                                    }
+                                }} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
+                                    setHovered(-1)
+                                }} onMouseOver={() => {
+                                    setHovered(media.id)
+                                }}>
+                                    <div className={`absolute   bottom-0 right-0 left-0 opacity-20 ${hovered === media.id ? 'bg-blue-800' : 'bg-black'}`} />
+
+                                    <div className=" flex items-start gap-x-5"
+                                        aria-hidden="true">
+                                        <div className="p-2 rounded-full hover:bg-gray-200 z-10">
+                                            <EyeIcon onClick={() => onMediaClick(media)} className={"h-8 w-8 text-white  "} />
+                                        </div>
+                                        <div className="p-2 rounded-full hover:bg-gray-200 z-10">
+                                            <ShoppingCartIcon onMouseOver={() => {
+                                                setCartButtonHovered(true)
+                                            }} onMouseOut={() => {
+                                                setCartButtonHovered(false)
+                                            }} onClick={() => { onMediaAddToCartClick(media) }} className={"h-8 w-8 text-white "} />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
 

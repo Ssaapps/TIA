@@ -18,6 +18,7 @@ import Album from "./Modules/Album";
 import Register from "./Modules/Auth/Register";
 import { useEffect } from "react";
 import Cart from './Modules/Cart';
+import ForgotPassword from './Modules/Auth/ForgotPassword';
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
 
         <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
         <Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
+        <Route exact path="/forgot-password" element={isAuth ? <Navigate to="/" /> : <ForgotPassword />} />
+
 
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
