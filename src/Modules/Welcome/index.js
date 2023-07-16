@@ -69,7 +69,7 @@ export default function Welcome() {
                             <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative">
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>
-                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto" onLoad={() => {
+                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full rounded mx-auto" onLoad={() => {
                                         if (index == 0) {
                                             setCarouselLoading(false);
                                         }
