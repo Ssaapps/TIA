@@ -42,12 +42,12 @@ export const removeItemFromCart = (item, callback = () => { }) => {
 
 
 
-export const checkout = (cartItems, callback) => {
+export const checkout = (cartItems, callback, onError) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.CHECKOUT_REQUEST });
         try {
             const response = await Axios.post("/orders", {
-                photos: cartItems.map((item) => item.id)
+                media: cartItems.map((item) => item.id)
             })
             console.log(response.data)
             if (response && response.data) {
@@ -59,6 +59,7 @@ export const checkout = (cartItems, callback) => {
         }
         catch (e) {
             dispatch({ type: ActionTypes.CHECKOUT_ERROR, payload: e?.response?.data?.message ?? 'Something went wrong' });
+            onError(e)
         }
 
     }
