@@ -88,7 +88,7 @@ export default function Album() {
             </div>
 
 
-            <div className={"grid grid-cols-3 gap-4 m-10"}>
+            <div className={"grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 m-10"}>
 
                 {
                     !albumState.show.data ? [0, 0, 0].map(item => <Shimmer className={"w-full h-[500px]"} />) : albumState.show.data.media.map((media, index) => {
@@ -102,8 +102,9 @@ export default function Album() {
                                 style={
                                     {
                                         backgroundImage: `url(${MEDIA_URL}${media.path})`,
-                                        backgroundSize: 'scale-down',
-                                        backgroundPosition: "center",
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: "top",
+                                        backgroundRepeat: "no-repeat",
                                         height: (index + 1) % 6 === 4 ? '1000px' : '500px',
                                         marginTop: (index + 1) % 6 === 4 ? '-500px' : ''
                                     }

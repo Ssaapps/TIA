@@ -82,38 +82,31 @@ export default function Photo() {
                 </h2>
             </div>
 
-            <div className={"flex lg:flex-row flex-col px-10"}>
-
-                <div className={`w-3/4 h-full  ${!mediaState.show.data ? "border bg-white " : ""} `}>
+            <div className={"flex lg:flex-row flex-col md:px-10 sm:px-4 px-2 "}>
 
 
-                    <div className={"flex items-center justify-center"} style={{
-                        height: '80vh',
-                        //  backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) 
-                    }}>
-                        {!mediaState.show.data ? <Shimmer className={"w-full h-full"} /> :
 
-                            <img
-                                className={"object-contain w-full h-full text-center p-2"}
-                                src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
-                        }
-                    </div>
+                <div className={"flex items-center justify-center md:h-[80vh] w-full"} style={{
+                    //  backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) 
+                }}>
+                    {!mediaState.show.data ? <Shimmer className={"w-full h-full"} /> :
 
-                    <div className={""}>
-
-                    </div>
+                        <img
+                            className={"object-contain  md:h-[80vh] w-full h-auto text-center p-2"}
+                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
+                    }
                 </div>
 
-                <div className={"lg:w-1/4 w-full px-10 mb-10 lg:mb-0"}>
+                <div className={"lg:w-1/4 w-full md:px-10  mb-10 lg:mb-0"}>
 
                     {
                         1 === 1 &&
                         <div>
-                            <div className={"font-proximaBold text-4xl"}>
+                            <div className={"font-proximaBold md:text-4xl text-3xl md:mt-0 mt-2"}>
                                 {!mediaState.show.data ? <Shimmer className={"w-60 h-[40px] mt-8 mb-5"} /> : '\u20AC' + mediaState.show.data.item_price.price}
                             </div>
 
-                            {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
+                            {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 md:py-4 py-2 border border-indigo-800 rounded text-white"}>
                                 Add To Cart
                             </button>}
 
