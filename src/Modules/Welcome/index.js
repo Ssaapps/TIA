@@ -39,9 +39,9 @@ export default function Welcome() {
         if (!homeState.fetch.data && counter.current == 0) {
             dispatch(getHome());
             counter.current = counter.current + 1;
-
         }
     }, [])
+
 
 
     return (

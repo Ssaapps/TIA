@@ -180,3 +180,40 @@ export function convertToKBorMB(bytes) {
         return kilobytes.toFixed(2) + " kB";
     }
 }
+
+
+
+export function flattenObject(obj, parentKey = "") {
+    let result = {};
+
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const currentKey = parentKey ? `${parentKey}.${key}` : key;
+            const value = obj[key];
+
+            if (typeof value === "object" && value !== null) {
+                const nestedObject = flattenObject(value, currentKey);
+                result = { ...result, ...nestedObject };
+            } else {
+                result[currentKey] = value;
+            }
+        }
+    }
+
+    return result;
+}
+
+const input = {
+    meta: "{\"FileName\":\"1689199197.jpg\",\"FileDateTime\":1689199197,\"FileSize\":1403120,\"FileType\":2,\"MimeType\":\"image\\\/jpeg\",\"SectionsFound\":\"ANY_TAG, IFD0, THUMBNAIL, EXIF\",\"COMPUTED\":{\"html\":\"width=\\\"2568\\\" height=\\\"1712\\\"\",\"Height\":1712,\"Width\":2568,\"IsColor\":1,\"ByteOrderMotorola\":0,\"Copyright\":\"Augustas Didzgalvis\",\"Thumbnail.FileType\":2,\"Thumbnail.MimeType\":\"image\\\/jpeg\"},\"XResolution\":\"72\\\/1\",\"YResolution\":\"72\\\/1\",\"ResolutionUnit\":2,\"Copyright\":\"Augustas Didzgalvis\",\"Exif_IFD_Pointer\":110,\"THUMBNAIL\":{\"Compression\":6,\"XResolution\":\"72\\\/1\",\"YResolution\":\"72\\\/1\",\"ResolutionUnit\":2,\"JPEGInterchangeFormat\":234,\"JPEGInterchangeFormatLength\":8088},\"ExifVersion\":\"0231\",\"ColorSpace\":1}"
+};
+
+const metaArray = JSON.parse(`[${input.meta}]`);
+let mergedObject = {};
+
+for (let i = 0; i < metaArray.length; i++) {
+    mergedObject = { ...mergedObject, ...metaArray[i] };
+}
+
+const flattenedObject = flattenObject(mergedObject);
+
+console.log(flattenedObject);

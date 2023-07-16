@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import Axios from "../../../Shared/utils/axios_instance";
 
 
-export const login = (email, password) => {
+export const login = (email, password, callback) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.REQUEST_LOGIN });
         try {
@@ -15,6 +15,7 @@ export const login = (email, password) => {
             if (response && response.data) {
                 localStorage.setItem("token", JSON.stringify(response.data.token))
                 localStorage.setItem("user", JSON.stringify(response.data.user))
+                callback()
                 dispatch({
                     type: ActionTypes.LOGIN_SUCCESS, payload: {
                         token: response.data.token,
@@ -36,7 +37,7 @@ export const login = (email, password) => {
     }
 }
 
-export const register = (name, email, password) => {
+export const register = (name, email, password, callback) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.REQUEST_REGISTER });
 
@@ -48,6 +49,7 @@ export const register = (name, email, password) => {
             })
 
             console.log(response.data)
+            callback()
             dispatch({ type: ActionTypes.REGISTER_SUCCESS, payload: response.data });
         } catch (e) {
             console.log(e)

@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
-import { getLighterColor } from "../../Shared/utils/common";
+import { flattenObject, getLighterColor } from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { addItemToCart } from "../Cart/duck/action";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
+import MetaDisplayDialog from "./MetaDisplayDialog";
 
 export default function Photo() {
 
@@ -24,6 +25,7 @@ export default function Photo() {
     const photoDetailState = useSelector((state) => state.photo_detail)
     const [metaDetails, setMetaDetails] = useState(null)
     const [itemAddedMessage, setItemAddedMessage] = useState(null)
+    const [metaDialogOpen, setMetaDialogOpen] = useState(false)
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -37,6 +39,7 @@ export default function Photo() {
         if (mediaState.show.data?.meta) {
             console.log(JSON.parse(mediaState.show.data.meta))
             setMetaDetails(JSON.parse(mediaState.show.data.meta))
+
         }
 
     }, [mediaState])
@@ -70,6 +73,7 @@ export default function Photo() {
 
     return (
         <div>
+            {mediaState.show.data && <MetaDisplayDialog open={metaDialogOpen} setOpen={setMetaDialogOpen} metaObj={flattenObject(JSON.parse(mediaState.show.data.meta))} />}
             <SuccessAlert open={!!itemAddedMessage} message={itemAddedMessage} onClose={() => {
                 setItemAddedMessage(null)
             }} />
@@ -189,7 +193,9 @@ export default function Photo() {
                                         {/* TODO: */}
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.DateTimeOriginal}</div>
                                     </div>}
-                                    <a href="" className="text-blue-500 underline">For Nerds ...</a>
+                                    <a href="#" onClick={() => {
+                                        setMetaDialogOpen(true)
+                                    }} className="text-blue-500 underline">For Nerds ...</a>
                                 </>
 
                             )
