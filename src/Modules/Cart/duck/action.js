@@ -3,13 +3,20 @@ import Cookies from "js-cookie";
 import Axios from "../../../Shared/utils/axios_instance";
 
 
-export const addItemToCart = (item) => {
+export const addItemToCart = (item, callback = () => { }) => {
     return async function (dispatch) {
         let tempCart = []
         const rawCart = localStorage.getItem("cart")
+        let itemAlreadyInCart = false
         if (rawCart) {
             const items = JSON.parse(rawCart)
-            tempCart = items.find((cartItem) => cartItem.id === item.id) ? [...items] : [...items, item]
+            if (items.find((cartItem) => cartItem.id === item.id)) {
+                tempCart = [...items]
+                itemAlreadyInCart = true
+            }
+            else {
+                tempCart = [...items, item]
+            }
             localStorage.setItem("cart", JSON.stringify(tempCart))
         }
         else {
@@ -17,9 +24,10 @@ export const addItemToCart = (item) => {
             localStorage.setItem("cart", JSON.stringify(tempCart))
         }
         dispatch({ type: ActionTypes.CART_ADD, payload: item });
+        callback(itemAlreadyInCart)
     }
 }
-export const removeItemFromCart = (item) => {
+export const removeItemFromCart = (item, callback = () => { }) => {
     return async function (dispatch) {
         let tempCart = []
         const rawCart = localStorage.getItem("cart")
@@ -28,6 +36,7 @@ export const removeItemFromCart = (item) => {
             tempCart = tempCart.filter((cartItem) => cartItem.id !== item.id)
         }
         dispatch({ type: ActionTypes.CART_REMOVE, payload: item });
+        callback()
     }
 }
 
@@ -38,7 +47,7 @@ export const checkout = (cartItems, callback) => {
         dispatch({ type: ActionTypes.CHECKOUT_REQUEST });
         try {
             const response = await Axios.post("/orders", {
-                albums: cartItems.map((item) => item.id)
+                photos: cartItems.map((item) => item.id)
             })
             console.log(response.data)
             if (response && response.data) {

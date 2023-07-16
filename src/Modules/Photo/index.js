@@ -10,6 +10,8 @@ import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
 import { getLighterColor } from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
 import { MEDIA_URL } from "../../Shared/utils/constants";
+import { addItemToCart } from "../Cart/duck/action";
+import SuccessAlert from "../../Shared/Component/Alert/Success";
 
 export default function Photo() {
 
@@ -20,7 +22,7 @@ export default function Photo() {
     const mediaState = useSelector((state) => state.media)
     const photoDetailState = useSelector((state) => state.photo_detail)
     const [metaDetails, setMetaDetails] = useState(null)
-
+    const [itemAddedMessage, setItemAddedMessage] = useState(null)
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -49,11 +51,26 @@ export default function Photo() {
     };
 
 
+    const onAddToCartClicked = () => {
+        dispatch(addItemToCart(mediaState.show.data, (itemAlreadyInCart) => {
+            let message = itemAlreadyInCart ? "Item already in cart" : "Item Added to cart"
+            setItemAddedMessage(message)
 
+        }))
+    }
+    // useEffect(() => {
+    //     if (itemAdded) {
+    //         setTimeout(() => {
+    //             setItemAdded(false)
+    //         }, [3000])
+    //     }
+    // }, [itemAdded])
 
     return (
         <div>
-
+            <SuccessAlert open={!!itemAddedMessage} message={itemAddedMessage} onClose={() => {
+                setItemAddedMessage(null)
+            }} />
             <div className={"px-10 mt-10 mb-5 flex items-center"}>
                 <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
                     new
@@ -87,14 +104,14 @@ export default function Photo() {
                 <div className={"lg:w-1/4 w-full px-10 mb-10 lg:mb-0"}>
 
                     {
-                        1 === 2 &&
+                        1 === 1 &&
                         <div>
                             <div className={"font-proximaBold text-4xl"}>
-                                $10.00
+                                {mediaState.show.data && '\u20AC' + mediaState.show.data.item_price.price}
                             </div>
 
-                            <button onClick={onPaymentClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
-                                Continue to Purchase
+                            <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 py-4 border border-indigo-800 rounded text-white"}>
+                                Add To Cart
                             </button>
 
                             <div className={"h-0.5 my-1 bg-gray-200"} />
@@ -125,7 +142,7 @@ export default function Photo() {
                     <div className={"my-4"}>
                         <h2 className={"mb-2"}>Tags</h2>
                         {
-                            mediaState.show?.data?.tags?.map(item => {
+                            mediaState.show?.data?.tags?.split(",").map(item => {
                                 return (
                                     <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
                                         {item}

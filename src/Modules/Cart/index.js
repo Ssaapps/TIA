@@ -15,6 +15,7 @@ export default function Cart() {
     const cartState = useSelector((state) => state.cart)
     const paymentGateWayFormRef = useRef()
     const isAuth = !!useSelector((state) => state.login.login.token);
+
     const navigate = useNavigate();
 
     const handleCheckout = (e) => {
@@ -35,12 +36,14 @@ export default function Cart() {
     }
 
     const computeCartTotal = () => {
-        // return cartState.items.reduce
+        const totalPrice = cartState.items.reduce((acc, obj) => acc + (obj.item_price.price || 0), 0);
+        return totalPrice;
     }
 
     return (
         <CustomLoadingOverlay show={cartState.checkout.loading} color={"#fff"} text={"Processing...."}>
             <ErrorAlert show={cartState.checkout.error} message={cartState.checkout.error} />
+
             <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Cart</h1>
@@ -139,7 +142,7 @@ export default function Cart() {
                                 </div> */}
                                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                                     <dt className="text-base font-medium text-gray-900">Order total</dt>
-                                    <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                                    <dd className="text-base font-medium text-gray-900">{'\u20AC' + computeCartTotal()}</dd>
                                 </div>
                             </dl>
 
