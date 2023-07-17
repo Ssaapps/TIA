@@ -24,17 +24,17 @@ export default function Register() {
         const email = e.target.email.value;
         const password = e.target.password.value;
         dispatch(register(name, email, password, () => {
-            window.location.replace("/login")
+            // window.location.replace("/login")
+            setTimeout(() => {
+                window.history.back();
+            }, [2000])
         }))
     }
-
 
     useEffect(() => {
         if (loginState.register.loginSuccess) {
             setRegisterSuccess("Account created successfully")
-            setTimeout(() => {
-                window.history.back();
-            }, [1000])
+
         }
 
         if (loginState.register.errorMessage) {
