@@ -70,7 +70,7 @@ export default function Welcome() {
                 >
                     {!homeState.fetch.data ? <div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
-                            <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
+                            <Suspense key={index} fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative">
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>
                                     <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto rounded-md" onLoad={() => {
@@ -111,7 +111,7 @@ export default function Welcome() {
                 <div className={"grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2"}>
 
                     {
-                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
+                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div key={item} className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
                             return (
                                 <div className={"cursor-pointer group relative"} key={album.uuid}>
                                     <img

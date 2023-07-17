@@ -9,20 +9,27 @@ import { useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { logout } from "../../../Modules/Auth/duck/action";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import AdminIcon from "../Icons/AdminIcon";
+import {HomeIcon} from "@heroicons/react/20/solid";
+import {ADMIN_ROLE_ID} from "../../utils/constants";
 
 export default function Toolbar() {
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user") ?? "{}");
     const isAuth = !!useSelector((state) => state.login.login.token);
     const [searchParams, setSearchParams] = useSearchParams();
     const [showCart, setShowCart] = useState(true);
     const location = useLocation();
     const dispatch = useDispatch();
+
     const handleLogout = () => {
         dispatch(logout())
     }
     const cart = useSelector((state) => state.cart.items);
 
-
+    const isAdmin = (roles) => {
+        return roles.filter(item => item["id"] === ADMIN_ROLE_ID).length > 0;
+    }
 
     useEffect(() => {
         console.log(cart)
@@ -56,7 +63,12 @@ export default function Toolbar() {
                     </React.Fragment> : (
                         <React.Fragment>
 
-                            {/*<PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />*/}
+
+                            {
+                                isAdmin(user?.roles) &&
+                                <PostIcon onClick={() => navigate('/admin')} className={"cursor-pointer stroke-blue-800"} />
+                            }
+
                             {/*<img*/}
                             {/*    className={"h-8  rounded-full w-8"}*/}
                             {/*    src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}*/}
