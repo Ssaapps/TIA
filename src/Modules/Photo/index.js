@@ -127,7 +127,7 @@ export default function Photo() {
                         </div>
 
                         <h2 className={"mx-2 font-proximaBold"}>
-                            UIMP Worldwide
+                            UIPM Worldwide
                         </h2>
 
                     </div>}
