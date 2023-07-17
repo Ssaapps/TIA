@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
@@ -16,13 +16,16 @@ export default function Register() {
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation()
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch login action
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        dispatch(register(name, email, password))
+        dispatch(register(name, email, password, () => {
+            window.location.replace("/login")
+        }))
     }
 
 
@@ -30,7 +33,7 @@ export default function Register() {
         if (loginState.register.loginSuccess) {
             setRegisterSuccess("Account created successfully")
             setTimeout(() => {
-                window.location.replace("/")
+                window.history.back();
             }, [1000])
         }
 

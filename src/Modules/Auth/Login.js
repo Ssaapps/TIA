@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {useLocation, useNavigate} from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PropagateLoader } from "react-spinners";
 import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
 import ErrorNotification from "../../Shared/Component/ErrorNotification";
@@ -20,7 +20,17 @@ export default function Login() {
         //Dispatch login action
         const email = e.target.email.value;
         const password = e.target.password.value;
-        dispatch(login(email, password))
+        dispatch(login(email, password, () => {
+            const previousPage = location.state?.from;
+            if (previousPage) {
+                if (previousPage.pathname === "/cart") {
+                    window.location.replace("/cart")
+                }
+            }
+            else {
+                window.location.replace("/")
+            }
+        }))
     }
 
 
@@ -28,14 +38,14 @@ export default function Login() {
     useEffect(() => {
         console.log("loginState", loginState)
         if (loginState.login.loginSuccess) {
-            navigate(-1);
+
         }
     }, [loginState])
 
 
     useEffect(() => {
         const previousPage = location.state?.from;
-        console.log("previousPage",previousPage);
+        console.log("previousPage", previousPage);
         const error = loginState.login.errorMessage || loginState.register.errorMessage
         setAuthError(error)
     }, [loginState])
@@ -123,7 +133,11 @@ export default function Login() {
 
                         </div>
                         <div className={"mt-2"}>
-                            <span className={"text-sm"}>Don't have an account ? <a className={"font-proximaBold underline text-blue-800"} href={"/register"}>Create account</a></span>
+                            <span className={"text-sm"}>Don't have an account ? <a className={"font-proximaBold underline text-blue-800"} onClick={() => {
+                                navigate('/register', {
+                                    state: { from: location }
+                                });
+                            }}>Create account</a></span>
                         </div>
                     </div>
 
