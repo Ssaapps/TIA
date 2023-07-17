@@ -36,12 +36,8 @@ export default function Welcome() {
     }
 
     useEffect(() => {
-        if (!homeState.fetch.data && counter.current == 0) {
-            dispatch(getHome());
-            counter.current = counter.current + 1;
-        }
+        dispatch(getHome());
     }, [])
-
 
 
     return (
@@ -70,10 +66,10 @@ export default function Welcome() {
                 >
                     {!homeState.fetch.data ? <div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
-                            <Suspense key={index} fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
+                            <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative">
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>
-                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto rounded-md" onLoad={() => {
+                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto" onLoad={() => {
                                         if (index == 0) {
                                             setCarouselLoading(false);
                                         }
@@ -81,7 +77,7 @@ export default function Welcome() {
                                             return
                                         }
                                     }} />
-                                    <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0 rounded-md" ></div>
+                                    <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0" ></div>
                                     <div className={"absolute bottom-5 md:bottom-10 lg:bottom-40 xl:bottom-80  md:right-20 left-5 lg:left-auto z-30"}>
                                         <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Editor Pick</h2>
                                         <h1 className={"md:text-3xl text-xl font-proxima text-white"}>
@@ -111,7 +107,7 @@ export default function Welcome() {
                 <div className={"grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2"}>
 
                     {
-                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div key={item} className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
+                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
                             return (
                                 <div className={"cursor-pointer group relative"} key={album.uuid}>
                                     <img
