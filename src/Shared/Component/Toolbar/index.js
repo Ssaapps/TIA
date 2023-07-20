@@ -8,7 +8,7 @@ import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { logout } from "../../../Modules/Auth/duck/action";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Toolbar() {
     const navigate = useNavigate();
@@ -64,6 +64,13 @@ export default function Toolbar() {
                             <button onClick={handleLogout} className="text-red-500 flex gap-x-2 px-3 py-1 border items-center text-xs  sm:text-sm rounded-3xl hover:bg-red-300 border-red-500">
                                 {/* <ArrowLeftOnRectangleIcon className="h-4 w-4" /> */}
                                 Logout
+                            </button>
+
+                            <button className="" onClick={() => navigate("/profile")}>
+                                <UserCircleIcon
+                                    className="h-8 w-8 hover:text-gray-400 flex-shrink-0 text-gray-600  group-hover:text-gray-500"
+                                    aria-hidden="true"
+                                />
                             </button>
 
                         </React.Fragment>
