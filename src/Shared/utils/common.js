@@ -170,12 +170,17 @@ export const capitalize = (string) => {
 
 
 
-export function convertToKBorMB(bytes) {
+export function convertToKBorMBorGB(bytes) {
     const kilobytes = bytes / 1024;
 
     if (kilobytes >= 1000) {
         const megabytes = kilobytes / 1024;
-        return megabytes.toFixed(2) + " MB";
+        if (megabytes >= 1000) {
+            const gigabytes = megabytes / 1024;
+            return gigabytes.toFixed(2) + " GB";
+        } else {
+            return megabytes.toFixed(2) + " MB";
+        }
     } else {
         return kilobytes.toFixed(2) + " kB";
     }

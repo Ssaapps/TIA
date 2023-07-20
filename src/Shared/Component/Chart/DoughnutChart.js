@@ -13,7 +13,9 @@ function DoughnutChart({ datasets, tooltip, ...props }) {
             {Math.round((datasets[0].data[2] / datasets[0].data[1]) * 100)}%
           </span>
         ) : (
-          <span className="doughnutchart-inner-content">{datasets[0].centerText}</span>
+          <span className="doughnutchart-inner-content" style={{
+            fontSize: '1.5rem',
+          }}>{datasets[0].centerText}</span>
         )}
         <span className="doughnutchart-inner-label">{datasets[0].centerTextLabel}</span>
       </div>

@@ -4,12 +4,22 @@ import { Link } from 'react-router-dom';
 
 import chartContent from '../../../Shared/demo/dashboardChartContent.json';
 import DoughnutChart from '../../../Shared/Component/Chart/DoughnutChart';
+import { convertToKBorMBorGB, } from '../../../Shared/utils/common';
+import Shimmer from '../../../Shared/Component/Suspense/Shimmer';
 
 
 const StorageCapacityDougnutChart = React.memo(() => {
-    const data = [57, 43]
+    const [data, setData] = useState(null);
 
-    const labels = ['Used', 'Free',];
+    const dashboardState = useSelector((state) => state.dashboard);
+    useEffect(() => {
+        if (dashboardState.fetch.data) {
+            setData([dashboardState.fetch.data.charts.storage_usage.raw.free, dashboardState.fetch.data.charts.storage_usage.raw.total - dashboardState.fetch.data.charts.storage_usage.raw.free])
+
+        }
+    }, [dashboardState])
+    const totalAlbums = data !== null && dashboardState?.fetch.data.charts.storage_usage.raw.total + dashboardState.fetch.data.charts.storage_usage.raw.free
+    const labels = ['Free', 'Used',];
     const options = {
         cutout: 62,
         borderWidth: 2,
@@ -34,15 +44,15 @@ const StorageCapacityDougnutChart = React.memo(() => {
         {
             data: data,
             backgroundColor: ['#FA8B0C', '#FB3586', '#5840FF'],
-            centerText: '100GB',
+            centerText: data != null && convertToKBorMBorGB(dashboardState.fetch.data?.charts.storage_usage.raw.total),
             centerTextLabel: 'Total',
+            fontSize: 16,
         },
     ];
 
 
     /* Tab Activation */
 
-    const totalSale = data !== null && data.reduce((a, b) => a + b, 0);
 
     return (
         <div>
@@ -54,60 +64,67 @@ const StorageCapacityDougnutChart = React.memo(() => {
                         </h1>
 
                     </div>
-                    <div className="p-[25px] border-t border-regular dark:border-white10 [&>.doughnutchart-inner]:relative [&>.doughnutchart-inner>.doughnutchart-inner-text]:absolute [&>.doughnutchart-inner>.doughnutchart-inner-text]:left-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:top-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-x-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-y-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:w-[200px] [&>.doughnutchart-inner>.doughnutchart-inner-text]:text-center [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:block [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:text-3xl [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:font-semibold [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:leading-none [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-body dark:[&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-white60">
-                        {/* Doughnut Chart */}
+                    {dashboardState.fetch.data ?
+                        (<div className="p-[25px] border-t border-regular dark:border-white10 [&>.doughnutchart-inner]:relative [&>.doughnutchart-inner>.doughnutchart-inner-text]:absolute [&>.doughnutchart-inner>.doughnutchart-inner-text]:left-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:top-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-x-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-y-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:w-[200px] [&>.doughnutchart-inner>.doughnutchart-inner-text]:text-center [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:block [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:text-3xl [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:font-semibold [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:leading-none [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-body dark:[&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-white60">
+                            {/* Doughnut Chart */}
 
-                        <DoughnutChart
-                            type="doughnut"
-                            id="salesOverview"
-                            className="mx-auto"
-                            labels={labels}
-                            datasets={datasets}
-                            height={200}
-                            width={window.innerWidth <= 575 ? 200 : 250}
-                            option={options}
-                            tooltip={{
-                                backgroundColor: '#FFF',
-                                titleFontSize: 16,
-                                titleFontColor: '#0066ff',
-                                bodyFontColor: '#000',
-                                bodyFontSize: 14,
-                                displayColors: false,
+                            <DoughnutChart
+                                type="doughnut"
+                                id="salesOverview"
+                                className="mx-auto"
+                                labels={labels}
+                                datasets={datasets}
+                                height={200}
+                                width={window.innerWidth <= 575 ? 200 : 250}
+                                option={options}
+                                tooltip={{
+                                    backgroundColor: '#FFF',
+                                    titleFontSize: 16,
+                                    titleFontColor: '#0066ff',
+                                    bodyFontColor: '#000',
+                                    bodyFontSize: 14,
+                                    displayColors: false,
 
-                                callbacks: {},
-                            }}
-                        />
+                                    callbacks: {},
+                                }}
+                            />
 
-                        {/* Pverview Percentage */}
-                        <div className="flex items-center justify-center mt-3">
-                            {data.map((value, index) => {
-                                const itemPercent = Math.round((value / totalSale) * 100);
-                                return (
-                                    <div className="flex items-center gap-[5px] m-[15px]" key={index}>
-                                        <span
-                                            className="block w-[10px] h-[10px] rounded-full"
-                                            style={{
-                                                backgroundColor: datasets[0].backgroundColor[index],
-                                            }}
-                                        />
-                                        <span className="text-dark dark:text-white87 text-[15px] font-medium">{itemPercent}%</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                            {/* Pverview Percentage */}
+                            <div className="flex items-center justify-center mt-3">
+                                {data?.map((value, index) => {
+                                    const itemPercent = Math.round((value / totalAlbums) * 100);
+                                    return (
+                                        <div className="flex items-center gap-[5px] m-[15px]" key={index}>
+                                            <span
+                                                className="block w-[10px] h-[10px] rounded-full"
+                                                style={{
+                                                    backgroundColor: datasets[0].backgroundColor[index],
+                                                }}
+                                            />
+                                            <span className="text-dark dark:text-white87 text-[15px] font-medium">{itemPercent}%</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
 
-                        {/* Overview Box */}
-                        <div className="flex items-center justify-around bg-regularBG dark:bg-white10 mt-[10px] py-4 p-8 rounded-[8px]">
-                            {data.map((value, index) => {
-                                return (
-                                    <div className="text-center" key={index}>
-                                        <h4 className="text-dark dark:text-white87 text-lg font-semibold leading-none mb-1.5">{value}GB</h4>
-                                        <p className="text-body dark:text-white60 text-[15px] mb-0">{labels[index]}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+                            {/* Overview Box */}
+                            <div className="flex items-center justify-around bg-regularBG dark:bg-white10 mt-[10px] py-4 p-8 rounded-[8px]">
+                                {data?.map((value, index) => {
+                                    return (
+                                        <div className="text-center" key={index}>
+                                            <h4 className="text-dark dark:text-white87 text-lg font-semibold leading-none mb-1.5">{convertToKBorMBorGB(value)}</h4>
+                                            <p className="text-body dark:text-white60 text-[15px] mb-0">{labels[index]}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>) : (
+                            <div className="flex flex-col items-center gap-y-6 mb-4">
+                                <Shimmer className={"rounded-full h-[200px] w-[200px]"} />
+                                <Shimmer className={"h-5 w-5/12"} />
+                                <Shimmer className={"h-5 w-1/2"} />
+                            </div>
+                        )}
                 </div>
             </div>
 
