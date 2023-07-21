@@ -88,11 +88,11 @@ export const checkOrderStatus = (orderId,) => {
 
 
 
-export const getOrders = () => {
+export const getOrders = (currentPage) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.ORDERS_REQUEST });
         makeHttpRequest({
-            path: `orders`,
+            path: `orders?page=${currentPage}&per_page=10`,
             method: "GET",
         }, {
             SUCCESS: ActionTypes.ORDERS_SUCCESS,
