@@ -30,7 +30,7 @@ const PaymentSuccessScreen = ({ data }) => {
                         width={100}
                         height={100}
                         viewBox="0 0 63 68"
-                        classN ame="mx-auto"
+                        className="mx-auto"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
@@ -58,7 +58,8 @@ const PaymentSuccessScreen = ({ data }) => {
 
                 <p className=" text-gray-500 text-lg ">Amazing!</p>
                 <h4 className="font-medium text-3xl tracking-wide">Congratulations. You've got covered</h4>
-                <p className=" text-gray-500 mb-8">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
+                <p className=" text-gray-500 ">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
+                <p className=" text-gray-500 -mt-2 mb-8">NUMBER OF ITEMS: <span className='font-bold text-black'>{data.order.amount}</span> </p>
                 <div className='border-dashed border w-full h-[2px]'></div>
                 <p className="mt-4">Interested in exploring more</p>
 
