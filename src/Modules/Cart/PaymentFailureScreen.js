@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import ExploreMoreCard from './ExploreMoreCard';
 import AnimatedErrorAlertIcon from '../../Shared/Component/Icons/AnimatedErrorAlertIcon';
 
-const PaymentFailureScreen = () => {
+const PaymentFailureScreen = ({ text }) => {
 
     return (
         <div className=" items-center justify-center h-screen bg-gray-100 pt-[5%]">
@@ -13,7 +13,7 @@ const PaymentFailureScreen = () => {
                 </div>
 
 
-                <h4 className="font-medium text-3xl tracking-wide">Payment was not successful!</h4>
+                <h4 className="font-medium text-3xl tracking-wide">{text}</h4>
 
             </div>
 

@@ -76,7 +76,7 @@ export default function Profile() {
 
                 <main className="mx-auto pb-10 lg:py-1 lg:px-8">
                     <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
-                        <aside className="py-6 px-2 sm:px-6 lg:col-span-3  h-max lg:py-0 lg:px-0  bg-white border rounded">
+                        <aside className="py-6 px-2 sm:px-6 lg:col-span-3  h-max lg:py-0 lg:px-0  bg-white border shadow rounded">
                             <nav className="sticky top-0">
                                 {subNavigation.map((item, index) => {
                                     const isCurrent = currentTab === index
