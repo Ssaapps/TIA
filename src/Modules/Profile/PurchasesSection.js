@@ -29,7 +29,7 @@ function PurchasesSection() {
 
     return (
         <section aria-labelledby="billing-history-heading">
-            <div className="bg-white pt-6 shadow sm:overflow-hidden sm:rounded-md">
+            <div className="bg-white pt-6  sm:overflow-hidden sm:rounded-md">
                 <div className="px-4 sm:px-6">
                     <h2 id="billing-history-heading" className="text-lg font-medium leading-6 text-gray-900">
                         Billing history
@@ -42,9 +42,10 @@ function PurchasesSection() {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                                                Date
+                                            <th scope="col" className="px-6 py-3 text-center text-sm font-semibold text-gray-900">
+                                                #
                                             </th>
+
                                             <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                                 Reference
                                             </th>
@@ -52,16 +53,22 @@ function PurchasesSection() {
                                                 Amount
                                             </th>
                                             <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                                Order Items
+                                            </th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                                 Status
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                                                Date
                                             </th>
                                             {/*
           `relative` is added here due to a weird bug in Safari that causes `sr-only` headings to introduce overflow on the body on mobile.
         */}
                                             <th
                                                 scope="col"
-                                                className="relative px-6 py-3 text-left text-sm font-medium text-gray-500"
+                                                className="relative px-6 py-3 text-center text-sm font-medium text-gray-500"
                                             >
-                                                <span className="sr-only">View receipt</span>
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -71,10 +78,16 @@ function PurchasesSection() {
 
                                                 <tr key={index}>
                                                     <td className='px-6 py-4'>
+                                                        <Shimmer className={"h-4 w-8"} />
+                                                    </td>
+                                                    <td className='px-6 py-4'>
                                                         <Shimmer className={"h-4 w-[80%]"} />
                                                     </td>
                                                     <td className='px-6 py-4'>
                                                         <Shimmer className={"h-4 w-[80%]"} />
+                                                    </td>
+                                                    <td className='px-6 py-4 flex items-center justify-center'>
+                                                        <Shimmer className={"h-4 w-8"} />
                                                     </td>
                                                     <td className='px-6 py-4'>
                                                         <Shimmer className={"h-4 w-20 mx-auto"} />
@@ -85,27 +98,33 @@ function PurchasesSection() {
                                                     <td></td>
                                                 </tr>
                                             </>
-                                        )) : cartState.orders.data ? cartState.orders.data.data.map((purchase) => (
+                                        )) : cartState.orders.data ? cartState.orders.data.data.map((purchase, index) => (
                                             <>
                                                 <tr key={purchase.id}>
-                                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                                        <time dateTime={purchase.create_at}>{dayjs(purchase.create_at).format("DD/MM/YYYY")}</time>
+                                                    <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                                                        {((currentPage - 1) * 10) + index + 1}
                                                     </td>
+
                                                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                                                         {/* {purchase.resource_name + " - " + purchase.payment_medium} */}
                                                         {purchase.payment_reference ? "#" + purchase.payment_reference : "N/A"}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 text-center py-4 text-lg font-semibold text-gray-500">
+                                                    <td className="whitespace-nowrap px-6 text-center py-4 text-base tracking-wide font-medium text-gray-700">
                                                         {"\u20AC" + purchase.amount}
+                                                    </td>
+                                                    <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                                                        {purchase.amount}
                                                     </td>
                                                     <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
                                                         <PurchaseStatusBadge status={purchase.status} />
                                                     </td>
+                                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-600">
+                                                        <time dateTime={purchase.created_at}>{purchase.created_at}</time>
+                                                    </td>
 
-                                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                                                    <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium">
                                                         {purchase.paid_at && <a href={"#"} onClick={() => {
                                                             downloadReceipt(purchase.payment_reference)
-                                                            // downloadReceipt("ddf28a11-eddc-429b-a1d8-ea105d5df625")
                                                         }} className="text-orange-600 hover:text-orange-900">
                                                             Download
                                                         </a>}
@@ -117,7 +136,7 @@ function PurchasesSection() {
                                     </tbody>
                                     {cartState.orders.data && <tfoot className='w-full'>
                                         <tr >
-                                            <td colSpan={5}>
+                                            <td colSpan={7}>
                                                 <Pagination totalResults={cartState.orders.data.total} resultsPerPage={10} currentPage={currentPage} onPageChange={(currentPage) => {
                                                     setCurrentPage(currentPage)
                                                 }} />
