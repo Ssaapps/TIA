@@ -123,11 +123,11 @@ function PurchasesSection() {
                                                     </td>
 
                                                     <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium">
-                                                        {purchase.paid_at && <a href={"#"} onClick={() => {
+                                                        <button disabled={purchase.paid_at == null} onClick={() => {
                                                             downloadReceipt(purchase.payment_reference)
-                                                        }} className="text-orange-600 hover:text-orange-900">
+                                                        }} className="text-orange-600 disabled:hover:text-orange-600 cursor-pointer disabled:cursor-not-allowed  hover:text-orange-900 disabled:opacity-30">
                                                             Download
-                                                        </a>}
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </>
