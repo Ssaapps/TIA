@@ -6,10 +6,11 @@ import { useEffect, useRef, useState } from 'react';
 import CustomLoadingOverlay from '../../Shared/Component/CustomLoadingOverlay';
 import ErrorAlert from '../../Shared/Component/Alert/Error';
 import { useNavigate, Link } from "react-router-dom";
-import { convertToKBorMB } from '../../Shared/utils/common';
+import { convertToKBorMBorGB } from '../../Shared/utils/common';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import {useLocation} from "react-router";
+import { useLocation } from "react-router";
 
+import DatePicker from "react-datepicker";
 
 
 
@@ -26,8 +27,8 @@ export default function Cart() {
     const handleCheckout = (e) => {
         e.preventDefault();
         if (!isAuth) {
-            navigate('/login',{
-                state: {from: location}
+            navigate('/login', {
+                state: { from: location }
             });
         }
         dispatch(checkout(cartState.items, async (data) => {
@@ -56,7 +57,7 @@ export default function Cart() {
     }
     const computeTotalMb = () => {
         const totalSize = cartState.items.reduce((acc, obj) => acc + (obj.size || 0), 0);
-        return convertToKBorMB(totalSize);
+        return convertToKBorMBorGB(totalSize);
     }
 
     return (
@@ -112,7 +113,7 @@ export default function Cart() {
                                                         </Link>
                                                         <p className="mt-1 flex space-x-2 text-sm text-gray-700">
                                                             <PhotoIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
-                                                            <span className='text-sm text-gray-700'>{convertToKBorMB(media.size)}</span>
+                                                            <span className='text-sm text-gray-700'>{convertToKBorMBorGB(media.size)}</span>
 
                                                         </p>
                                                         <dd className="text-lg tracking-wide mt-2.5 font-semibold text-gray-900">{'\u20AC' + media.item_price.price}</dd>

@@ -12,12 +12,16 @@ import Dashboard from './Modules/Admin/dashboard';
 import PhotosList from './Modules/Admin/photos';
 import Settings from './Modules/Admin/settings';
 import Albums from './Modules/Admin/albums';
+import Groups from "./Modules/Admin/groups";
 import Orders from "./Modules/Admin/orders";
 import Album from "./Modules/Album";
 import Register from "./Modules/Auth/Register";
 import { useEffect } from "react";
 import Cart from './Modules/Cart';
 import ForgotPassword from './Modules/Auth/ForgotPassword';
+import Profile from './Modules/Profile';
+import PaymentSuccessPage from './Modules/Cart/PaymentSuccess';
+import PaymentFailureScreen from './Modules/Cart/PaymentFailureScreen';
 import {ADMIN_ROLE_ID} from "./Shared/utils/constants";
 
 
@@ -59,6 +63,9 @@ function App() {
 
         <Route path="/" element={<AppLayout />}>
           <Route path="/" element={<Welcome />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/payment-success" element={<PaymentSuccessPage />} />
+          <Route path="/payment-error" element={<PaymentFailureScreen />} />
           <Route path="/photo/:id" element={<Photo />} />
           <Route path="/album/:id" element={<Album />} />
           <Route path='/cart' element={<Cart />} />

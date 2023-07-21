@@ -6,7 +6,7 @@ import JavSelect from "../../../Shared/Component/Forms/JavSelect";
 import JavFormSelect from "../../../Shared/Component/Forms/JavFormSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboard } from "./duck/action";
-import {MEDIA_URL} from "../../../Shared/utils/constants";
+import { MEDIA_URL } from "../../../Shared/utils/constants";
 import DashboardChart from '../../../Shared/Component/Chart/DashboardChart';
 import OrdersLineChart from './OrdersLineChart';
 import StorageCapacityDougnutChart from './StorageCapacityDougnutChart';
