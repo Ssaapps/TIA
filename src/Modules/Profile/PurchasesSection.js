@@ -80,8 +80,9 @@ function PurchasesSection() {
                                                 </td>
 
                                                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                                    {purchase.paid_at && <a href={"#"} onClick={() => {
-                                                        downloadReceipt(purchase.payment_reference)
+                                                    {!purchase.paid_at && <a href={"#"} onClick={() => {
+                                                        // downloadReceipt(purchase.payment_reference)
+                                                        downloadReceipt("ddf28a11-eddc-429b-a1d8-ea105d5df625")
                                                     }} className="text-orange-600 hover:text-orange-900">
                                                         Download
                                                     </a>}

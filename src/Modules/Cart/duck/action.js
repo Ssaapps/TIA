@@ -102,15 +102,18 @@ export const getOrders = () => {
 }
 
 
-export const downloadReceipt = (reference) => {
+export const downloadReceipt = async (reference) => {
     try {
-        const response = Axios.get(`/orders/${reference}/download`)
-        const blob = new Blob([response.data], { type: 'application/octet-stream' });
-        const url = window.URL.createObjectURL(blob);
+        const response = await Axios.get(`/orders/${reference}/download`, {
+            responseType: 'blob'
+        })
+        console.log(response.data)
+        // const blob = new Blob([response.data], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(response.data);
         const link = document.createElement('a');
         link.href = url;
         //TODO: replace with the file extentsion
-        link.setAttribute('download', 'filename.extension');
+        link.setAttribute('download', 'receipt.zip');
         document.body.appendChild(link);
         link.click();
 
