@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import ExploreMoreCard from './ExploreMoreCard';
 import Confetti from 'react-confetti'
+import { MEDIA_URL } from '../../Shared/utils/constants';
+import { useNavigate } from 'react-router';
 
 const PaymentSuccessScreen = ({ data }) => {
     const [confettiWidth, setConfettiWidth] = React.useState(window.innerWidth);
     const containerRef = useRef(null);
+    const navigate = useNavigate();
     useEffect(() => {
         if (containerRef.current) {
             setConfettiWidth(containerRef.current.offsetWidth)
@@ -39,10 +42,17 @@ const PaymentSuccessScreen = ({ data }) => {
 
                 <p className=" text-gray-500 text-lg ">Amazing!</p>
                 <h4 className="font-medium text-3xl tracking-wide">Congratulations. You've got covered</h4>
-                <p className=" text-gray-500 mb-8">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data?.payment_reference}</span> </p>
+                <p className=" text-gray-500 mb-8">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
                 <div className='border-dashed border w-full h-[2px]'></div>
                 <p className="mt-4">Interested in exploring more</p>
-                <div className="flex items-center justify-center">
+
+                {data.media.length > 0 && data.media.map((media, index) => {
+                    return <ExploreMoreCard img={`${MEDIA_URL}${media.path}`} title={media.original_name} albumName={media.album.name} price={media.item_price.price} onClick={() => {
+                        navigate(`/photo/${media.id}`)
+                    }} />
+
+                })}
+                <div className="flex items-center mt-8 justify-center">
                     <button onClick={() => {
                         window.location.replace("/")
                     }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-bold py-2 px-8 rounded">
@@ -50,9 +60,6 @@ const PaymentSuccessScreen = ({ data }) => {
                     </button>
                 </div>
 
-                {/* 
-                <ExploreMoreCard img={"/logo-fav.JPG"} title="Title" description="The Description Goes here" price="20" />
-                <ExploreMoreCard img={"/logo-fav.JPG"} title="Title" description="The Description Goes here" price="20" /> */}
 
             </div>
 
