@@ -78,9 +78,9 @@ export default function Photo() {
                 setItemAddedMessage(null)
             }} />
             <div className={"px-10 mt-10 mb-5 flex items-center"}>
-                <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
+                {/* <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
                     new
-                </span>
+                </span> */}
                 <h2 className={"text-lg"}>
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[18px]"} /> : mediaState.show?.data?.album?.name}
                 </h2>

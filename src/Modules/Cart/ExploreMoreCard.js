@@ -3,12 +3,16 @@ import React from 'react'
 
 function ExploreMoreCard(props) {
     return (
-        <div className="border cursor-pointer hover:bg-gray-200 rounded-md bg-white p-2 w-full flex items-center justify-between">
-            <div className="flex gap-x-2 items-center">
-                <img src={props.img} alt="" className="rounded-md h-16 w-16 border" />
-                <div className="flex  flex-col items-start">
+        <div onClick={props.onClick} className="border cursor-pointer hover:bg-gray-200 rounded-md bg-white p-2 w-full flex items-center justify-between">
+            <div className="flex gap-x-2 ">
+                <img
+                    src={props.img}
+                    alt={props.title}
+                    className="h-24 w-24 rounded-md object-cover object-center sm:h-24 sm:w-24"
+                />                <div className="flex  flex-col items-start py-4">
                     <p className='font-bold'>{props.title}</p>
-                    <p className='text-sm text-gray-500'>{props.description}</p>
+                    <p className="mt-1 text-sm font-medium  text-gray-700">{props.albumName}</p>
+
                 </div>
             </div>
             <div className="flex gap-x-2 items-center">

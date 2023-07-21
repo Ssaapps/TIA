@@ -1,6 +1,7 @@
 import { ActionTypes } from "./type";
 import Cookies from "js-cookie";
 import Axios from "../../../Shared/utils/axios_instance";
+import { makeHttpRequest } from "../../../Shared/utils/common";
 
 
 export const addItemToCart = (item, callback = () => { }) => {
@@ -82,5 +83,45 @@ export const checkOrderStatus = (orderId,) => {
             dispatch({ type: ActionTypes.STATUS_ERROR, payload: e?.response?.data?.message ?? 'Something went wrong' });
         }
 
+    }
+}
+
+
+
+export const getOrders = () => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.ORDERS_REQUEST });
+        makeHttpRequest({
+            path: `orders`,
+            method: "GET",
+        }, {
+            SUCCESS: ActionTypes.ORDERS_SUCCESS,
+            ERROR: ActionTypes.ORDERS_ERROR
+        }, dispatch);
+    }
+}
+
+
+export const downloadReceipt = async (reference) => {
+    try {
+        const response = await Axios.get(`/orders/${reference}/download`, {
+            responseType: 'blob'
+        })
+        console.log(response.data)
+        // const blob = new Blob([response.data], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = url;
+        //TODO: replace with the file extentsion
+        link.setAttribute('download', 'receipt.zip');
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    }
+    catch (e) {
+        throw e
     }
 }
