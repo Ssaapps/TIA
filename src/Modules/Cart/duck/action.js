@@ -64,3 +64,23 @@ export const checkout = (cartItems, callback, onError) => {
 
     }
 }
+
+
+export const checkOrderStatus = (orderId,) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.STATUS_REQUEST });
+        try {
+            const response = await Axios.get(`/orders/${orderId}/status`)
+            if (response && response.data) {
+                dispatch({
+                    type: ActionTypes.STATUS_SUCCESS, payload: response.data
+                });
+            }
+        }
+        catch (e) {
+
+            dispatch({ type: ActionTypes.STATUS_ERROR, payload: e?.response?.data?.message ?? 'Something went wrong' });
+        }
+
+    }
+}

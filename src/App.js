@@ -22,6 +22,7 @@ import ForgotPassword from './Modules/Auth/ForgotPassword';
 import Profile from './Modules/Profile';
 import PaymentSuccessPage from './Modules/Cart/PaymentSuccess';
 import PaymentFailureScreen from './Modules/Cart/PaymentFailureScreen';
+import PaymentDoneRoot from './Modules/Cart/PaymentDoneRoot';
 import {ADMIN_ROLE_ID} from "./Shared/utils/constants";
 
 
@@ -64,8 +65,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route path="/" element={<Welcome />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/payment-success" element={<PaymentSuccessPage />} />
-          <Route path="/payment-error" element={<PaymentFailureScreen />} />
+          <Route path="/order/:id/status" element={<PaymentDoneRoot />} />
           <Route path="/photo/:id" element={<Photo />} />
           <Route path="/album/:id" element={<Album />} />
           <Route path='/cart' element={<Cart />} />

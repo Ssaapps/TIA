@@ -11,6 +11,13 @@ const initialState = {
         data: null,
         success: false,
         error: null
+    },
+    status: {
+        loading: false,
+        data: null,
+        success: false,
+        error: null
+
     }
 
 }
@@ -59,6 +66,37 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 checkout: {
                     ...state.checkout,
+                    loading: false,
+                    success: false,
+                    error: action.payload
+                }
+            }
+        case ActionTypes.STATUS_REQUEST:
+            return {
+                ...state,
+                status: {
+                    ...state.status,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.STATUS_SUCCESS:
+            return {
+                ...state,
+                status: {
+                    ...state.status,
+                    loading: false,
+                    data: action.payload,
+                    success: true,
+                    error: null
+                }
+            }
+        case ActionTypes.STATUS_ERROR:
+            return {
+                ...state,
+                status: {
+                    ...state.status,
                     loading: false,
                     success: false,
                     error: action.payload
