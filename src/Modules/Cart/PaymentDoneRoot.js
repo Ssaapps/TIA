@@ -29,7 +29,7 @@ function PaymentDoneRoot() {
                         <Shimmer className={"w-[60%] mt-6 rounded-md  h-16"} />
                         <Shimmer className={"w-[60%] rounded-md  h-16"} />
                     </div>
-                </div>) : cartState.status.error ? <PaymentFailureScreen /> : cartState.status.data ? <PaymentSuccessScreen data={cartState.status.data} /> : <div>   </div>}
+                </div>) : cartState.status.error ? <PaymentFailureScreen text={"Order does not exist"} /> : cartState.status.data ? cartState.status.data.order.paid_at == null ? <PaymentFailureScreen text={"Payment not successful"} /> : <PaymentSuccessScreen data={cartState.status.data} /> : <div>   </div>}
         </>
     )
 }

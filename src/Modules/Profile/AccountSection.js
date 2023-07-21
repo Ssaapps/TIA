@@ -4,7 +4,7 @@ function AccountSection() {
     return (
         <section aria-labelledby="payment-details-heading">
             <form action="#" method="POST">
-                <div className=" sm:overflow-hidden sm:rounded-md">
+                <div className="shadow sm:overflow-hidden sm:rounded-md">
                     <div className="bg-white py-6 px-4 sm:p-6">
                         <div>
                             <h2 id="payment-details-heading" className="text-lg font-medium leading-6 text-gray-900">

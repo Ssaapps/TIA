@@ -29,7 +29,7 @@ function PurchasesSection() {
 
     return (
         <section aria-labelledby="billing-history-heading">
-            <div className="bg-white pt-6  sm:overflow-hidden sm:rounded-md">
+            <div className="bg-white pt-6 shadow  sm:overflow-hidden sm:rounded-md">
                 <div className="px-4 sm:px-6">
                     <h2 id="billing-history-heading" className="text-lg font-medium leading-6 text-gray-900">
                         Billing history
@@ -38,8 +38,8 @@ function PurchasesSection() {
                 <div className="mt-6 flex flex-col">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div className="overflow-hidden border-t border-gray-200">
-                                <table className="min-w-full divide-y divide-gray-200">
+                            <div className="overflow-hidden border-t  border-gray-200">
+                                <table className="min-w-full divide-y  divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
                                             <th scope="col" className="px-6 py-3 text-center text-sm font-semibold text-gray-900">
@@ -95,7 +95,9 @@ function PurchasesSection() {
                                                     <td className='px-6 py-4 flex items-center justify-center'>
                                                         <Shimmer className={"h-4 w-24 rounded-lg"} />
                                                     </td>
-                                                    <td></td>
+                                                    <td className='px-6 py-4'>
+                                                        <Shimmer className={"h-4 w-20 mx-auto"} />
+                                                    </td>
                                                 </tr>
                                             </>
                                         )) : cartState.orders.data ? cartState.orders.data.data.map((purchase, index) => (
@@ -123,11 +125,11 @@ function PurchasesSection() {
                                                     </td>
 
                                                     <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium">
-                                                        {purchase.paid_at && <a href={"#"} onClick={() => {
+                                                        <button disabled={purchase.paid_at == null} onClick={() => {
                                                             downloadReceipt(purchase.payment_reference)
-                                                        }} className="text-orange-600 hover:text-orange-900">
+                                                        }} className="text-[#1e4570] disabled:hover:text-[#1e4570]cursor-pointer disabled:cursor-not-allowed  hover:text-blue-600 disabled:opacity-30">
                                                             Download
-                                                        </a>}
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </>
