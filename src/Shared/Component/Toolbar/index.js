@@ -9,6 +9,8 @@ import { useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { logout } from "../../../Modules/Auth/duck/action";
 import { ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { Dialog, Menu, Transition } from '@headlessui/react'
+import { classNames } from "../../utils/common";
 import AdminIcon from "../Icons/AdminIcon";
 import {HomeIcon} from "@heroicons/react/20/solid";
 import {ADMIN_ROLE_ID} from "../../utils/constants";
@@ -21,9 +23,7 @@ export default function Toolbar() {
     const [showCart, setShowCart] = useState(true);
     const location = useLocation();
     const dispatch = useDispatch();
-    const handleLogout = () => {
-        dispatch(logout())
-    }
+
     const cart = useSelector((state) => state.cart.items);
 
     const isAdmin = (roles) => {
@@ -34,6 +34,21 @@ export default function Toolbar() {
         console.log(cart)
         setShowCart(location.pathname !== "/cart");
     }, [location])
+
+
+    const userNavigation = [
+        {
+            name: 'Your profile', href: '#', onClick: () => {
+                navigate("/profile")
+            },
+        },
+        {
+            name: 'Sign out', href: '#', onClick: () => {
+                dispatch(logout())
+                window.location.replace("/")
+            }
+        },
+    ]
 
 
     return (
@@ -61,6 +76,44 @@ export default function Toolbar() {
                         <button onClick={() => navigate("/register")} className="rounded-3xl text-xs  sm:text-sm text-gray-600 px-4 py-1.5  border-baseYellow hover:bg-gray-50  border-2 ">Sign Up</button>
                     </React.Fragment> : (
                         <React.Fragment>
+                            <Menu as="div" className="relative flex-shrink-0">
+                                <div>
+                                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        <UserCircleIcon
+                                            className="h-8 w-8 hover:text-gray-400 flex-shrink-0 text-gray-600  group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                    </Menu.Button>
+                                </div>
+                                <Transition
+                                    as={React.Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        {userNavigation.map((item) => (
+                                            <Menu.Item key={item.name} onClick={item.onClick}>
+                                                {({ active }) => (
+                                                    <a
+                                                        href={item.href}
+                                                        className={classNames(
+                                                            active ? 'bg-gray-100' : '',
+                                                            'block px-4 py-2 text-sm text-gray-700'
+                                                        )}
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
+                            {/*<PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />*/}
 
 
                             {
@@ -72,17 +125,13 @@ export default function Toolbar() {
                             {/*    className={"h-8  rounded-full w-8"}*/}
                             {/*    src={"https://uploads-ssl.webflow.com/628e9463939e76fb3c1b7440/628ea85eef750d8b0a363ae5_Webcliptia.png"}*/}
                             {/*/>*/}
-                            <button onClick={handleLogout} className="text-red-500 flex gap-x-2 px-3 py-1 border items-center text-xs  sm:text-sm rounded-3xl hover:bg-red-300 border-red-500">
-                                {/* <ArrowLeftOnRectangleIcon className="h-4 w-4" /> */}
-                                Logout
-                            </button>
 
-                            <button className="" onClick={() => navigate("/profile")}>
+                            {/* <button className="" onClick={() => navigate("/profile")}>
                                 <UserCircleIcon
                                     className="h-8 w-8 hover:text-gray-400 flex-shrink-0 text-gray-600  group-hover:text-gray-500"
                                     aria-hidden="true"
                                 />
-                            </button>
+                            </button> */}
 
                         </React.Fragment>
                     )

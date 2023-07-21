@@ -86,7 +86,7 @@ export default function Profile() {
                                         onClick={() => setCurrentTab(index)}
                                         className={classNames(
                                             isCurrent
-                                                ? 'bg-gray-50 text-orange-600 hover:bg-white'
+                                                ? 'bg-gray-50 text-[#1e4570] hover:bg-white'
                                                 : 'text-gray-900 hover:text-gray-900 hover:bg-gray-50',
                                             'group rounded-md px-6 py-4 flex items-center text-sm font-medium'
                                         )}
@@ -94,7 +94,7 @@ export default function Profile() {
                                     >
                                         <item.icon
                                             className={classNames(
-                                                isCurrent ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                isCurrent ? 'text-[#1e4570]' : 'text-gray-400 group-hover:text-gray-500',
                                                 'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                             )}
                                             aria-hidden="true"

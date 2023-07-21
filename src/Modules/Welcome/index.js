@@ -36,8 +36,12 @@ export default function Welcome() {
     }
 
     useEffect(() => {
-        dispatch(getHome());
+        if (!homeState.fetch.data && counter.current == 0) {
+            dispatch(getHome());
+            counter.current = counter.current + 1;
+        }
     }, [])
+
 
 
     return (
@@ -62,14 +66,14 @@ export default function Welcome() {
                         clickable: true,
                     }}
                     modules={[Autoplay, EffectFade, Navigation, Pagination]}
-                    className="h-full px-auto swiper-button-white"
+                    className="h-[80vh] px-auto swiper-button-white"
                 >
-                    {!homeState.fetch.data ? <div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div> :
+                    {!homeState.fetch.data ? <div className='w-full h-full animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
-                            <Suspense fallback={<div className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>}>
+                            <Suspense fallback={<div className='w-full h-full animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative">
-                                    <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-screen animate-pulse bg-gray-300 rounded'></div>
-                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full mx-auto" onLoad={() => {
+                                    <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-full animate-pulse bg-gray-300 rounded'></div>
+                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full object-center object-cover h-[80vh]  mx-auto rounded-md" onLoad={() => {
                                         if (index == 0) {
                                             setCarouselLoading(false);
                                         }
@@ -77,7 +81,7 @@ export default function Welcome() {
                                             return
                                         }
                                     }} />
-                                    <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0" ></div>
+                                    <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0 rounded-md" ></div>
                                     <div className={"absolute bottom-5 md:bottom-10 lg:bottom-40 xl:bottom-80  md:right-20 left-5 lg:left-auto z-30"}>
                                         <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Editor Pick</h2>
                                         <h1 className={"md:text-3xl text-xl font-proxima text-white"}>
