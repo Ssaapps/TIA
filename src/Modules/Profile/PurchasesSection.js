@@ -1,4 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { downloadReceipt, getOrders } from '../Cart/duck/action'
+import Shimmer from '../../Shared/Component/Suspense/Shimmer'
+import dayjs from 'dayjs'
+import PurchaseStatusBadge from './PurchaseStatusBadge'
 
 const payments = [
     {
@@ -11,7 +16,14 @@ const payments = [
     },
     // More payments...
 ]
+
+
 function PurchasesSection() {
+    const cartState = useSelector((state) => state.cart)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getOrders())
+    }, [])
     return (
         <section aria-labelledby="billing-history-heading">
             <div className="bg-white pt-6 shadow sm:overflow-hidden sm:rounded-md">
@@ -31,10 +43,13 @@ function PurchasesSection() {
                                                 Date
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                                                Description
+                                                Reference
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                                            <th scope="col" className="px-6 py-3 text-center text-sm font-semibold text-gray-900">
                                                 Amount
+                                            </th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                                Status
                                             </th>
                                             {/*
           `relative` is added here due to a weird bug in Safari that causes `sr-only` headings to introduce overflow on the body on mobile.
@@ -48,22 +63,45 @@ function PurchasesSection() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                        {payments.map((payment) => (
-                                            <tr key={payment.id}>
+                                        {cartState.orders.data ? cartState.orders.data.map((purchase) => (
+                                            <tr key={purchase.id}>
                                                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                                    <time dateTime={payment.datetime}>{payment.date}</time>
+                                                    <time dateTime={purchase.create_at}>{dayjs(purchase.create_at).format("DD/MM/YYYY")}</time>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                                                    {payment.description}
+                                                    {/* {purchase.resource_name + " - " + purchase.payment_medium} */}
+                                                    {purchase.payment_reference ? "#" + purchase.payment_reference : "N/A"}
                                                 </td>
-                                                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                                                    {payment.amount}
+                                                <td className="whitespace-nowrap px-6 text-center py-4 text-lg font-semibold text-gray-500">
+                                                    {"\u20AC" + purchase.amount}
                                                 </td>
+                                                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                                                    <PurchaseStatusBadge status={purchase.status} />
+                                                </td>
+
                                                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                                    <a href={payment.href} className="text-orange-600 hover:text-orange-900">
-                                                        View receipt
-                                                    </a>
+                                                    {purchase.paid_at && <a href={"#"} onClick={() => {
+                                                        downloadReceipt(purchase.payment_reference)
+                                                    }} className="text-orange-600 hover:text-orange-900">
+                                                        Download
+                                                    </a>}
                                                 </td>
+                                            </tr>
+                                        )) : [0, 0, 0, 0].map((item, index) => (
+                                            <tr key={index}>
+                                                <td className='px-6 py-4'>
+                                                    <Shimmer className={"h-4 w-[80%]"} />
+                                                </td>
+                                                <td className='px-6 py-4'>
+                                                    <Shimmer className={"h-4 w-[80%]"} />
+                                                </td>
+                                                <td className='px-6 py-4'>
+                                                    <Shimmer className={"h-4 w-20 mx-auto"} />
+                                                </td>
+                                                <td className='px-6 py-4 flex items-center justify-center'>
+                                                    <Shimmer className={"h-4 w-24 rounded-lg"} />
+                                                </td>
+                                                <td></td>
                                             </tr>
                                         ))}
                                     </tbody>
