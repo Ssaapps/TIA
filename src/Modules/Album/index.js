@@ -51,26 +51,23 @@ export default function Album() {
         <div className="overflow-y-auto relative">
 
 
-            {/* <div className="fixed top-20 z-50 flex flex-col gap-y-4 right-10">
+            { <div className="fixed top-20 z-50 flex flex-col gap-y-4 left-10">
                 <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
-                    <ShareIcon className="w-5 h-5" onClick={async () => {
-
+                    <ArrowLeftIcon className="w-5 h-5" onClick={async () => {
+                        navigate(-1);
                     }} />
                 </div>
-                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
-                    <CartIcon className="w-5 h-5" onClick={() => {
-                        dispatch(addItemToCart(albumState.show.data))
-                    }} />
-                </div>
-            </div> */}
+                {/*<div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">*/}
+                {/*    <CartIcon className="w-5 h-5" onClick={() => {*/}
+                {/*        dispatch(addItemToCart(albumState.show.data))*/}
+                {/*    }} />*/}
+                {/*</div>*/}
+            </div> }
 
-            <div className="flex items-center justify-center fixed right-5 top-20 z-10">
-                <button onClick={() => {
-                    navigate(-1)
-                }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
-                    <ArrowLeftIcon className="w-4 h-4 text-white" />
-                    <span>Back</span>
-                </button>
+            <div className="flex items-center justify-center absolute right-5 top-5 z-10">
+                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
+                    <ShareIcon className="w-5 h-5" onClick={share} />
+                </div>
             </div>
 
             <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>

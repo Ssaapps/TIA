@@ -202,9 +202,9 @@ export default function Photo() {
                                         {/* TODO: */}
                                         <div className={"w-1/2 font-proximaBold"}>{metaDetails?.DateTimeOriginal}</div>
                                     </div>}
-                                    <a href="#" onClick={() => {
-                                        setMetaDialogOpen(true)
-                                    }} className="text-blue-500 underline">For Nerds ...</a>
+                                    {/*<a href="#" onClick={() => {*/}
+                                    {/*    setMetaDialogOpen(true)*/}
+                                    {/*}} className="text-blue-500 underline">For Nerds ...</a>*/}
                                 </>
 
                             )
