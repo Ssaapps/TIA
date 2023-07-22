@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getAlbum, getAlbums, shareAlbum } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { MEDIA_URL } from "../../Shared/utils/constants";
-import { EyeIcon, ShareIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, EyeIcon, ShareIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import CartIcon from "../../Shared/Component/Icons/CartIcon";
 import { addItemToCart } from "../Cart/duck/action";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
@@ -64,8 +64,17 @@ export default function Album() {
                 </div>
             </div> */}
 
+            <div className="flex items-center justify-center fixed right-5 top-20 z-10">
+                <button onClick={() => {
+                    navigate(-1)
+                }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
+                    <ArrowLeftIcon className="w-4 h-4 text-white" />
+                    <span>Back</span>
+                </button>
+            </div>
 
             <div style={{ height: '50vh' }} className={"bg-red-200 relative overflow-y-auto"}>
+
                 {!albumState.show.data ? <Shimmer className={"w-full h-[50vh]"} /> :
                     <img
                         className={"object-cover w-full h-full"}
