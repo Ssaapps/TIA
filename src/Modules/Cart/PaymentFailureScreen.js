@@ -14,7 +14,13 @@ const PaymentFailureScreen = ({ text }) => {
 
 
                 <h4 className="font-medium text-3xl tracking-wide">{text}</h4>
-
+                <div className="flex items-center mt-8 justify-center">
+                    <button onClick={() => {
+                        window.location.replace("/")
+                    }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-bold py-2 px-8 rounded">
+                        Go to Home
+                    </button>
+                </div>
             </div>
 
 

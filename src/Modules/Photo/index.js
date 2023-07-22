@@ -14,6 +14,7 @@ import { addItemToCart } from "../Cart/duck/action";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 import MetaDisplayDialog from "./MetaDisplayDialog";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 export default function Photo() {
 
@@ -77,10 +78,18 @@ export default function Photo() {
             <SuccessAlert open={!!itemAddedMessage} message={itemAddedMessage} onClose={() => {
                 setItemAddedMessage(null)
             }} />
-            <div className={"px-10 mt-10 mb-5 flex items-center"}>
+            <div className={"px-10 mt-10 mb-5 gap-x-5 flex items-center"}>
                 {/* <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
                     new
                 </span> */}
+                <div className="flex items-center justify-center">
+                    <button onClick={() => {
+                        navigate(-1)
+                    }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
+                        <ArrowLeftIcon className="w-4 h-4 text-white" />
+                        <span>Back</span>
+                    </button>
+                </div>
                 <h2 className={"text-lg"}>
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[18px]"} /> : mediaState.show?.data?.album?.name}
                 </h2>
