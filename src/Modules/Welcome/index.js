@@ -66,7 +66,7 @@ export default function Welcome() {
                         clickable: true,
                     }}
                     modules={[Autoplay, EffectFade, Navigation, Pagination]}
-                    className="h-[80vh] px-auto swiper-button-white"
+                    className="h-[65vh] px-auto swiper-button-white"
                 >
                     {!homeState.fetch.data ? <div className='w-full h-full animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
