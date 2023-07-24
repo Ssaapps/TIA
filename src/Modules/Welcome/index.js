@@ -70,8 +70,8 @@ export default function Welcome() {
                 >
                     {!homeState.fetch.data ? <div className='w-full h-full animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
-                            <Suspense fallback={<div className='w-full h-full animate-pulse bg-gray-300 rounded'></div>}>
-                                <SwiperSlide className="relative">
+                            <Suspense fallback={<div className='w-full  h-full animate-pulse bg-gray-300 rounded'></div>}>
+                                <SwiperSlide className="relative cursor-pointer" onClick={() => { onAlbumItemClicked(item.album) }}>
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-full animate-pulse bg-gray-300 rounded'></div>
                                     <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full object-center object-cover h-[80vh]  mx-auto rounded-md" onLoad={() => {
                                         if (index == 0) {
