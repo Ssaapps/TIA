@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import FilesUploadedGrid from "./FilesUploadedGrid";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
@@ -20,7 +20,11 @@ import axios from "axios";
 function Upload() {
     const dispatch = useDispatch();
     const { files, filesEditable, selected, media, } = useSelector(state => state.upload)
-    const cancelTokenSource = axios.CancelToken.source(); // Create a cancel token source
+    const abortControllerRef = useRef(new AbortController())
+    const [errorType, setErrorType] = useState(null)
+    const [initialFilesCount, setInitialFilesCount] = useState(null)
+    const [filesUploadedCount, setFilesUploadedCount] = useState(0)
+    const token = JSON.parse(localStorage.getItem("token") ?? "{}")
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [uploadProgress, setUploadingProgress] = useState(null)
@@ -31,6 +35,7 @@ function Upload() {
     const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
     const [currentFileUploading, setCurrentFileUploading] = useState(null)
+    const [retryCount, setRetryCount] = useState(0)
 
     const [uploadError, setUploadError] = useState(null)
     const navigate = useNavigate()
@@ -38,6 +43,7 @@ function Upload() {
     const setFiles = (files) => {
         dispatch(doSetFiles(files))
     }
+
 
     const setFilesEditable = (filesEditable) => {
         dispatch(doSetFilesEditable(filesEditable))
@@ -47,6 +53,12 @@ function Upload() {
         dispatch(doSetSelected(selectedFiles))
     }
 
+
+    useEffect(() => {
+        if (errorType == "Network Error") {
+            handleUpload()
+        }
+    }, [errorType])
 
 
 
@@ -118,15 +130,46 @@ function Upload() {
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
+    useEffect(() => {
+        const handleOnline = () => {
+            if (files.length > 0 && uploading && retryCount < 10) {
+                abortControllerRef.current = new AbortController();
+                handleUpload();
+            }
+        };
+        const handleOffline = () => {
+            if (uploading) {
+                if (abortControllerRef.current) {
+                    abortControllerRef.current.abort();
+                }
+
+            }
+        };
+
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+        return () => {
+            window.removeEventListener("online", handleOnline);
+            window.removeEventListener("offline", handleOffline);
+
+        };
+    }, [files, uploading, retryCount]);
+
+
+
     const handleUpload = async () => {
         setDialogOpen(false)
         setUploading(true)
-        let errorOccured = false;
 
+        let errorOccured = false;
+        setErrorType(null)
+        if (initialFilesCount == null) {
+            setInitialFilesCount(files.length)
+        }
         const filesUploaded = []
 
-        const token = JSON.parse(localStorage.getItem("token") ?? "{}")
-
+        // const newAbortController = new AbortController();
+        // setAbortController(newAbortController);
 
         for (var fileIndex in files) {
             const file = files[fileIndex]
@@ -152,37 +195,43 @@ function Upload() {
                         Authorization: "Bearer " + token?.access_token ?? "",
                         'Content-Type': 'multipart/form-data',
                     },
+                    timeout: 1000 * 60 * 60 * 24 * 7,
+                    signal: abortControllerRef.current?.signal,
                     onUploadProgress: (progressEvent) => {
                         const percentage = (progressEvent.loaded * 100) / progressEvent.total;
                         setUploadingProgress(Math.round(+percentage))
-                    },
-                    cancelToken: cancelTokenSource.token
-
+                    }
                 })
-                filesUploaded.push(fileIndex)
+                filesUploaded.push(+fileIndex)
             }
             catch (err) {
-                if (axios.isCancel(err)) {
-                    errorOccured = true;
-                    setUploadError("Connection is unstable")
-                    break;
-                }
+
                 //Filter by filesUploaded and remove them from files and filesEditable
                 const newFiles = files.filter((file, index) => !filesUploaded.includes(index))
+                setFilesUploadedCount(filesUploaded.length)
+                console.log(newFiles)
+                console.log(filesUploaded)
                 const newFilesEditable = filesEditable.filter((file, index) => !filesUploaded.includes(index))
                 setFiles(newFiles)
                 setFilesEditable(newFilesEditable)
-                if (axios.isCancel(err)) {
+
+
+                if (err.message === "canceled") {
                     errorOccured = true;
                     setUploadError("Connection is unstable")
                     break;
                 }
                 else {
-                    setUploading(false)
-                    setDialogOpen(false)
-                    setUploadError("An error occured while uploading files")
-                }
+                    if (err.message == "Network Error") {
+                        setErrorType(err.message)
+                    }
+                    else {
+                        setUploading(false)
+                        setDialogOpen(false)
+                        setUploadError("An error occured while uploading files")
+                    }
 
+                }
                 errorOccured = true;
                 break
             }
@@ -199,35 +248,6 @@ function Upload() {
 
 
 
-    useEffect(() => {
-        const handleOffline = () => {
-            if (uploading) {
-                setUploadError("Connection is unstable")
-            }
-        };
-
-        window.addEventListener("offline", handleOffline);
-
-        return () => {
-            window.removeEventListener("offline", handleOffline);
-        };
-    }, [uploading, cancelTokenSource]);
-
-
-    useEffect(() => {
-
-        const handleOnline = () => {
-            if (files.length > 0 && uploading && dialogOpen) {
-                handleUpload();
-            }
-        };
-
-        window.addEventListener("online", handleOnline);
-
-        return () => {
-            window.removeEventListener("online", handleOnline);
-        };
-    }, [files, uploading, dialogOpen]);
 
 
 
@@ -247,7 +267,7 @@ function Upload() {
             }} show={!!uploading} spinner={
                 <React.Fragment>
                     {/* TODO:Get current file being uploaded */}
-                    <p className="font-medium mb-2 text-white text-sm">Uploading file {currentFileUploading} of {files.length}</p>
+                    <p className="font-medium mb-2 text-white text-sm">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
                     <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
                         {!!uploadProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
                             width: `${uploadProgress}%`
