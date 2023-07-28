@@ -12,7 +12,7 @@ export default function ErrorAlert(props) {
     return (
         <div className={`
             ${props.open && props.open ? 'block' : 'hidden'}
-            absolute top-0 left-0 right-0 z-50
+            absolute top-0 left-0 right-0 z-[9999999]
             flex justify-center
         `}>
 

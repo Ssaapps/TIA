@@ -20,6 +20,7 @@ import axios from "axios";
 function Upload() {
     const dispatch = useDispatch();
     const { files, filesEditable, selected, media, } = useSelector(state => state.upload)
+    const cancelTokenSource = axios.CancelToken.source(); // Create a cancel token source
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [uploadProgress, setUploadingProgress] = useState(null)
@@ -31,7 +32,7 @@ function Upload() {
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
     const [currentFileUploading, setCurrentFileUploading] = useState(null)
 
-    const [uploadError, setUploadError] = useState(false)
+    const [uploadError, setUploadError] = useState(null)
     const navigate = useNavigate()
 
     const setFiles = (files) => {
@@ -46,19 +47,9 @@ function Upload() {
         dispatch(doSetSelected(selectedFiles))
     }
 
-    useEffect(() => {
-        if (localStorage.getItem("upload_draft") != null) {
-            const draft = JSON.parse(localStorage.getItem("upload_draft"))
-            Axios.put(`/projects/init/${draft.id}`, draft).then(res => {
-                localStorage.setItem("upload_draft", JSON.stringify(res.data))
-            })
-        }
-        else {
-            Axios.post("/projects/init/", {}).then(res => {
-                localStorage.setItem("upload_draft", JSON.stringify(res.data))
-            })
-        }
-    }, [files])
+
+
+
 
     useEffect(() => {
         console.log("media changes", media)
@@ -136,9 +127,9 @@ function Upload() {
 
         const token = JSON.parse(localStorage.getItem("token") ?? "{}")
 
+
         for (var fileIndex in files) {
             const file = files[fileIndex]
-
             setCurrentFileUploading(+fileIndex + 1)
             const fileConf = filesEditable[fileIndex];
             let data = {
@@ -164,19 +155,37 @@ function Upload() {
                     onUploadProgress: (progressEvent) => {
                         const percentage = (progressEvent.loaded * 100) / progressEvent.total;
                         setUploadingProgress(Math.round(+percentage))
-                    }
+                    },
+                    cancelToken: cancelTokenSource.token
+
                 })
                 filesUploaded.push(fileIndex)
             }
             catch (err) {
+                console.log(err)
+                if (axios.isCancel(err)) {
+                    errorOccured = true;
+                    setUploadError("Connection is unstable")
+                    console.log("cancel error hit")
+                    break;
+                }
                 //Filter by filesUploaded and remove them from files and filesEditable
                 const newFiles = files.filter((file, index) => !filesUploaded.includes(index))
                 const newFilesEditable = filesEditable.filter((file, index) => !filesUploaded.includes(index))
                 setFiles(newFiles)
                 setFilesEditable(newFilesEditable)
-                setUploading(false)
-                setDialogOpen(false)
-                setUploadError(true)
+                if (axios.isCancel(err)) {
+                    errorOccured = true;
+                    setUploadError("Connection is unstable")
+                    console.log("cancel error hit")
+                    break;
+                }
+                else {
+                    setUploading(false)
+                    setDialogOpen(false)
+                    setUploadError("An error occured while uploading files")
+                }
+
                 errorOccured = true;
                 break
             }
@@ -191,12 +200,48 @@ function Upload() {
 
     }
 
+
+
+    useEffect(() => {
+        const handleOffline = () => {
+            console.log("Window is offline");
+            if (uploading) {
+                setUploadError("Connection is unstable")
+            }
+        };
+
+        window.addEventListener("offline", handleOffline);
+
+        return () => {
+            window.removeEventListener("offline", handleOffline);
+        };
+    }, [uploading, cancelTokenSource]);
+
+
+    useEffect(() => {
+
+        const handleOnline = () => {
+            console.log("Window is online");
+            if (files.length > 0 && uploading && dialogOpen) {
+                handleUpload();
+            }
+        };
+
+        window.addEventListener("online", handleOnline);
+
+        return () => {
+            window.removeEventListener("online", handleOnline);
+        };
+    }, [files, uploading, dialogOpen]);
+
+
+
     return (
         <div
             {...getRootProps({
                 onClick: (event) => event.stopPropagation(),
             })}
-            className='bg-gray-950 h-full '
+            className='bg-gray-950 h-full overflow-y-auto'
             style={{
                 backgroundImage: `url(https://combo.staticflickr.com/pw/images/editr-marc-by-marc-perry.png)`,
             }}
@@ -218,7 +263,7 @@ function Upload() {
             <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterPeopleActionPane setOpen={setPeopleAddFormOpen} open={peopleAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
-            <div className='bg-gray-100 py-2'>
+            <div className='bg-gray-100 py-2 '>
                 <div className='container mx-auto flex justify-between'>
                     <div className='flex gap-x-3'>
                         <button onClick={open} title="Upload files" className='text-gray-600 text-sm flex gap-x-1 px-2  border hover:border-gray-400 border-transparent items-center'>
@@ -317,7 +362,7 @@ function Upload() {
                 setOpen={setRemoveDialogOpen}
                 onConfirm={onRemoveConfirm}
             />
-            <ErrorAlert open={uploadError} onClose={() => setUploadError(false)} message="An error occured while uploading files" />
+            <ErrorAlert timeout={10000} open={!!uploadError} onClose={() => setUploadError(null)} message={uploadError} />
         </div>
 
 

@@ -54,7 +54,6 @@ export default function Admin() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
-
     document.body.classList.add("h-full")
     document.body.classList.add("overflow-hidden")
   }, [])

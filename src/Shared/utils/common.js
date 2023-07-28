@@ -29,6 +29,7 @@ export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess 
 
     if (request.file) {
         const formData = new FormData();
+
         formData.append("file", request.file);
         Object.keys(request.data).forEach((item, index) => {
             formData.append(item, Object.values(request.data)[index])
@@ -37,6 +38,7 @@ export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess 
         options = {
             ...options,
             data: formData,
+            timeout: 1000 * 60 * 60 * 24 * 7,
             headers: {
                 ...options.headers,
                 'Content-Type': 'multipart/form-data'
