@@ -19,7 +19,6 @@ import AlbumView from "./components/albumView";
 
 const initialTabs = [
     { id: 0, name: 'Photo ', href: '#', current: true },
-    // { id: 2, name: 'Favorites', href: '#', current: false },
 ]
 
 function PhotosList() {
