@@ -162,11 +162,9 @@ function Upload() {
                 filesUploaded.push(fileIndex)
             }
             catch (err) {
-                console.log(err)
                 if (axios.isCancel(err)) {
                     errorOccured = true;
                     setUploadError("Connection is unstable")
-                    console.log("cancel error hit")
                     break;
                 }
                 //Filter by filesUploaded and remove them from files and filesEditable
@@ -177,7 +175,6 @@ function Upload() {
                 if (axios.isCancel(err)) {
                     errorOccured = true;
                     setUploadError("Connection is unstable")
-                    console.log("cancel error hit")
                     break;
                 }
                 else {
@@ -204,7 +201,6 @@ function Upload() {
 
     useEffect(() => {
         const handleOffline = () => {
-            console.log("Window is offline");
             if (uploading) {
                 setUploadError("Connection is unstable")
             }
@@ -221,7 +217,6 @@ function Upload() {
     useEffect(() => {
 
         const handleOnline = () => {
-            console.log("Window is online");
             if (files.length > 0 && uploading && dialogOpen) {
                 handleUpload();
             }
@@ -271,7 +266,6 @@ function Upload() {
                         </button>
                         {files.length > 0 && (
                             <button onClick={() => {
-                                console.log("taps remoce    ")
                                 if (selected.length > 0) {
                                     onRemoveTap()
                                 }
