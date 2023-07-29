@@ -146,8 +146,8 @@ function Upload() {
             }
         };
 
-        window.addEventListener("online", handleOnline);
-        window.addEventListener("offline", handleOffline);
+        // window.addEventListener("online", handleOnline);
+        // window.addEventListener("offline", handleOffline);
         return () => {
             window.removeEventListener("online", handleOnline);
             window.removeEventListener("offline", handleOffline);
@@ -195,7 +195,9 @@ function Upload() {
                         Authorization: "Bearer " + token?.access_token ?? "",
                         'Content-Type': 'multipart/form-data',
                     },
-                    timeout: 1000 * 60 * 60 * 24 * 7,
+
+                    timeout: 0,
+
                     signal: abortControllerRef.current?.signal,
                     onUploadProgress: (progressEvent) => {
                         const percentage = (progressEvent.loaded * 100) / progressEvent.total;
@@ -205,7 +207,7 @@ function Upload() {
                 filesUploaded.push(+fileIndex)
             }
             catch (err) {
-
+                console.log(err)
                 //Filter by filesUploaded and remove them from files and filesEditable
                 const newFiles = files.filter((file, index) => !filesUploaded.includes(index))
                 setFilesUploadedCount(filesUploaded.length)
@@ -222,16 +224,12 @@ function Upload() {
                     break;
                 }
                 else {
-                    if (err.message == "Network Error") {
-                        setErrorType(err.message)
-                    }
-                    else {
-                        setUploading(false)
-                        setDialogOpen(false)
-                        setUploadError("An error occured while uploading files")
-                    }
-
+                    setUploading(false)
+                    setDialogOpen(false)
+                    setUploadError("An error occured while uploading files")
                 }
+
+
                 errorOccured = true;
                 break
             }
