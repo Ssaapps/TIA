@@ -73,6 +73,8 @@ const StorageCapacityDougnutChart = React.memo(() => {
                                 id="salesOverview"
                                 className="mx-auto"
                                 labels={labels}
+
+
                                 datasets={datasets}
                                 height={200}
                                 width={window.innerWidth <= 575 ? 200 : 250}
@@ -83,9 +85,14 @@ const StorageCapacityDougnutChart = React.memo(() => {
                                     titleFontColor: '#0066ff',
                                     bodyFontColor: '#000',
                                     bodyFontSize: 14,
-                                    displayColors: false,
+                                    displayColors: true,
 
-                                    callbacks: {},
+                                    callbacks: {
+                                        label(t) {
+                                            const { formattedValue, dataset, } = t;
+                                            return `${dataset.label}: ${formattedValue}`;
+                                        },
+                                    },
                                 }}
                             />
 
