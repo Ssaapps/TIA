@@ -190,7 +190,7 @@ function Upload() {
                 formData.append(item, Object.values(data)[index])
             })
             try {
-                await axios.post("http://193.70.40.48/api/v1/admin/media", formData, {
+                await axios.post("https://photos.uipmworld.org/api/v1/admin/media", formData, {
                     headers: {
                         Authorization: "Bearer " + token?.access_token ?? "",
                         'Content-Type': 'multipart/form-data',
