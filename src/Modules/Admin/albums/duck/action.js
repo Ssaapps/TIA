@@ -66,6 +66,20 @@ export const createAlbum = (data) => {
     }
 }
 
+export const editAlbum = (id,data) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.EDIT_ALBUMS_REQUEST });
+        makeHttpRequest({
+            path: `admin/albums/${id}`,
+            method: "PUT",
+            data: data
+        }, {
+            SUCCESS: ActionTypes.EDIT_ALBUMS_SUCCESS,
+            ERROR: ActionTypes.EDIT_ALBUMS_ERROR
+        }, dispatch);
+    }
+}
+
 
 
 

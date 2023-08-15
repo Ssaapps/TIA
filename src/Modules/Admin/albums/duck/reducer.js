@@ -24,6 +24,11 @@ const initialState = {
         loading: false,
         error: null,
     },
+    edit: {
+        success: false,
+        loading: false,
+        error: null,
+    },
     share: {
         success: false,
         loading: false,
@@ -39,7 +44,7 @@ export const AlbumReducer = (state = initialState, action) => {
         //fetch ALBUMS
         case ActionTypes.FETCH_ALBUMS_REQUEST:
             return {
-                ...state,
+                ...initialState,
                 fetch: {
                     ...state.fetch,
                     loading: true,
@@ -100,6 +105,8 @@ export const AlbumReducer = (state = initialState, action) => {
                     error: action.payload
                 }
             }
+
+        //delete album
         case ActionTypes.DELETE_ALBUM_REQUEST:
             return {
                 ...state,
@@ -131,7 +138,7 @@ export const AlbumReducer = (state = initialState, action) => {
             }
 
         //create ALBUM
-        case ActionTypes.CREATE_ALBUMS_REQUEST:
+        case ActionTypes.SHARE_ALBUM_REQUEST:
             return {
                 ...state,
                 share: {
@@ -144,8 +151,8 @@ export const AlbumReducer = (state = initialState, action) => {
         case ActionTypes.SHARE_ALBUM_SUCCESS:
             return {
                 ...state,
-                delete: {
-                    ...state.delete,
+                share: {
+                    ...state.share,
                     success: true,
                     loading: false,
                     data: action.payload
@@ -162,39 +169,39 @@ export const AlbumReducer = (state = initialState, action) => {
                 }
             }
 
-        //create ALBUM
-        case ActionTypes.SHARE_ALBUMS_REQUEST:
+
+        //edit album
+        case ActionTypes.EDIT_ALBUMS_REQUEST:
             return {
                 ...state,
-                share: {
-                    ...state.share,
+                edit: {
+                    ...state.edit,
                     loading: true,
                     success: false,
                     error: null
                 }
             }
-
-
-        case ActionTypes.CREATE_ALBUMS_SUCCESS:
+        case ActionTypes.EDIT_ALBUMS_SUCCESS:
             return {
                 ...state,
-                create: {
-                    ...state.create,
+                edit: {
+                    ...state.edit,
                     success: true,
                     loading: false,
                     data: action.payload
                 }
             }
-        case ActionTypes.CREATE_ALBUMS_ERROR:
+        case ActionTypes.EDIT_ALBUMS_ERROR:
             return {
                 ...state,
-                create: {
-                    ...state.create,
+                edit: {
+                    ...state.edit,
                     success: false,
                     loading: false,
                     error: action.payload
                 }
             }
+
 
 
         default:

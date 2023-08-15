@@ -39,7 +39,7 @@ function Table(props, ref) {
     useEffect(() => {
         if (props.link) {
             setTableData([]);
-            dispatch(getDataForTable(config))
+            dispatch(getDataForTable(config,props.tag))
         }
     }, [props.currentVersion])
 
