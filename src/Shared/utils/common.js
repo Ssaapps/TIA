@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "./constants";
 import Cookies from "js-cookie";
+import Axios from "./axios_instance";
 
 export const makeHttpRequest = (request, dispatchVariables, dispatch, onSuccess = null, onError = null, tag = null, onUploadProgress) => {
     const token = JSON.parse(localStorage.getItem("token") ?? "{}")
@@ -170,6 +171,30 @@ export const capitalize = (string) => {
     return string ? string.charAt(0).toUpperCase() + string.slice(1) : "";
 }
 
+
+export const downloadReceipt = async (reference) => {
+    try {
+        const response = await Axios.get(`/orders/${reference}/download`, {
+            responseType: 'blob'
+        })
+        console.log(response.data)
+        // const blob = new Blob([response.data], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = url;
+        //TODO: replace with the file extentsion
+        link.setAttribute('download', 'receipt.zip');
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    }
+    catch (e) {
+        throw e
+    }
+}
 
 
 export function convertToKBorMBorGB(bytes) {

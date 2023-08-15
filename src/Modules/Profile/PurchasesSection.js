@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { downloadReceipt, getOrders } from '../Cart/duck/action'
+import { getOrders } from '../Cart/duck/action'
 import Shimmer from '../../Shared/Component/Suspense/Shimmer'
 import dayjs from 'dayjs'
 import PurchaseStatusBadge from './PurchaseStatusBadge'
 import Pagination from '../../Shared/Component/Table/Pagination'
+import {downloadReceipt} from "../../Shared/utils/common";
 
 const payments = [
     {

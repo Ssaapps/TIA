@@ -100,28 +100,3 @@ export const getOrders = (currentPage) => {
         }, dispatch);
     }
 }
-
-
-export const downloadReceipt = async (reference) => {
-    try {
-        const response = await Axios.get(`/orders/${reference}/download`, {
-            responseType: 'blob'
-        })
-        console.log(response.data)
-        // const blob = new Blob([response.data], { type: 'application/octet-stream' });
-        const url = window.URL.createObjectURL(response.data);
-        const link = document.createElement('a');
-        link.href = url;
-        //TODO: replace with the file extentsion
-        link.setAttribute('download', 'receipt.zip');
-        document.body.appendChild(link);
-        link.click();
-
-        // Cleanup
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(link);
-    }
-    catch (e) {
-        throw e
-    }
-}

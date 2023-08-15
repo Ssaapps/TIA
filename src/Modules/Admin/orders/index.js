@@ -5,6 +5,12 @@ import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
 import {getOrders} from "./duck/action";
+import {EyeDropperIcon} from "@heroicons/react/20/solid";
+import {EyeSlashIcon} from "@heroicons/react/24/outline";
+import EyeIcon from "../../../Shared/Component/Icons/EyeIcon";
+import DownloadIcon from "../../../Shared/Component/Icons/DownloadIcon";
+import Axios from "../../../Shared/utils/axios_instance";
+import {downloadReceipt} from "../../../Shared/utils/common";
 
 export default function Orders() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
@@ -17,6 +23,23 @@ export default function Orders() {
         dispatch(getOrders())
     }, [])
 
+    const getStatusColor = (status) => {
+        let color = "";
+        switch (status) {
+            case "paid":
+                color = "bg-green-400"
+                break;
+            case "cancelled":
+                color = "bg-red-400"
+                break;
+            case "pending":
+                color = "bg-orange-300"
+                break;
+            default:
+                color = "bg-gray-300"
+        }
+        return color;
+    }
 
     return (
         <div className={"p-10"}>
@@ -44,7 +67,7 @@ export default function Orders() {
             <Table
                 link={"admin/orders"}
                 tag={"albums.orders"}
-                columns={["id","amount","description","paid","created_at","action"]}
+                columns={["id","Name","Email","amount","description","status","Paid At","created_at","action"]}
                 fields={["id",{
                     render: (content) => {
                         return (
@@ -53,7 +76,7 @@ export default function Orders() {
                             </td>
                         )
                     }
-                },{
+                },"user.name","user.email",{
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
@@ -61,12 +84,14 @@ export default function Orders() {
                             </td>
                         )
                     }
-                },{
+                },"paid_at",{
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
-                                <span className={"bg-gray-100 p-1 border rounded"}>
-                                    not-paid
+                                <span className={`${getStatusColor(content.status)} p-1 w-56 border rounded`}>
+                                    {
+                                        content.status
+                                    }
                                 </span>
                             </td>
                         )
@@ -79,12 +104,10 @@ export default function Orders() {
                                 <div className={`flex justify-center`}>
 
                                     <JavButton onClick={() => {
-                                        alert("clicked")
-                                        setSelectItemModel(content)
+                                        downloadReceipt(content.payment_reference)
                                     }} className={"p-1"} bgColor={"bg-gray-200 "}>
-                                        <DeleteIcon/>
+                                        <DownloadIcon/>
                                     </JavButton>
-
 
                                 </div>
                             </td>
