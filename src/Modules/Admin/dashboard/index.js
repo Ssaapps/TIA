@@ -66,7 +66,7 @@ function Dashboard() {
                                 return (
                                     <TrendingAlbumCard name={album.name}
                                         description={album.description}
-                                        photo={`${MEDIA_URL}${album.media[0].path}`} />
+                                        photo={`${MEDIA_URL}${album.media[0].watermark_path}`} />
                                 )
                             })
                         }

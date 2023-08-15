@@ -37,7 +37,7 @@ export default function PhotoView(props) {
                     >
 
                         <img
-                            src={`${MEDIA_URL}${file.path}`}
+                            src={`${MEDIA_URL}${file.watermark_path}`}
                             alt=""
                             className={classNames(
                                 file.current ? '' : 'group-hover:opacity-75',

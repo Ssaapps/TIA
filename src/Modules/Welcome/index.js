@@ -73,7 +73,7 @@ export default function Welcome() {
                             <Suspense fallback={<div className='w-full  h-full animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative cursor-pointer" onClick={() => { onAlbumItemClicked(item.album) }}>
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-full animate-pulse bg-gray-300 rounded'></div>
-                                    <img src={`${MEDIA_URL}${item.path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full object-center object-cover h-[80vh]  mx-auto rounded-md" onLoad={() => {
+                                    <img src={`${MEDIA_URL}${item.watermark_path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full object-center object-cover h-[80vh]  mx-auto rounded-md" onLoad={() => {
                                         if (index == 0) {
                                             setCarouselLoading(false);
                                         }
@@ -116,7 +116,7 @@ export default function Welcome() {
                                 <div className={"cursor-pointer group relative"} key={album.uuid}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
-                                        src={`${MEDIA_URL}${album.media[0].path}`}
+                                        src={`${MEDIA_URL}${album.media[0].watermark_path}`}
                                     />
                                     <div onClick={() => onAlbumItemClicked(album)} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
                                         setAlbumHovered(-1)

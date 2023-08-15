@@ -91,7 +91,7 @@ export default function Cart() {
                                         <li key={media.id} className="flex items-stretch py-4 px-4 sm:py-4">
                                             <div className="flex-shrink-0">
                                                 <img
-                                                    src={`${MEDIA_URL}${media.path}`}
+                                                    src={`${MEDIA_URL}${media.watermark_path}`}
                                                     alt={media.name}
                                                     className="h-24 w-24 rounded-md object-cover object-center sm:h-40 sm:w-40"
                                                 />

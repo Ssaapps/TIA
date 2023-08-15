@@ -36,7 +36,7 @@ function PhotosList() {
             id: file.id,
             name: file.name,
             size: file.type === 'file' ? niceBytes(file.size) : file.media_count + " files",
-            source: `${MEDIA_URL}${file.path}`,
+            source: `${MEDIA_URL}${file.watermark_path}`,
             information: {
                 'Uploaded by': file.created_by.name,
                 'Created at ': moment(file.created_at).format("MMM D, YYYY"),

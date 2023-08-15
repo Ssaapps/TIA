@@ -64,7 +64,7 @@ const PaymentSuccessScreen = ({ data }) => {
                 <p className="mt-4">Interested in exploring more</p>
 
                 {data.media.length > 0 && data.media.map((media, index) => {
-                    return <ExploreMoreCard img={`${MEDIA_URL}${media.path}`} title={media.original_name} albumName={media.album.name} price={media.item_price.price} onClick={() => {
+                    return <ExploreMoreCard img={`${MEDIA_URL}${media.watermark_path}`} title={media.original_name} albumName={media.album.name} price={media.item_price.price} onClick={() => {
                         navigate(`/photo/${media.id}`)
                     }} />
 

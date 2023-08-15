@@ -75,7 +75,7 @@ export default function Album() {
                 {!albumState.show.data ? <Shimmer className={"w-full h-[50vh]"} /> :
                     <img
                         className={"object-cover w-full h-full"}
-                        src={albumState.show.data && `${MEDIA_URL}${albumState.show.data.media[0].path}`}
+                        src={albumState.show.data && `${MEDIA_URL}${albumState.show.data.media[0].watermark_path}`}
                     />}
                 <div className={"absolute top-0 right-0 bg-black bottom-0 left-0 opacity-50"} />
                 <div className={"absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center"}>
@@ -107,7 +107,7 @@ export default function Album() {
                                 className={`relative group bg-gray-200 cursor-pointer  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
                                 style={
                                     {
-                                        backgroundImage: `url(${MEDIA_URL}${media.path})`,
+                                        backgroundImage: `url(${MEDIA_URL}${media.watermark_path})`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: "top",
                                         backgroundRepeat: "no-repeat",

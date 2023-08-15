@@ -106,7 +106,7 @@ export default function Photo() {
 
                         <img
                             className={"object-contain  md:h-[80vh] w-full h-auto text-center p-2"}
-                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.path}`} />
+                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.watermark_path}`} />
                     }
                 </div>
 
