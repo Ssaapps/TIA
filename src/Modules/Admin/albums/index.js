@@ -9,6 +9,8 @@ import ErrorAlert from "../../../Shared/Component/Alert/Error";
 import EditIcon from "../../../Shared/Component/Icons/EditIcon";
 import CreateEditAlbum from "./dialogs/CreateEditAlbum";
 import {useNavigate} from "react-router";
+import Copy from "../../../Shared/Component/Copy";
+import {generateRandomNumber} from "../../../Shared/utils/common";
 
 export default function Albums() {
     const dispatch = useDispatch();
@@ -121,6 +123,7 @@ export default function Albums() {
                                         </JavButton>
 
 
+                                        <Copy copyText={`https://photos.uipmworld.com/api/album/${content.uuid}/download?uid=${generateRandomNumber()}`}/>
 
 
                                     </div>

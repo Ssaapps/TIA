@@ -124,6 +124,10 @@ export const getLighterColor = (hexColor, percent = 0.5) => {
     return newHexColor;
 }
 
+export const generateRandomNumber = () => {
+    return window.URL.createObjectURL(new Blob([])).substring(31);
+}
+
 export const getTableData = (data, fields) => {
     return data && data.map((item) => {
         return {
