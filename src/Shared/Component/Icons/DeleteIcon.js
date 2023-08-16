@@ -2,7 +2,8 @@ import * as React from "react"
 
 const DeleteIcon = (props) => (
     <svg
-        className="w-4 h-4"
+        height={18}
+        width={18}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

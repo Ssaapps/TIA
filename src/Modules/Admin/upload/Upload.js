@@ -184,6 +184,15 @@ function Upload() {
             if (fileConf.album) {
                 data["album_id"] = fileConf.album.id
             }
+            if (fileConf.amount) {
+                data["amount"] = fileConf.amount
+            }
+            if (fileConf.amount) {
+                data["name"] = fileConf.name
+            }
+            if (fileConf.amount) {
+                data["description"] = fileConf.description
+            }
             const formData = new FormData();
             formData.append("file", file);
             Object.keys(data).forEach((item, index) => {

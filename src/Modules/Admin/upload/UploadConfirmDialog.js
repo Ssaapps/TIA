@@ -68,8 +68,8 @@ export default function UploadConfirmDialog({ open, setOpen, itemsCount, onConti
 
                     <div className="mt-2  px-3 pt-3 pb-3 sm:px-3">
                       <div className="flex items-center gap-x-2 mt-2">
-                        <div className='bg-green-600 h-3 w-3   rounded-sm'></div>
-                        <span className='text-sm'>Visible to everyone</span>
+                        {/*<div className='bg-green-600 h-3 w-3   rounded-sm'></div>*/}
+                        <span className='text-sm'>Are you sure you want to upload ? </span>
                       </div>
                       {getEditedFileProperties().tags && <div className="flex items-center gap-x-2 mt-2">
                         <TagIcon className=' h-4 w-4   ' />

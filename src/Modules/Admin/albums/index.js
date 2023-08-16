@@ -87,10 +87,8 @@ export default function Albums() {
                     id: "order_id",
                     render: (content) => {
                         return (
-                            <td className={"text-center"}>
-                                <span className={"underline bg-blue-200 rounded px-5 py-2 cursor-pointer text-blue-500"}>
-                                    {content.media_count} pictures
-                                </span>
+                            <td className={"text-center underline"}>
+                                <span className={"underline text-blue-800 align-baseline"}>{content.media_count} pictures</span>
                             </td>
                         )
                     }
@@ -112,8 +110,8 @@ export default function Albums() {
 
                                         <JavButton onClick={() => {
                                             setSelectItemModel(content)
-                                        }} className={"p-1"} bgColor={"bg-gray-200 "}>
-                                            <DeleteIcon />
+                                        }} className={"p-1"} bgColor={"bg-red-500"}>
+                                            <DeleteIcon className={"stroke-white"}/>
                                         </JavButton>
 
 

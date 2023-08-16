@@ -1,14 +1,29 @@
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import React from 'react'
+import React, {useEffect} from 'react'
 import FileGridItem from './FileGridItem';
 
 function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, setFilesEditable, setAlbumAddFormOpen, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
     const [isEditingTitle, setIsEditingTitle] = React.useState(false);
+    const [isEditingAmount, setIsEditingAmount] = React.useState(false);
     const [titleEdited, setTitleEdited] = React.useState("");
+    const [amountEdited, setAmountEdited] = React.useState(0);
     const [isEditingDescription, setIsEditingDescription] = React.useState(false);
     const [descriptionEdited, setDescriptionEdited] = React.useState("");
     const [isEditingTags, setIsEditingTags] = React.useState(false);
 
+
+    useEffect(() => {
+        if (selected.length === 1) {
+            console.log(filesEditable[selected[0]]);
+            setTitleEdited(filesEditable[selected[0]].name ?? "")
+            setDescriptionEdited(filesEditable[selected[0]].description ?? "")
+            setAmountEdited(filesEditable[selected[0]].amount ?? 0)
+        }else {
+            setAmountEdited(0);
+            setTitleEdited("");
+            setDescriptionEdited("");
+        }
+    },[selected]);
 
 
     return (
@@ -28,7 +43,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                             <div onClick={() => {
                                 setIsEditingTitle(true)
                             }} onMouseLeave={e => setIsEditingTitle(false)} className='px-3 py-2 text-[13px] text-gray-100  border-b border-b-gray-600'>
-                                {isEditingTitle ? <input className='text-black' onChange={(e) => {
+                                {isEditingTitle ? <input value={titleEdited} className='text-black' onChange={(e) => {
                                     setTitleEdited(e.target.value)
                                     const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
 
@@ -94,6 +109,21 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                     filesEditable.find((file, index) => selected.includes(index)).album ? filesEditable.find((file, index) => selected.includes(index)).album.name : "None"
                                 }</div>
                                 Add to album
+                            </div>
+
+                            <div onClick={() => {
+                                setIsEditingAmount(true)
+                            }} onMouseLeave={e => setIsEditingAmount(false)} className='px-3 py-2 text-[13px] text-gray-100  border-b border-b-gray-600'>
+                                {isEditingAmount ? <input value={amountEdited} className='text-black' onChange={(e) => {
+                                    setAmountEdited(e.target.value)
+                                    const filesEditablesToBeEdited = filesEditable.filter((file, index) => selected.includes(index))
+                                    const filesEditableCopy = [...filesEditable];
+                                    selected.forEach((index) => {
+                                        filesEditableCopy[index].amount = e.target.value
+                                    })
+                                    setAmountEdited(e.target.value);
+                                    setFilesEditable([...filesEditableCopy])
+                                }} placeholder={`Replace ${selected.length}  ${selected.length > 1 ? "amounts" : "amount"}`} /> : amountEdited ? <span>{amountEdited}</span> : <span>Replace {selected.length}  {selected.length > 1 ? "amounts" : "amount"}</span>}
                             </div>
 
                             {/* <div onClick={() => {

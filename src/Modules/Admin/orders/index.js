@@ -2,26 +2,42 @@ import React, { useEffect, useState } from "react"
 import {useDispatch, useSelector} from "react-redux";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
-import DeleteIcon from "../../../Shared/Component/Icons/DeleteIcon";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
 import {getOrders} from "./duck/action";
-import {EyeDropperIcon} from "@heroicons/react/20/solid";
-import {EyeSlashIcon} from "@heroicons/react/24/outline";
-import EyeIcon from "../../../Shared/Component/Icons/EyeIcon";
 import DownloadIcon from "../../../Shared/Component/Icons/DownloadIcon";
-import Axios from "../../../Shared/utils/axios_instance";
 import {downloadReceipt} from "../../../Shared/utils/common";
+import LoadingIcon from "../../../Shared/Component/Icons/LoadingIcon";
 
 export default function Orders() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
     const [selectedItemModel,setSelectItemModel] = useState(null);
     const groupState = useSelector( (state) => state.groups)
+    const [downloadingOrder,setDownloadingOrder] = useState(null);
 
 
     useEffect(() => {
         dispatch(getOrders())
     }, [])
+
+    useEffect(() => {
+        console.log("downloadingOrder",downloadingOrder)
+    },[downloadingOrder])
+
+    const downloadOrder = (content) => {
+        setDownloadingOrder(content.id);
+        downloadReceipt(content.payment_reference).then(res => {
+            console.log("data is ",res)
+            if (downloadingOrder === content.id) {
+                setDownloadingOrder(null);
+            }
+        }).catch(err => {
+            console.log("Error is: ",err);
+            if (downloadingOrder === content.id) {
+                setDownloadingOrder(null);
+            }
+        })
+    }
 
     const getStatusColor = (status) => {
         let color = "";
@@ -104,9 +120,13 @@ export default function Orders() {
                                 <div className={`flex justify-center`}>
 
                                     <JavButton onClick={() => {
-                                        downloadReceipt(content.payment_reference)
+                                        downloadOrder(content);
                                     }} className={"p-1"} bgColor={"bg-gray-200 "}>
-                                        <DownloadIcon/>
+                                        {
+                                            downloadingOrder === content.id ?
+                                            <LoadingIcon className={"animate-spin"}/> :
+                                            <DownloadIcon/>
+                                        }
                                     </JavButton>
 
                                 </div>
