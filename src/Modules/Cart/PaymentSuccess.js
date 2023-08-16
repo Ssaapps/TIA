@@ -1,20 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ExploreMoreCard from './ExploreMoreCard';
 import Confetti from 'react-confetti'
 import { MEDIA_URL } from '../../Shared/utils/constants';
 import { useNavigate } from 'react-router';
+import {downloadReceipt} from "../../Shared/utils/common";
+import SuccessAlert from "../../Shared/Component/Alert/Success";
 
 const PaymentSuccessScreen = ({ data }) => {
     const [confettiWidth, setConfettiWidth] = React.useState(window.innerWidth);
     const containerRef = useRef(null);
     const navigate = useNavigate();
+    const [message,setMessage] = useState(null);
     useEffect(() => {
         if (containerRef.current) {
             setConfettiWidth(containerRef.current.offsetWidth)
         }
     }, [containerRef])
+
+    const onDownloadTapped = () => {
+        setMessage("starting download...")
+        downloadReceipt(data.order.payment_reference).then(data => {
+            setMessage("download successfully")
+        }).catch(err => {
+            console.log("error: ",err);
+        })
+    }
     return (
         <div className=" items-center justify-center h-screen bg-gray-100 pt-[5%]">
+
+            <SuccessAlert open={!!message} message={message} onClose={() => {
+                setMessage(null)
+            }} />
+
+
             <div className="flex flex-col gap-y-5 w-[80%] md:w-[60%] sm:w-[70%]  lg:w-[40%] text-center mx-auto">
 
                 <div className="w-full py-3 mt-0 mb-0 relative" ref={containerRef}>
@@ -60,6 +78,11 @@ const PaymentSuccessScreen = ({ data }) => {
                 <h4 className="font-medium text-3xl tracking-wide">Congratulations. You've got covered</h4>
                 <p className=" text-gray-500 ">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
                 <p className=" text-gray-500 -mt-2 mb-8">NUMBER OF ITEMS: <span className='font-bold text-black'>{data.order.amount}</span> </p>
+
+                <div className={"underline text-blue-500 cursor-pointer"} onClick={onDownloadTapped}>
+                    Donwload Now
+                </div>
+
                 <div className='border-dashed border w-full h-[2px]'></div>
                 <p className="mt-4">Interested in exploring more</p>
 

@@ -1,12 +1,13 @@
 import { ActionTypes } from "./type";
 import { makeHttpRequest } from "../../../../Shared/utils/common";
 
-export const getMedia = () => {
+export const getMedia = (album) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.FETCH_MEDIA_REQUEST });
         makeHttpRequest({
             path: `admin/media`,
             method: "GET",
+            query: {album}
         }, {
             SUCCESS: ActionTypes.FETCH_MEDIA_SUCCESS,
             ERROR: ActionTypes.FETCH_MEDIA_ERROR

@@ -8,11 +8,13 @@ import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
 import ErrorAlert from "../../../Shared/Component/Alert/Error";
 import EditIcon from "../../../Shared/Component/Icons/EditIcon";
 import CreateEditAlbum from "./dialogs/CreateEditAlbum";
+import {useNavigate} from "react-router";
 
 export default function Albums() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const [showCreateDialog,setShowCreateDialog] = useState(false);
-    const dispatch = useDispatch();
     const [selectedItemModel, setSelectItemModel] = useState(null);
     const [error,setError] = useState(null);
     const [tableVersion,setTableVersion] = useState(0);
@@ -25,6 +27,10 @@ export default function Albums() {
     useEffect(() => {
         dispatch(getAlbums())
     }, [])
+
+    const onAlbumsMediaClicked = (content) => {
+        navigate(`/admin/photos?album=${content.uuid}`)
+    }
 
     useEffect(() => {
         const deleteError = albumState.delete?.error
@@ -82,17 +88,17 @@ export default function Albums() {
                 link={"admin/albums"}
                 tag={"albums.accounts"}
                 currentVersion={tableVersion}
-                columns={["id", "name", "description", "media", "action"]}
+                columns={["id", "name", "description", "media","status", "action"]}
                 fields={["id", "name", "description", {
                     id: "order_id",
                     render: (content) => {
                         return (
                             <td className={"text-center underline"}>
-                                <span className={"underline text-blue-800 align-baseline"}>{content.media_count} pictures</span>
+                                <span onClick={() => onAlbumsMediaClicked(content)} className={"underline cursor-pointer text-blue-800 align-baseline"}>{content.media_count} pictures</span>
                             </td>
                         )
                     }
-                }, {
+                }, "status" ,{
                         id: "id",
                         render: (content) => {
                             return (

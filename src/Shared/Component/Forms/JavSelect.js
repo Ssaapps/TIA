@@ -27,12 +27,13 @@ export default function JavSelect(props) {
     })
 
     useEffect(() => {
-        if (props.items && props.items.length > 0) {
+        if (props.value) {
+            setValue(props.value)
+        }else if (props.items && props.items.length > 0) {
             let text = props.items[0];
             if (props.items[0] instanceof Object) {
                 text = props.items[0].title;
             }
-            setValue(text)
         }
     },[])
 

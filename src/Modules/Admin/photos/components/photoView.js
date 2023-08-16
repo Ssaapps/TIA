@@ -3,9 +3,10 @@ import { classNames, niceBytes } from "../../../../Shared/utils/common";
 import React, { useEffect, useState } from "react";
 import { getMedia } from "../duck/action";
 import { useDispatch } from "react-redux";
-
+import { useLocation } from "react-router";
 export default function PhotoView(props) {
 
+    const location = useLocation();
     const dispatch = useDispatch();
     const [selectedFile, setSelectedFile] = useState(-1);
 
@@ -15,7 +16,9 @@ export default function PhotoView(props) {
     };
 
     useEffect(() => {
-        dispatch(getMedia());
+        const queryParams = new URLSearchParams(location.search);
+        const album = queryParams.get('album');
+        dispatch(getMedia(album));
     }, []);
 
 

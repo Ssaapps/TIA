@@ -148,20 +148,7 @@ function PhotosList() {
                                     ))}
                                 </nav>
                                 <div className="ml-6 hidden items-center rounded-lg bg-gray-100 p-0.5 sm:flex">
-                                    <button
-                                        type="button"
-                                        className="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                    >
-                                        <Bars4Icon className="h-5 w-5" aria-hidden="true" />
-                                        <span className="sr-only">Use list view</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                    >
-                                        <Squares2X2IconMini className="h-5 w-5" aria-hidden="true" />
-                                        <span className="sr-only">Use grid view</span>
-                                    </button>
+
                                 </div>
                             </div>
                         </div>

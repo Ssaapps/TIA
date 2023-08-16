@@ -14,6 +14,7 @@ export default function JavFormSelect(props) {
                     items={props.items}
                     position={props.position}
                     hideBorder={props.hideBorder}
+                    value={props.value}
                 />
             </div>
 

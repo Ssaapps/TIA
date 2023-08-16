@@ -5,6 +5,8 @@ import CloseIcon from "../../../../Shared/Component/Icons/CloseIcon";
 import JavInput from "../../../../Shared/Component/Forms/JavInput";
 import JavButton from "../../../../Shared/Component/Buttons/JavButton";
 import {editAlbum} from "../duck/action";
+import JavSelect from "../../../../Shared/Component/Forms/JavSelect";
+import JavFormSelect from "../../../../Shared/Component/Forms/JavFormSelect";
 
 export default function CreateEditAlbum(props) {
 
@@ -13,7 +15,8 @@ export default function CreateEditAlbum(props) {
 
     const [form,setForm] = useState({
         name: "",
-        description: ""
+        description: "",
+        status: ""
     });
 
     useEffect(() => {
@@ -23,7 +26,8 @@ export default function CreateEditAlbum(props) {
             setForm({
                 ...form,
                 name: props.album.name,
-                description: props.album.description
+                description: props.album.description,
+                status: props.album.status
             })
         }
     },[props.album])
@@ -80,6 +84,17 @@ export default function CreateEditAlbum(props) {
                         value={form.description}
                         rows={3}
                         onChange={handleChanges}
+                    />
+
+                    <JavFormSelect
+                        title={"Select Status"}
+                        items={[
+                            "published",
+                            "not-published"
+                        ]}
+                        value={form.status}
+                        position={"bottom"}
+                        onChange={(status) => setForm({...form,status})}
                     />
 
 
