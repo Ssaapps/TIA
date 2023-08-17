@@ -4,10 +4,10 @@ import ClockIcon from "../../Shared/Component/Icons/ClockIcon";
 import CameraIcon from "../../Shared/Component/Icons/CameraIcon";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
-import { flattenObject, getLighterColor } from "../../Shared/utils/common";
+import {downloadReceipt, flattenObject, getLighterColor} from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { addItemToCart } from "../Cart/duck/action";
@@ -15,18 +15,20 @@ import SuccessAlert from "../../Shared/Component/Alert/Success";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 import MetaDisplayDialog from "./MetaDisplayDialog";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import JavButton from "../../Shared/Component/Buttons/JavButton";
 
 export default function Photo() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-
+    const [downloading,setDownloading] = useState(false);
     const mediaState = useSelector((state) => state.media)
     const photoDetailState = useSelector((state) => state.photo_detail)
     const [metaDetails, setMetaDetails] = useState(null)
     const [itemAddedMessage, setItemAddedMessage] = useState(null)
-    const [metaDialogOpen, setMetaDialogOpen] = useState(false)
+    const [metaDialogOpen, setMetaDialogOpen] = useState(false);
+    const [message,setMessage] = useState(null);
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -58,11 +60,21 @@ export default function Photo() {
 
 
     const onAddToCartClicked = () => {
-        dispatch(addItemToCart(mediaState.show.data, (itemAlreadyInCart) => {
-            let message = itemAlreadyInCart ? "Item already in cart" : "Item Added to cart"
-            setItemAddedMessage(message)
+        if (mediaState.show.data?.item_price?.price > 0) {
+            dispatch(addItemToCart(mediaState.show.data, (itemAlreadyInCart) => {
+                let message = itemAlreadyInCart ? "Item already in cart" : "Item Added to cart"
+                setItemAddedMessage(message)
+            }))
+        }else {
+            setMessage("starting download...");
+            setDownloading(true);
+            downloadReceipt(null,`media/${mediaState.show.data.id}/download`).then(res => {
+                console.log("data is ", res)
+                setDownloading(false);
+                setMessage("download successfully")
+            });
+        }
 
-        }))
     }
     // useEffect(() => {
     //     if (itemAdded) {
@@ -77,6 +89,9 @@ export default function Photo() {
             {mediaState.show.data && <MetaDisplayDialog open={metaDialogOpen} setOpen={setMetaDialogOpen} metaObj={flattenObject(JSON.parse(mediaState.show.data.meta))} />}
             <SuccessAlert open={!!itemAddedMessage} message={itemAddedMessage} onClose={() => {
                 setItemAddedMessage(null)
+            }} />
+            <SuccessAlert open={!!message} message={message} onClose={() => {
+                setMessage(null)
             }} />
             <div className={"px-10 mt-10 mb-5 gap-x-5 flex items-center"}>
                 {/* <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
@@ -119,9 +134,9 @@ export default function Photo() {
                                 {!mediaState.show.data ? <Shimmer className={"w-60 h-[40px] mt-8 mb-5"} /> : '\u20AC' + mediaState.show.data.item_price.price}
                             </div>
 
-                            {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <button onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 md:py-4 py-2 border border-indigo-800 rounded text-white"}>
-                                Add To Cart
-                            </button>}
+                            {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <JavButton isLoading={downloading} onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 md:py-4 py-2 border border-indigo-800 rounded text-white"}>
+                                {mediaState.show.data.item_price.price > 0 ? 'Add To Cart' :  downloading ? 'Downloading...' : 'Download Now' }
+                            </JavButton>}
 
                             <div className={"h-0.5 my-1 bg-gray-200"} />
                         </div>

@@ -1,13 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import { PropagateLoader } from "react-spinners";
-import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
-import ErrorNotification from "../../Shared/Component/ErrorNotification";
-import Logo from "../../Shared/Component/Icons/Logo";
 import { register } from "./duck/action";
 import { useEffect, useState } from "react";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
 import ErrorAlert from "../../Shared/Component/Alert/Error";
+import JavButton from "../../Shared/Component/Buttons/JavButton";
 
 
 export default function Register() {
@@ -15,15 +12,14 @@ export default function Register() {
     const [registerSucess, setRegisterSuccess] = useState(null)
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation()
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        //Dispatch login action
-        const name = e.target.name.value;
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        dispatch(register(name, email, password, () => {
+    const [form,setForm] = useState({
+        name: "",
+        email: "",
+        password: ""
+    });
+
+    const onRegisterClicked = () => {
+        dispatch(register(form.name, form.email, form.password, () => {
             // window.location.replace("/login")
             setTimeout(() => {
                 window.history.back();
@@ -31,10 +27,17 @@ export default function Register() {
         }))
     }
 
+    const handleChanges = (event) => {
+        const value = event.target.value;
+        setForm({
+            ...form,
+            [event.target.name]: value
+        })
+    }
+
     useEffect(() => {
         if (loginState.register.loginSuccess) {
             setRegisterSuccess("Account created successfully")
-
         }
 
         if (loginState.register.errorMessage) {
@@ -45,16 +48,15 @@ export default function Register() {
     }, [loginState])
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.register.isLoading} >
-            <SuccessAlert open={!!registerSucess} message={registerSucess} onClose={() => { }} />
-
-            <ErrorAlert open={error != null}
-                message={error}
-                timeout={4000}
-                onClose={() => { setError(null) }}
-            />
-
             <div className="bg-[#F4F4F4] h-screen">
+
+                <SuccessAlert open={!!registerSucess} message={registerSucess} onClose={() => { }} />
+
+                <ErrorAlert open={error != null}
+                            message={error}
+                            timeout={4000}
+                            onClose={() => { setError(null) }}
+                />
 
                 <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
                     <div className={"flex items-center justify-center"}>
@@ -62,7 +64,7 @@ export default function Register() {
                     </div>
                     <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                            <form className="space-y-6" onSubmit={handleSubmit}>
+                            <div className="space-y-6">
                                 <h6>Register an account</h6>
 
                                 <div>
@@ -76,6 +78,7 @@ export default function Register() {
                                             type="text"
                                             autoComplete="name"
                                             required
+                                            onChange={handleChanges}
                                             className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         />
                                     </div>
@@ -92,6 +95,7 @@ export default function Register() {
                                             name="email"
                                             type="email"
                                             autoComplete="email"
+                                            onChange={handleChanges}
                                             required
                                             className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         />
@@ -106,39 +110,19 @@ export default function Register() {
                                             id="password"
                                             name="password"
                                             type="password"
+                                            onChange={handleChanges}
                                             autoComplete="current-password"
                                             required
                                             className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         />
                                     </div>
                                 </div>
-                                {/* <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                        <input
-                                            id="remember-me"
-                                            name="remember-me"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                        />
-                                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <div className="text-sm">
-                                        <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                            Forgot your password?
-                                        </a>
-                                    </div>
-                                </div> */}
                                 <div>
-                                    <button
-                                        type="submit"
-                                        className="flex w-full justify-center rounded-md border border-transparent bg-[#ef3f23] py-2 px-4 text-sm font-medium text-white shadow-sm bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                    >
+                                    <JavButton onClick={onRegisterClicked} isLoading={loginState.register.loading} className={"text-white bg-blue-600 w-full"}>
                                         Register
-                                    </button>
+                                    </JavButton>
                                 </div>
-                            </form>
+                            </div>
 
                         </div>
                         <div className={"mt-2"}>
@@ -148,7 +132,5 @@ export default function Register() {
 
                 </div>
             </div>
-            {loginState.register.error && <ErrorNotification errorMessage={loginState.register.error} />}
-        </CustomLoadingOverlay>
     )
 }

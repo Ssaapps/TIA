@@ -1,12 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import { PropagateLoader } from "react-spinners";
-import CustomLoadingOverlay from "../../Shared/Component/CustomLoadingOverlay";
-import ErrorNotification from "../../Shared/Component/ErrorNotification";
 import { login } from "./duck/action";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import ErrorAlert from "../../Shared/Component/Alert/Error";
 import { Link } from "react-router-dom";
+import JavButton from "../../Shared/Component/Buttons/JavButton";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -14,13 +12,14 @@ export default function Login() {
     const loginState = useSelector(state => state.login);
     const navigate = useNavigate();
     const location = useLocation();
+    const [form,setForm] = useState({
+        email: "",
+        password: ""
+    });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        //Dispatch login action
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        dispatch(login(email, password, () => {
+
+    const onLoginClicked = () => {
+        dispatch(login(form.email,form.password, () => {
             const previousPage = location.state?.from;
             if (previousPage) {
                 if (previousPage.pathname === "/cart") {
@@ -33,6 +32,13 @@ export default function Login() {
         }))
     }
 
+    const handleChanges = (event) => {
+        const value = event.target.value;
+        setForm({
+            ...form,
+            [event.target.name]: value
+        })
+    }
 
 
     useEffect(() => {
@@ -53,15 +59,7 @@ export default function Login() {
 
     return (
 
-        <CustomLoadingOverlay spinner={<PropagateLoader color="#fff" />} text={""} show={loginState.login.isLoading} setShow={() => { }}>
             <div className="bg-[#F4F4F4] h-screen">
-                {/*
-              This example requires updating your template:
-              ```
-              <html class="h-full bg-gray-50">
-              <body class="h-full">
-              ```
-            */}
                 <ErrorAlert open={!!authError} message={authError} onClose={() => {
                     setAuthError(null)
                 }} />
@@ -71,7 +69,7 @@ export default function Login() {
                     </div>
                     <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                            <form className="space-y-6" onSubmit={handleSubmit}>
+                            <div className="space-y-6">
                                 <h6>Sign in to your account</h6>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -79,6 +77,7 @@ export default function Login() {
                                     </label>
                                     <div className="mt-1">
                                         <input
+                                            onChange={handleChanges}
                                             id="email"
                                             name="email"
                                             type="email"
@@ -97,6 +96,7 @@ export default function Login() {
                                             id="password"
                                             name="password"
                                             type="password"
+                                            onChange={handleChanges}
                                             autoComplete="current-password"
                                             required
                                             className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -104,7 +104,7 @@ export default function Login() {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    {/* <div className="flex items-center">
+                                    { <div className="flex items-center">
                                         <input
                                             id="remember-me"
                                             name="remember-me"
@@ -114,7 +114,7 @@ export default function Login() {
                                         <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                                             Remember me
                                         </label>
-                                    </div> */}
+                                    </div> }
                                     <div className="text-sm">
                                         <Link to={"/forgot-password"} className="font-medium text-indigo-600 hover:text-indigo-500">
                                             Forgot your password?
@@ -122,14 +122,11 @@ export default function Login() {
                                     </div>
                                 </div>
                                 <div>
-                                    <button
-                                        type="submit"
-                                        className="flex w-full justify-center rounded-md border border-transparent bg-[#ef3f23] py-2 px-4 text-sm font-medium text-white shadow-sm bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                    >
+                                    <JavButton onClick={onLoginClicked} isLoading={loginState.login.loading} className={"w-full text-white bg-blue-600"}>
                                         Sign in
-                                    </button>
+                                    </JavButton>
                                 </div>
-                            </form>
+                            </div>
 
                         </div>
                         <div className={"mt-2"}>
@@ -143,7 +140,5 @@ export default function Login() {
 
                 </div>
             </div>
-            {loginState.login.error && <ErrorNotification errorMessage={loginState.login.error} />}
-        </CustomLoadingOverlay>
     )
 }

@@ -15,20 +15,29 @@ const initialState = {
         loading: false,
         error: null,
         data: null
+    },
+    forgetPassword: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
+    },
+    setPassword: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null
     }
 }
 export const LoginReducer = (state = initialState, action) => {
     switch (action.type) {
 
-
-
-
         case ActionTypes.REQUEST_LOGIN:
             return {
-                ...state,
+                ...initialState,
                 login: {
                     ...state.login,
-                    isLoading: true,
+                    loading: true,
                     errorMessage: null,
                     loginSuccess: false
                 }
@@ -38,7 +47,7 @@ export const LoginReducer = (state = initialState, action) => {
                 ...state,
                 login: {
                     ...state.login,
-                    isLoading: false,
+                    loading: false,
                     loginSuccess: true,
                     errorMessage: null,
                     user: action?.payload?.user,
@@ -50,7 +59,7 @@ export const LoginReducer = (state = initialState, action) => {
                 ...state,
                 login: {
                     ...state.login,
-                    isLoading: false,
+                    loading: false,
                     errorMessage: action?.payload
                 }
             }
@@ -58,10 +67,10 @@ export const LoginReducer = (state = initialState, action) => {
 
         case ActionTypes.REQUEST_REGISTER:
             return {
-                ...state,
+                ...initialState,
                 register: {
                     ...state.register,
-                    isLoading: true,
+                    loading: true,
                     errorMessage: null,
                     loginSuccess: false
                 }
@@ -71,7 +80,7 @@ export const LoginReducer = (state = initialState, action) => {
                 ...state,
                 register: {
                     ...state.register,
-                    isLoading: false,
+                    loading: false,
                     loginSuccess: true,
                     errorMessage: null,
                     user: action.payload.user,
@@ -83,8 +92,67 @@ export const LoginReducer = (state = initialState, action) => {
                 ...state,
                 register: {
                     ...state.register,
-                    isLoading: false,
+                    loading: false,
                     errorMessage: action.payload
+                }
+            }
+
+        case ActionTypes.REQUEST_FORGOT_PASSWORD:
+            return {
+                ...initialState,
+                forgetPassword: {
+                    ...state.forgetPassword,
+                    loading: true,
+                    errorMessage: null,
+                    loginSuccess: false
+                }
+            }
+        case ActionTypes.SUCCESS_FORGOT_PASSWORD:
+            return {
+                ...state,
+                forgetPassword: {
+                    ...state.forgetPassword,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.ERROR_FORGOT_PASSWORD:
+            return {
+                ...state,
+                forgetPassword: {
+                    ...state.forgetPassword,
+                    loading: false,
+                    errorMessage: action.payload,
+                }
+            }
+
+        case ActionTypes.REQUEST_SET_PASSWORD:
+            return {
+                ...initialState,
+                setPassword: {
+                    ...state.setPassword,
+                    loading: true,
+                    errorMessage: null,
+                    loginSuccess: false
+                }
+            }
+        case ActionTypes.SUCCESS_SET_PASSWORD:
+            return {
+                ...state,
+                setPassword: {
+                    ...state.setPassword,
+                    loading: false,
+                    data: action.payload,
+                    success: true
+                }
+            }
+        case ActionTypes.ERROR_SET_PASSWORD:
+            return {
+                ...state,
+                setPassword: {
+                    ...state.setPassword,
+                    loading: false,
+                    errorMessage: action.payload,
                 }
             }
 

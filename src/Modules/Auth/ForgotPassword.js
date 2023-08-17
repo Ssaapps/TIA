@@ -1,31 +1,60 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { LockClosedIcon } from '@heroicons/react/20/solid'
+import JavButton from "../../Shared/Component/Buttons/JavButton";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {forgotPassword} from "./duck/action";
+import SuccessAlert from "../../Shared/Component/Alert/Success";
+import ErrorAlert from "../../Shared/Component/Alert/Error";
 
 export default function ForgotPassword() {
+
+    const [message, setMessage] = useState(null)
+    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+
+    const [form,setForm] = useState({
+        email: "",
+    });
+    const loginState = useSelector(state => state.login);
+
+
+    const handleChanges = (event) => {
+        const value = event.target.value;
+        setForm({
+            ...form,
+            [event.target.name]: value
+        })
+    }
+
+    const onForgotPasswordClicked = () => {
+        dispatch(forgotPassword(form));
+    }
+
+    useEffect(() => {
+        if (loginState.forgetPassword.loginSuccess) {
+            setMessage("Account created successfully")
+        }
+
+        if (loginState.forgetPassword.errorMessage) {
+            setError(loginState.forgetPassword.errorMessage)
+        }
+
+        console.log(loginState)
+    }, [loginState])
+
+
+
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <SuccessAlert open={!!message} message={message} onClose={() => { }} />
+
+                <ErrorAlert open={error != null}
+                            message={error}
+                            timeout={4000}
+                            onClose={() => { setError(null) }}
+                />
+
+
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <div className={"flex items-center justify-center"}>
@@ -38,7 +67,7 @@ export default function ForgotPassword() {
                             An password reset link will be sent  your email address
                         </p>
                     </div>
-                    <form className="mt-8 space-y-6" action="#" method="POST">
+                    <div className="mt-8 space-y-6">
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="-space-y-px rounded-md shadow-sm">
                             <div>
@@ -50,41 +79,20 @@ export default function ForgotPassword() {
                                     name="email"
                                     type="email"
                                     autoComplete="email"
+                                    onChange={handleChanges}
                                     required
                                     className="relative block w-full appearance-none  rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                 />
                             </div>
-                            {/* <div>
-                                <label htmlFor="password" className="sr-only">
-                                    Password
-                                </label>
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                    placeholder="Password"
-                                />
-                            </div> */}
                         </div>
 
 
 
                         <div>
-                            <button
-                                type="submit"
-                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    {/* <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" /> */}
-                                </span>
-                                Sign in
-                            </button>
+                            <JavButton onClick={onForgotPasswordClicked} isLoading={loginState.forgetPassword.loading} className={"text-white w-full bg-blue-600"}>Sign In</JavButton>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </>

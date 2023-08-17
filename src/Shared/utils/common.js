@@ -176,9 +176,9 @@ export const capitalize = (string) => {
 }
 
 
-export const downloadReceipt = async (reference) => {
+export const downloadReceipt = async (reference,path) => {
     try {
-        const response = await Axios.get(`/orders/${reference}/download`, {
+        const response = await Axios.get(path ?? `/orders/${reference}/download`, {
             responseType: 'blob'
         })
         console.log(response.data)
@@ -199,8 +199,6 @@ export const downloadReceipt = async (reference) => {
         throw e
     }
 }
-
-
 export function convertToKBorMBorGB(bytes) {
     const kilobytes = bytes / 1024;
 

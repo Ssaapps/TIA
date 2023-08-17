@@ -1,6 +1,7 @@
 import { ActionTypes } from "./type";
 import Cookies from "js-cookie";
 import Axios from "../../../Shared/utils/axios_instance";
+import {makeHttpRequest} from "../../../Shared/utils/common";
 
 
 export const login = (email, password, callback) => {
@@ -63,6 +64,40 @@ export const register = (name, email, password, callback) => {
     }
 
 }
+
+
+export const forgotPassword = (email) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.REQUEST_FORGOT_PASSWORD });
+        makeHttpRequest({
+            path: `user/password/forgot`,
+            method: "POST",
+            data: {email}
+        }, {
+            SUCCESS: ActionTypes.SUCCESS_FORGOT_PASSWORD,
+            ERROR: ActionTypes.ERROR_FORGOT_PASSWORD
+        }, dispatch);
+
+    }
+
+}
+
+export const setPassword = (data) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.REQUEST_SET_PASSWORD });
+        makeHttpRequest({
+            path: `user/password/forgot/set`,
+            method: "POST",
+            data: data
+        }, {
+            SUCCESS: ActionTypes.SUCCESS_SET_PASSWORD,
+            ERROR: ActionTypes.ERROR_SET_PASSWORD
+        }, dispatch);
+
+    }
+
+}
+
 
 export const logout = () => {
     return async (dispatch) => {

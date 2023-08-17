@@ -24,6 +24,7 @@ import PaymentSuccessPage from './Modules/Cart/PaymentSuccess';
 import PaymentFailureScreen from './Modules/Cart/PaymentFailureScreen';
 import PaymentDoneRoot from './Modules/Cart/PaymentDoneRoot';
 import {ADMIN_ROLE_ID} from "./Shared/utils/constants";
+import SetPassword from "./Modules/Auth/SetPassword";
 
 
 function App() {
@@ -34,9 +35,6 @@ function App() {
     return roles.filter(item => item["id"] === ADMIN_ROLE_ID).length > 0;
   }
 
-  useEffect(() => {
-    console.log("isAuth", isAuth)
-  }, [isAuth])
 
   useEffect(() => {
   console.log(user)
@@ -49,6 +47,7 @@ function App() {
         <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
         <Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
         <Route exact path="/forgot-password" element={isAuth ? <Navigate to="/" /> : <ForgotPassword />} />
+        <Route exact path="/set-password" element={isAuth ? <Navigate to="/" /> : <SetPassword />} />
 
 
         <Route path="/admin" element={!isAuth || !isAdmin(user.roles) ? <Navigate to="/login" />  : <Admin />}>
