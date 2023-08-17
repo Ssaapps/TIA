@@ -30,8 +30,11 @@ export default function ForgotPassword() {
     }
 
     useEffect(() => {
-        if (loginState.forgetPassword.loginSuccess) {
-            setMessage("Account created successfully")
+        if (loginState.forgetPassword.success) {
+            setMessage("Password reset Link to your Mail")
+            setTimeout(() => {
+                window.location.href = "/login";
+            },2000)
         }
 
         if (loginState.forgetPassword.errorMessage) {
@@ -44,57 +47,56 @@ export default function ForgotPassword() {
 
 
     return (
-        <>
-            <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <SuccessAlert open={!!message} message={message} onClose={() => { }} />
 
-                <ErrorAlert open={error != null}
-                            message={error}
-                            timeout={4000}
-                            onClose={() => { setError(null) }}
-                />
+        <div className="bg-[#F4F4F4] h-screen">
 
+            <SuccessAlert open={!!message} message={message} onClose={() => { }} />
 
-                <div className="w-full max-w-md space-y-8">
-                    <div>
-                        <div className={"flex items-center justify-center"}>
-                            <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"} />
-                        </div>
-                        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                            Enter your email address
-                        </h2>
-                        <p className="mt-2 text-center text-sm text-gray-600">
-                            An password reset link will be sent  your email address
-                        </p>
-                    </div>
-                    <div className="mt-8 space-y-6">
-                        <input type="hidden" name="remember" defaultValue="true" />
-                        <div className="-space-y-px rounded-md shadow-sm">
+            <ErrorAlert open={error != null}
+                        message={error}
+                        timeout={4000}
+                        onClose={() => { setError(null) }}
+            />
+
+            <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+                <div className={"flex items-center justify-center"}>
+                    <img src={"/logo-fav.JPG"} className={"w-20 rounded-full"} />
+                </div>
+                <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                        <div className="space-y-6">
+                            <h6 className={"font-proximaBold text-2xl text-blue-800"}>Forgot Password.</h6>
+                            <span className={"text-xs leading-tight text-gray-600"}>Provide the email on your account and we’ll send detals to reset your password</span>
                             <div>
-                                <label htmlFor="email-address" className="sr-only">
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email address
                                 </label>
-                                <input
-                                    id="email-address"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    onChange={handleChanges}
-                                    required
-                                    className="relative block w-full appearance-none  rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                    placeholder="Email address"
-                                />
+                                <div className="mt-1">
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        onChange={handleChanges}
+                                        required
+                                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <JavButton onClick={onForgotPasswordClicked} isLoading={loginState.forgetPassword.loading} className={"text-white bg-blue-600 w-full"}>
+                                    Reset Password
+                                </JavButton>
                             </div>
                         </div>
 
-
-
-                        <div>
-                            <JavButton onClick={onForgotPasswordClicked} isLoading={loginState.forgetPassword.loading} className={"text-white w-full bg-blue-600"}>Sign In</JavButton>
-                        </div>
+                    </div>
+                    <div className={"mt-2"}>
+                        <span className={"text-sm"}>Already have an account ? <a className={"font-proximaBold underline text-blue-800"} href={"/login"}>Login</a></span>
                     </div>
                 </div>
+
             </div>
-        </>
+        </div>
     )
 }

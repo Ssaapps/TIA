@@ -65,7 +65,7 @@ export default function Register() {
                     <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                             <div className="space-y-6">
-                                <h6>Register an account</h6>
+                                <h6 className={"font-proximaBold text-2xl text-blue-800"}>Register an account</h6>
 
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">

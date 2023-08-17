@@ -113,6 +113,7 @@ export const LoginReducer = (state = initialState, action) => {
                 forgetPassword: {
                     ...state.forgetPassword,
                     loading: false,
+                    success: true,
                     data: action.payload
                 }
             }

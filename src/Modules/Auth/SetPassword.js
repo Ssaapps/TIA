@@ -74,7 +74,7 @@ export default function SetPassword() {
                 <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <div className="space-y-6">
-                            <h6>Set new Password</h6>
+                            <h6 className={"font-proximaBold text-2xl text-blue-800"}>Set new Password</h6>
                             <div>
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                     Password

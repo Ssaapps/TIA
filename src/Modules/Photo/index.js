@@ -16,6 +16,7 @@ import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 import MetaDisplayDialog from "./MetaDisplayDialog";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import JavButton from "../../Shared/Component/Buttons/JavButton";
+import ErrorAlert from "../../Shared/Component/Alert/Error";
 
 export default function Photo() {
 
@@ -29,6 +30,8 @@ export default function Photo() {
     const [itemAddedMessage, setItemAddedMessage] = useState(null)
     const [metaDialogOpen, setMetaDialogOpen] = useState(false);
     const [message,setMessage] = useState(null);
+    const [error,setError] = useState(null);
+
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -72,6 +75,16 @@ export default function Photo() {
                 console.log("data is ", res)
                 setDownloading(false);
                 setMessage("download successfully")
+            }).catch(async err => {
+                console.log("error is ",err)
+                let errorMessage = "Error trying to download file";
+                if (err.response?.data) {
+                    let errorData = await err.response.data.text();
+                    errorMessage = JSON.parse(errorData).message;
+                }
+                setMessage(null);
+                setError(errorMessage);
+                setDownloading(false);
             });
         }
 
@@ -86,12 +99,16 @@ export default function Photo() {
 
     return (
         <div>
+
             {mediaState.show.data && <MetaDisplayDialog open={metaDialogOpen} setOpen={setMetaDialogOpen} metaObj={flattenObject(JSON.parse(mediaState.show.data.meta))} />}
             <SuccessAlert open={!!itemAddedMessage} message={itemAddedMessage} onClose={() => {
                 setItemAddedMessage(null)
             }} />
             <SuccessAlert open={!!message} message={message} onClose={() => {
                 setMessage(null)
+            }} />
+            <ErrorAlert open={!!error} message={error} onClose={() => {
+                setError(null)
             }} />
             <div className={"px-10 mt-10 mb-5 gap-x-5 flex items-center"}>
                 {/* <span className={"px-2 mr-2 text-sm  bg-gray-100 rounded border"}>
