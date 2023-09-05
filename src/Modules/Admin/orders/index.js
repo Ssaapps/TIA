@@ -43,16 +43,16 @@ export default function Orders() {
         let color = "";
         switch (status) {
             case "paid":
-                color = "bg-green-400"
+                color = "text-green-600"
                 break;
             case "cancelled":
-                color = "bg-red-400"
+                color = "text-red-600"
                 break;
             case "pending":
-                color = "bg-orange-300"
+                color = "text-orange-600"
                 break;
             default:
-                color = "bg-gray-300"
+                color = "text-gray-600"
         }
         return color;
     }
@@ -83,36 +83,28 @@ export default function Orders() {
             <Table
                 link={"admin/orders"}
                 tag={"albums.orders"}
-                columns={["id","Name","Email","amount","description","status","Paid At","created_at","action"]}
-                fields={["id",{
+                columns={["id","Name","Email","amount","status","Paid At","created_at","action"]}
+                fields={["id","user.name","user.email",{
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
-                               USD {content.amount}
+                                USD {content.amount}
                             </td>
                         )
                     }
-                },"user.name","user.email",{
+                },{
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
-                                Purchase of {content.resource_name} Item of Id {content.resource_id}
-                            </td>
-                        )
-                    }
-                },"paid_at",{
-                    render: (content) => {
-                        return (
-                            <td className={"text-center"}>
-                                <span className={`${getStatusColor(content.status)} p-1 w-56 border rounded`}>
+                                <div className={`${getStatusColor(content.status)} p-1  rounded`}>
                                     {
                                         content.status
                                     }
-                                </span>
+                                </div>
                             </td>
                         )
                     }
-                },"created_at",{
+                },"paid_at","created_at",{
                     id: "id",
                     render: (content) => {
                         return (
