@@ -11,6 +11,7 @@ import CreateEditAlbum from "./dialogs/CreateEditAlbum";
 import {useNavigate} from "react-router";
 import Copy from "../../../Shared/Component/Copy";
 import {generateRandomNumber} from "../../../Shared/utils/common";
+import moment from "moment";
 
 export default function Albums() {
     const dispatch = useDispatch();
@@ -21,10 +22,7 @@ export default function Albums() {
     const [error,setError] = useState(null);
     const [tableVersion,setTableVersion] = useState(0);
 
-
-
     const albumState = useSelector((state) => state.albums)
-
 
     useEffect(() => {
         dispatch(getAlbums())
@@ -83,7 +81,14 @@ export default function Albums() {
                 on
             />
 
-            <h1 className="flex-1 text-2xl font-bold text-gray-900">Albums</h1>
+            <div className={"flex justify-between"}>
+                <h1 className="flex-1 text-2xl font-bold text-gray-900">Albums</h1>
+                <div className={"flex items-center text-sm "}>
+                    <span className={"text-xs mx-2"}>Last Reload: {moment().fromNow()}</span>
+                    <JavButton isLoading={true} className={"text-white"}>Reload</JavButton>
+                </div>
+            </div>
+
 
 
             <Table
