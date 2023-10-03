@@ -7,9 +7,37 @@ export const getAlbums = () => {
         makeHttpRequest({
             path: `admin/albums`,
             method: "GET",
+
         }, {
             SUCCESS: ActionTypes.FETCH_ALBUMS_SUCCESS,
             ERROR: ActionTypes.FETCH_ALBUMS_ERROR
+        }, dispatch);
+    }
+}
+
+
+export const getLastReload = () => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.LAST_RELOAD_REQUEST });
+        makeHttpRequest({
+            path: `newsbridge`,
+            method: "GET",
+        }, {
+            SUCCESS: ActionTypes.LAST_RELOAD_SUCCESS,
+            ERROR: ActionTypes.LAST_RELOAD_ERROR
+        }, dispatch);
+    }
+}
+
+export const doReload = () => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.LAST_RELOAD_RELOAD_REQUEST });
+        makeHttpRequest({
+            path: `newsbridge`,
+            method: "POST",
+        }, {
+            SUCCESS: ActionTypes.LAST_RELOAD_RELOAD_SUCCESS,
+            ERROR: ActionTypes.LAST_RELOAD_RELOAD_ERROR
         }, dispatch);
     }
 }
@@ -66,7 +94,7 @@ export const createAlbum = (data) => {
     }
 }
 
-export const editAlbum = (id,data) => {
+export const editAlbum = (id, data) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.EDIT_ALBUMS_REQUEST });
         makeHttpRequest({

@@ -34,6 +34,19 @@ const initialState = {
         loading: false,
         error: null,
         data: null
+    },
+    lastReload: {
+        //For the initial request
+        success: false,
+        loading: false,
+        error: null,
+        data: null,
+        reload: {
+            //For when the button is tapped
+            success: false,
+            loading: false,
+            error: null,
+        }
     }
 
 };
@@ -201,6 +214,82 @@ export const AlbumReducer = (state = initialState, action) => {
                     error: action.payload
                 }
             }
+
+
+        //edit album
+        case ActionTypes.LAST_RELOAD_REQUEST:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.LAST_RELOAD_SUCCESS:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.LAST_RELOAD_ERROR:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+        case ActionTypes.LAST_RELOAD_RELOAD_REQUEST:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    reload: {
+                        ...state.lastReload.reload,
+                        loading: true,
+                        success: false,
+                        error: null
+                    }
+                }
+            }
+        case ActionTypes.LAST_RELOAD_RELOAD_SUCCESS:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    data: action.payload,
+                    reload: {
+                        ...state.lastReload.reload,
+                        success: true,
+                        loading: false,
+                    }
+                }
+            }
+        case ActionTypes.LAST_RELOAD_ERROR:
+            return {
+                ...state,
+                lastReload: {
+                    ...state.lastReload,
+                    error: action.payload,
+                    reload: {
+                        ...state.lastReload.reload,
+                        success: false,
+                        loading: false,
+                        error: action.payload
+                    }
+                }
+            }
+
+
 
 
 
