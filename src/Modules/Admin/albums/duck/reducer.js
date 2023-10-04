@@ -266,7 +266,7 @@ export const AlbumReducer = (state = initialState, action) => {
                 ...state,
                 lastReload: {
                     ...state.lastReload,
-                    data: action.payload,
+                    data: action.payload?.data?.last_update_date,
                     reload: {
                         ...state.lastReload.reload,
                         success: true,
@@ -274,7 +274,7 @@ export const AlbumReducer = (state = initialState, action) => {
                     }
                 }
             }
-        case ActionTypes.LAST_RELOAD_ERROR:
+        case ActionTypes.LAST_RELOAD_RELOAD_ERROR:
             return {
                 ...state,
                 lastReload: {

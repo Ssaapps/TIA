@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import Copy from "../../../Shared/Component/Copy";
 import { generateRandomNumber } from "../../../Shared/utils/common";
 import moment from "moment";
+import SuccessAlert from "../../../Shared/Component/Alert/Success";
 
 export default function Albums() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function Albums() {
     const [showCreateDialog, setShowCreateDialog] = useState(false);
     const [selectedItemModel, setSelectItemModel] = useState(null);
     const [error, setError] = useState(null);
+    const [reloadSuccess, setReloadSuccess] = useState(false)
     const [tableVersion, setTableVersion] = useState(0);
 
     const albumState = useSelector((state) => state.albums)
@@ -36,13 +38,22 @@ export default function Albums() {
     useEffect(() => {
         const deleteError = albumState.delete?.error
         const editError = albumState.edit?.error
-        const reloadError = albumState.lastReload?.reload?.error || albumState.lastReload?.error
+        const lastReloadError = albumState.lastReload?.error
+        const reloadError = albumState.lastReload?.reload?.error
+        const reloadSuccess = albumState.lastReload?.reload?.success
         setError(deleteError)
         setError(editError);
+
+        //Only reload  needs success message
+        setReloadSuccess(reloadSuccess)
+        console.log("data is", moment(albumState.lastReload?.data).fromNow())
+        setError(lastReloadError);
         setError(reloadError);
 
         if (albumState.edit.success) {
             setShowCreateDialog(false);
+
+
             setTableVersion(tableVersion + 1);
         }
 
@@ -76,6 +87,7 @@ export default function Albums() {
             </YesNoDialog>
 
             <ErrorAlert timeout={3000} open={error} message={error} onClose={() => { setError(null) }} />
+            <SuccessAlert timeout={3000} open={reloadSuccess} message={"Reload successful"} onClose={() => { setReloadSuccess(false) }} />
 
             <CreateEditAlbum
                 album={selectedAlbum}
@@ -88,8 +100,8 @@ export default function Albums() {
                 <h1 className="flex-1 text-2xl font-bold text-gray-900">Albums</h1>
                 <div className={"flex items-center text-sm "}>
                     {/* TODO: Map albumState.lastReload.data to the value here */}
-                    <span className={"text-xs mx-2"}>Last Reload: {moment().fromNow()}</span>
-                    <JavButton isLoading={albumState?.lastReload?.reload?.isLoading} onClick={() => {
+                    <span className={"text-xs mx-2"}> Last Reload: {albumState.lastReload?.data ? moment(albumState.lastReload?.data).fromNow() : "..."} </span>
+                    <JavButton isLoading={albumState?.lastReload?.reload?.loading} onClick={() => {
                         dispatch(doReload())
                     }} className={"text-white"}>Reload</JavButton>
                 </div>

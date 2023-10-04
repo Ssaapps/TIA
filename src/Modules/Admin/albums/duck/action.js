@@ -20,7 +20,7 @@ export const getLastReload = () => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.LAST_RELOAD_REQUEST });
         makeHttpRequest({
-            path: `newsbridge`,
+            path: `admin/newsbridge`,
             method: "GET",
         }, {
             SUCCESS: ActionTypes.LAST_RELOAD_SUCCESS,
@@ -33,7 +33,7 @@ export const doReload = () => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.LAST_RELOAD_RELOAD_REQUEST });
         makeHttpRequest({
-            path: `newsbridge`,
+            path: `admin/newsbridge`,
             method: "POST",
         }, {
             SUCCESS: ActionTypes.LAST_RELOAD_RELOAD_SUCCESS,
