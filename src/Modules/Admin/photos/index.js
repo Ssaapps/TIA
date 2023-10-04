@@ -16,6 +16,8 @@ import moment from "moment";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
 import PhotoView from "./components/photoView";
 import AlbumView from "./components/albumView";
+import JavInput from '../../../Shared/Component/Forms/JavInput';
+import ShimmerPhotoView from './components/shimmerPhotoView';
 
 const initialTabs = [
     { id: 0, name: 'Photo ', href: '#', current: true },
@@ -28,15 +30,18 @@ function PhotosList() {
     const [selectedItemModel, setSelectItemModel] = useState(null);
     const photoState = useSelector((state) => state.media)
     const [tabs, setTabs] = useState(initialTabs)
+    const [editingPrice, setEditingPrice] = useState(false)
 
     const onItemClicked = (file) => {
         console.log("file is ", file)
+        setEditingPrice(false)
         setCurrentFile({
             type: file.type,
             id: file.id,
             name: file.name,
             size: file.type === 'file' ? niceBytes(file.size) : file.media_count + " files",
             source: `${MEDIA_URL}${file.watermark_path}`,
+            price: file.item_price.price,
             information: {
                 'Uploaded by': file.created_by.name,
                 'Created at ': moment(file.created_at).format("MMM D, YYYY"),
@@ -48,6 +53,13 @@ function PhotosList() {
 
             ]
         });
+    }
+
+    const handleEditPriceSubmit = (e) => {
+        e.preventDefault()
+        const itemToEditId = currentFile.id;
+        //TODO: Handle edit price backend call
+
     }
 
     useEffect(() => {
@@ -160,9 +172,13 @@ function PhotosList() {
                             Recently viewed
                         </h2>
 
+
                         {
                             tabs.map(item => {
                                 if (item.current && item.id === 0) {
+                                    if (photoState.fetch.loading) {
+                                        return <ShimmerPhotoView />
+                                    }
                                     return <PhotoView
                                         onItemClicked={onItemClicked}
                                         photos={photoState.fetch.data}
@@ -235,6 +251,54 @@ function PhotosList() {
                                     <span className="sr-only">Add description</span>
                                 </button>
                             </div>
+                        </div>
+                        <div>
+                            <h3 className="font-medium text-gray-900">Price</h3>
+                            <form onSubmit={handleEditPriceSubmit} className="mt-2 flex items-center justify-between">
+                                {editingPrice ? <>
+                                    <div className="flex items-center gap-x-2.5">
+                                        <span className={"  text-gray-600 text-lg"}>&#8364;</span>
+                                        <JavInput
+                                            type={"number"}
+                                            className="[&input]:text-base"
+                                            height={"h-8"}
+                                            width={"w-1/2"}
+                                            name={"price"}
+                                            defaultValue={+currentFile.price}
+                                        />
+                                    </div>
+                                    <div className="flex gap-x-2">
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                setEditingPrice(false)
+                                            }}
+                                            className="ml-3 flex-1 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="flex-1 rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+
+                                </> : <>
+                                    <span className={"  text-gray-600 text-lg"}>&#8364; {currentFile.price}</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditingPrice(true)}
+                                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    >
+                                        <PencilIcon className="h-5 w-5" aria-hidden="true" />
+                                        <span className="sr-only">Add description</span>
+                                    </button>
+                                </>}
+
+
+                            </form>
                         </div>
                         <div>
                             <h3 className="font-medium text-gray-900">Shared with</h3>

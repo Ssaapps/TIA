@@ -1,26 +1,28 @@
-import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import JavTextArea from "../../../../Shared/Component/Forms/JavTextArea";
 import CloseIcon from "../../../../Shared/Component/Icons/CloseIcon";
 import JavInput from "../../../../Shared/Component/Forms/JavInput";
 import JavButton from "../../../../Shared/Component/Buttons/JavButton";
-import {editAlbum} from "../duck/action";
+import { editAlbum } from "../duck/action";
 import JavFormSelect from "../../../../Shared/Component/Forms/JavFormSelect";
+import JavCheck from "../../../../Shared/Component/Forms/JavCheck";
 export default function CreateEditAlbum(props) {
 
     const dispatch = useDispatch();
 
 
-    const [form,setForm] = useState({
+    const [form, setForm] = useState({
         name: "",
         description: "",
         status: ""
     });
+    const [pricePerMediaChecked, setPricePerMediaChecked] = useState(false)
 
     useEffect(() => {
-        console.log("props",props)
+        console.log("props", props)
         if (props.album) {
-            console.log("album",props.album)
+            console.log("album", props.album)
             setForm({
                 ...form,
                 name: props.album.name,
@@ -28,7 +30,7 @@ export default function CreateEditAlbum(props) {
                 status: props.album.status
             })
         }
-    },[props.album])
+    }, [props.album])
 
     const handleChanges = (event) => {
         const value = event.target.value;
@@ -39,7 +41,7 @@ export default function CreateEditAlbum(props) {
     }
 
     const createRole = () => {
-        dispatch(editAlbum(props?.album?.id,form))
+        dispatch(editAlbum(props?.album?.id, form))
     }
 
     if (!props.open) {
@@ -62,7 +64,7 @@ export default function CreateEditAlbum(props) {
                         Edit Album
                     </h3>
 
-                    <CloseIcon onClick={props.onCloseClicked} className={"cursor-pointer"}/>
+                    <CloseIcon onClick={props.onCloseClicked} className={"cursor-pointer"} />
 
                 </div>
 
@@ -92,8 +94,28 @@ export default function CreateEditAlbum(props) {
                         ]}
                         value={form.status}
                         position={"bottom"}
-                        onChange={(status) => setForm({...form,status})}
+                        onChange={(status) => setForm({ ...form, status })}
                     />
+                    <div className="flex gap-x-3 items-center">
+                        <JavCheck title={"Price Per Media"} value={pricePerMediaChecked} onChange={(e) => setPricePerMediaChecked(e.target.checked)} />
+                        {pricePerMediaChecked && <div className="flex items-center gap-x-2.5">
+                            <span className={"  text-gray-600 text-lg"}>&#8364;</span>
+                            <JavInput
+                                type={"number"}
+                                className="[&input]:text-base"
+                                height={"h-8"}
+                                width={"w-1/2"}
+                                name={"price_per_media"}
+                                value={form.price_per_media}
+                                onChange={handleChanges}
+                            />
+                        </div>
+                        }
+
+
+
+                    </div>
+
 
 
                     <div className={"w-full flex justify-center items-center mt-5"}>
@@ -119,6 +141,6 @@ export default function CreateEditAlbum(props) {
 
 
             </div>
-        </div>
+        </div >
     )
 }
