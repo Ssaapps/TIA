@@ -176,9 +176,6 @@ function PhotosList() {
                         {
                             tabs.map(item => {
                                 if (item.current && item.id === 0) {
-                                    if (photoState.fetch.loading) {
-                                        return <ShimmerPhotoView />
-                                    }
                                     return <PhotoView
                                         onItemClicked={onItemClicked}
                                         photos={photoState.fetch.data}
@@ -188,7 +185,7 @@ function PhotosList() {
                                         onItemClicked={onItemClicked}
                                     />
                                 } else {
-                                    return <div></div>
+                                    return
                                 }
                             })
                         }

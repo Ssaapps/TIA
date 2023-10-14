@@ -2,19 +2,19 @@ import EyeIcon from "../../Shared/Component/Icons/EyeIcon";
 import CashIcon from "../../Shared/Component/Icons/CashIcon";
 import ClockIcon from "../../Shared/Component/Icons/ClockIcon";
 import CameraIcon from "../../Shared/Component/Icons/CameraIcon";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getAlbum } from "../Admin/albums/duck/action";
 import { getMedia, getMediaDetails } from "../Admin/photos/duck/action";
-import {downloadReceipt, flattenObject, getLighterColor} from "../../Shared/utils/common";
+import { downloadReceipt, flattenObject, getLighterColor } from "../../Shared/utils/common";
 import { purchaseMedia } from "./duck/action";
 import { MEDIA_URL } from "../../Shared/utils/constants";
 import { addItemToCart } from "../Cart/duck/action";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
 import MetaDisplayDialog from "./MetaDisplayDialog";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import JavButton from "../../Shared/Component/Buttons/JavButton";
 import ErrorAlert from "../../Shared/Component/Alert/Error";
 
@@ -22,15 +22,16 @@ export default function Photo() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation()
     const params = useParams();
-    const [downloading,setDownloading] = useState(false);
+    const [downloading, setDownloading] = useState(false);
     const mediaState = useSelector((state) => state.media)
     const photoDetailState = useSelector((state) => state.photo_detail)
     const [metaDetails, setMetaDetails] = useState(null)
     const [itemAddedMessage, setItemAddedMessage] = useState(null)
     const [metaDialogOpen, setMetaDialogOpen] = useState(false);
-    const [message,setMessage] = useState(null);
-    const [error,setError] = useState(null);
+    const [message, setMessage] = useState(null);
+    const [error, setError] = useState(null);
 
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -39,7 +40,9 @@ export default function Photo() {
 
     useEffect(() => {
         dispatch(getMediaDetails(params.id))
-    }, [])
+        console.log("location", location)
+        // console.log(history)
+    }, [location.pathname])
 
     useEffect(() => {
         if (mediaState.show.data?.meta) {
@@ -68,15 +71,14 @@ export default function Photo() {
                 let message = itemAlreadyInCart ? "Item already in cart" : "Item Added to cart"
                 setItemAddedMessage(message)
             }))
-        }else {
+        } else {
             setMessage("starting download...");
             setDownloading(true);
-            downloadReceipt(null,`media/${mediaState.show.data.id}/download`).then(res => {
-                console.log("data is ", res)
+            downloadReceipt(null, `media/${mediaState.show.data.id}/download`).then(res => {
                 setDownloading(false);
                 setMessage("download successfully")
             }).catch(async err => {
-                console.log("error is ",err)
+                console.log("error is ", err)
                 let errorMessage = "Error trying to download file";
                 if (err.response?.data) {
                     let errorData = await err.response.data.text();
@@ -96,6 +98,33 @@ export default function Photo() {
     //         }, [3000])
     //     }
     // }, [itemAdded])
+
+    const goTo = (to) => {
+        console.log("TO [ressed")
+        const itemIdex = mediaState.show.data.media_list.findIndex(item => item.id === mediaState.show.data.id)
+        switch (to) {
+            case 'next':
+                console.log("next")
+                if (itemIdex === mediaState.show.data.media_list.length - 1) {
+                    console.log("next", "1")
+                    navigate(`/photo/${mediaState.show.data.media_list[0].id}`, {
+                        replace: true
+                    })
+                }
+                else {
+                    console.log("next", "2")
+
+                    navigate(`/photo/${mediaState.show.data.media_list[itemIdex + 1].id}`)
+                }
+            case 'prev':
+                if (itemIdex === 0) {
+                    navigate(`/photo/${mediaState.show.data.media_list[mediaState.show.data.media_list.length - 1].id}`)
+                }
+                else {
+                    navigate(`/photo/${mediaState.show.data.media_list[itemIdex - 1].id}`)
+                }
+        }
+    }
 
     return (
         <div>
@@ -131,15 +160,22 @@ export default function Photo() {
 
 
 
-                <div className={"flex items-center justify-center md:h-[80vh] w-full"} style={{
+                <div className={"flex items-center relative justify-center md:h-[80vh] w-full"} style={{
                     //  backgroundColor: mediaState.show.data && getLighterColor(JSON.parse(mediaState.show.data.colors)[0]) 
                 }}>
                     {!mediaState.show.data ? <Shimmer className={"w-full h-full"} /> :
+                        <div className="w-max relative h-min">
+                            <img
+                                className={"object-contain  md:h-[80vh] w-full h-auto text-center p-2"}
+                                src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.watermark_path}`} />
+                            <div className="flex z-10 absolute w-full h-full top-0 left-0 items-center justify-between px-4">
+                                <ChevronLeftIcon onClick={() => goTo("prev")} className="sm:w-24 w-16 p-4 z-10 cursor-pointer" color="#fff" />
+                                <ChevronRightIcon onClick={() => goTo("next")} className="sm:w-24 w-16 p-4 z-10 cursor-pointer" color="#fff" />
+                            </div>
+                        </div>
 
-                        <img
-                            className={"object-contain  md:h-[80vh] w-full h-auto text-center p-2"}
-                            src={mediaState.show.data && `${MEDIA_URL}${mediaState.show.data.watermark_path}`} />
                     }
+
                 </div>
 
                 <div className={"lg:w-1/4 w-full md:px-10  mb-10 lg:mb-0"}>
@@ -152,7 +188,7 @@ export default function Photo() {
                             </div>
 
                             {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <JavButton isLoading={downloading} onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 md:py-4 py-2 border border-indigo-800 rounded text-white"}>
-                                {mediaState.show.data.item_price.price > 0 ? 'Add To Cart' :  downloading ? 'Downloading...' : 'Download Now' }
+                                {mediaState.show.data.item_price.price > 0 ? 'Add To Cart' : downloading ? 'Downloading...' : 'Download Now'}
                             </JavButton>}
 
                             <div className={"h-0.5 my-1 bg-gray-200"} />

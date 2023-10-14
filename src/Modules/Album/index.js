@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getAlbum, getAlbums, shareAlbum } from "../Admin/albums/duck/action";
 import { useDispatch, useSelector } from "react-redux";
 import { MEDIA_URL } from "../../Shared/utils/constants";
-import { ArrowLeftIcon, EyeIcon, ShareIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, EyeIcon, ShareIcon, ShoppingCartIcon, } from "@heroicons/react/24/outline";
 import CartIcon from "../../Shared/Component/Icons/CartIcon";
 import { addItemToCart } from "../Cart/duck/action";
 import Shimmer from "../../Shared/Component/Suspense/Shimmer";
@@ -51,7 +51,7 @@ export default function Album() {
         <div className="overflow-y-auto relative">
 
 
-            { <div className="fixed top-20 z-50 flex flex-col gap-y-4 left-10">
+            {<div className="fixed top-20 z-50 flex flex-col gap-y-4 left-10">
                 <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
                     <ArrowLeftIcon className="w-5 h-5" onClick={async () => {
                         navigate(-1);
@@ -62,7 +62,7 @@ export default function Album() {
                 {/*        dispatch(addItemToCart(albumState.show.data))*/}
                 {/*    }} />*/}
                 {/*</div>*/}
-            </div> }
+            </div>}
 
             <div className="flex items-center justify-center absolute right-5 top-5 z-10">
                 <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
@@ -83,8 +83,8 @@ export default function Album() {
                         <h2 className={"text-4xl font-proximaBold"}>{albumState.show.data && albumState.show.data.name}</h2>
                         <h2 className={"text-2xl font-normal"}>{albumState.show.data && albumState.show.data.description}</h2>
                         <div className={"flex my-2"}>
-                            <div>{albumState.show.data && albumState.show.data.views + ` view${albumState.show.data.views > 1 ? "s" : ""}`} </div>
-                            <div className={"mx-2"}>{albumState.show.data && albumState.show.data.shares + ` share${albumState.show.data.shares > 1 ? "s" : ""}`} </div>
+                            {/* <div>{albumState.show.data && albumState.show.data.views + ` view${albumState.show.data.views > 1 ? "s" : ""}`} </div>
+                            <div className={"mx-2"}>{albumState.show.data && albumState.show.data.shares + ` share${albumState.show.data.shares > 1 ? "s" : ""}`} </div> */}
                             <div className={"mx-2"}>{albumState.show.data && albumState.show.data.media_count + ` photo${albumState.show.data.media_count > 1 ? "s" : ""}`}</div>
 
                         </div>
@@ -105,9 +105,10 @@ export default function Album() {
                                 //     onMediaClick(media)
                                 // }}
                                 className={`relative group bg-gray-200 cursor-pointer  ${(index + 1) % 3 === 0 ? 'col-span-2' : ''} `}
+
                                 style={
                                     {
-                                        backgroundImage: `url(${MEDIA_URL}${media.watermark_path})`,
+                                        // backgroundImage: `url(${MEDIA_URL}${media.watermark_path})`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: "top",
                                         backgroundRepeat: "no-repeat",
@@ -116,7 +117,12 @@ export default function Album() {
                                     }
                                 }
                             >
-
+                                <img
+                                    loading="lazy" // Lazy loading attribute
+                                    src={`${MEDIA_URL}${media.watermark_path}`}
+                                    alt={media.alt}
+                                    className="absolute top-0 left-0 right-0 object-cover object-top bottom-0 w-full h-full"
+                                />
                                 <div className={"absolute top-0 left-0 right-0 cursor-pointer bottom-0 bg-black opacity-10"} />
                                 <div onClick={() => {
                                     if (!cartButtonHovered) {
