@@ -46,6 +46,7 @@ export default function Photo() {
 
     useEffect(() => {
         if (mediaState.show.data?.meta) {
+            console.log(mediaState.show)
             console.log(JSON.parse(mediaState.show.data.meta))
             setMetaDetails(JSON.parse(mediaState.show.data.meta))
 
@@ -145,7 +146,7 @@ export default function Photo() {
                 </span> */}
                 <div className="flex items-center justify-center">
                     <button onClick={() => {
-                        navigate(-1)
+                        navigate(`/album/${mediaState.show.data.album.uuid}`);
                     }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
                         <ArrowLeftIcon className="w-4 h-4 text-white" />
                         <span>Back</span>
