@@ -146,7 +146,7 @@ export default function Albums() {
                                         </JavButton>
 
 
-                                        <Copy copyText={`https://photos.uipmworld.org/api/v1/albums/${content.uuid}/download?uid=${generateRandomNumber()}`} />
+                                        <Copy copyText={`https://photos.uipmworld.org/album/${content.uuid}`} />
 
 
                                     </div>
