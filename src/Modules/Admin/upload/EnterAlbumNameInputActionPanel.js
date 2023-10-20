@@ -164,7 +164,7 @@ export default function EnterAlbumActionPane({ open, setOpen, selected, setSelec
                               </React.Fragment>
 
                               : <div>
-                                No alums created
+                                No albums created
                               </div>
                           }
                         </div>
