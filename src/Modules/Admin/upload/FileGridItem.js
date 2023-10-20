@@ -33,7 +33,7 @@ function FileGridItem({ file, onClick, isSelected, index, selected, setSelected,
             })
         }
         else {
-            setPreview(<img src={URL.createObjectURL(file)} alt={file.name} className="pointer-events-none  object-cover group-hover:opacity-75" />)
+            setPreview(<img src={URL.createObjectURL(file)} alt={file.name} className="pointer-events-none  object-cover group-hover:opacity-75" loading='lazy' />)
             setSettingPreview(false)
 
         }
@@ -44,7 +44,7 @@ function FileGridItem({ file, onClick, isSelected, index, selected, setSelected,
 
     return (
         <li key={file.id} className={`relative hover:bg-black ${isSelected && " bg-black"} cursor-pointer px-2 pb-2`} onClick={() => {
-            if(selected.includes(index)){
+            if (selected.includes(index)) {
                 setSelected(selected.filter((item) => item !== index))
                 return
             }
