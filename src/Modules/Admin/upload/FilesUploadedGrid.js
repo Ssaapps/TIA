@@ -149,12 +149,20 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                 </div>
                 <div style={{
                     flex: "9"
-                }}>
-                    <ul role="list" className="grid grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                }} className={"overflow-hidden overflow-y-scroll"}>
+                    <ul role="list" className="grid overflow-hidden overflow-y-scroll grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         {files.map((file, index) => {
                             const isSelected = selected.includes(index);
                             return (
-                                <FileGridItem key={index} file={file} index={index} isSelected={isSelected} setSelected={setSelected} selected={selected} filesEditable={filesEditable} setFilesEditable={setFilesEditable} />
+                                <FileGridItem
+                                    key={index}
+                                    file={file}
+                                    index={index}
+                                    isSelected={isSelected}
+                                    setSelected={setSelected}
+                                    selected={selected}
+                                    filesEditable={filesEditable}
+                                    setFilesEditable={setFilesEditable} />
                             )
                         }
                         )}
