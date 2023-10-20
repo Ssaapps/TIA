@@ -1,8 +1,10 @@
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import FileGridItem from './FileGridItem';
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
-function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, setFilesEditable, setAlbumAddFormOpen, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
+function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, uploading, setFilesEditable, uploadedFileIds, setAlbumAddFormOpen, currentPreviewFileId, setCurrentPreviewFileId, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
     const [isEditingTitle, setIsEditingTitle] = React.useState(false);
     const [isEditingAmount, setIsEditingAmount] = React.useState(false);
     const [titleEdited, setTitleEdited] = React.useState("");
@@ -18,18 +20,18 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
             setTitleEdited(filesEditable[selected[0]].name ?? "")
             setDescriptionEdited(filesEditable[selected[0]].description ?? "")
             setAmountEdited(filesEditable[selected[0]].amount ?? 0)
-        }else {
+        } else {
             setAmountEdited(0);
             setTitleEdited("");
             setDescriptionEdited("");
         }
-    },[selected]);
+    }, [selected]);
 
 
     return (
-        <div className='py-5 h-5/6'>
-            <div className="container flex mx-auto h-full">
-                <div className='h-full border border-gray-600 bg-b flex-1 max-w-[275px] mr-5' style={{
+        <div className='py-3 h-[80%]' >
+            <div className="container flex mx-auto h-full" id="upload-area">
+                <div className='h-full border border-gray-600 bg-b flex-1 flex-col flex max-w-[275px] mr-5' style={{
                     flex: "2"
                 }}>
                     {selected.length > 0 ? <span className='block px-3 py-2 text-gray-400 border-b border-b-gray-600'> Editing {selected.length} {selected.length > 1 ? "photos" : "photo"}</span> :
@@ -134,7 +136,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                 }</div>
                                 Add to groups
                             </div> */}
-                            <div className='px-3 py-2 text-[13px] text-gray-100 border-b  '>
+                            <div className='px-3 py-2 text-[13px] text-gray-100  '>
                                 <div className="flex items-center mb-2">Owner Settings <ChevronDownIcon className='text-gray-100 w-2 h-2 ml-2' /></div>
                                 <span> &#169;</span> All rights reserved
                                 <br />
@@ -146,11 +148,19 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
 
                         </React.Fragment>
                     )}
+                    <div className="flex-1"></div>
+                    {currentPreviewFileId && <Zoom >
+                        <img className='w-full h-64 object-cover object-center' src={URL.createObjectURL(files.find(item => item.id == currentPreviewFileId))} />
+                    </Zoom>
+
+                    }
+
+
                 </div>
                 <div style={{
                     flex: "9"
-                }} className={"overflow-hidden overflow-y-scroll"}>
-                    <ul role="list" className="grid overflow-hidden overflow-y-scroll grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                }} className={"overflow-hidden overflow-y-auto"}>
+                    <ul role="list" className="grid overflow-hidden overflow-y-auto grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         {files.map((file, index) => {
                             const isSelected = selected.includes(index);
                             return (
@@ -159,6 +169,11 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                     file={file}
                                     index={index}
                                     isSelected={isSelected}
+                                    uploading={uploading}
+                                    uploadedFileIds={uploadedFileIds}
+                                    currentPreviewFileId={currentPreviewFileId}
+                                    setCurrentPreviewFileId={setCurrentPreviewFileId}
+                                    setCurr
                                     setSelected={setSelected}
                                     selected={selected}
                                     filesEditable={filesEditable}

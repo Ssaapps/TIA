@@ -15,16 +15,20 @@ import EnterPeopleActionPane from "./EnterPeopleNameInputActionPanel";
 import { default as UploadLoadingOverlay } from "../../../Shared/Component/CustomLoadingOverlay";
 import ErrorAlert from "../../../Shared/Component/Alert/Error";
 import axios from "axios";
-
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import SuccessAlert from "../../../Shared/Component/Alert/Success";
 
 function Upload() {
 
     const dispatch = useDispatch();
     const { files, filesEditable, selected, media, } = useSelector(state => state.upload)
     const abortControllerRef = useRef(new AbortController())
+    const [currentPreviewFileId, setCurrentPreviewFileId] = useState(null)
     const [errorType, setErrorType] = useState(null)
     const [initialFilesCount, setInitialFilesCount] = useState(null)
     const [filesUploadedCount, setFilesUploadedCount] = useState(0)
+    const [uploadedFileIds, setUploadedFileIds] = useState([])
     const token = JSON.parse(localStorage.getItem("token") ?? "{}")
 
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -35,8 +39,12 @@ function Upload() {
     const [albumAddFormOpen, setAlbumAddFormOpen] = useState(false);
     const [groupAddFormOpen, setGroupsAddFormOpen] = useState(false);
     const [peopleAddFormOpen, setPeopleAddFormOpen] = useState(false);
+    const uploadAreaRef = useRef()
     const [currentFileUploading, setCurrentFileUploading] = useState(null)
     const [retryCount, setRetryCount] = useState(0)
+    const [fileUploadBegins, setFileUploadBegins] = useState(false)
+    const [currentUploadSpeed, setCurrentUploadSpeed] = useState(null)
+
 
     const [uploadError, setUploadError] = useState(null)
     const navigate = useNavigate()
@@ -160,6 +168,7 @@ function Upload() {
 
     const handleUpload = async () => {
         setDialogOpen(false)
+        setFileUploadBegins(true)
         setUploading(true)
 
         let errorOccured = false;
@@ -168,10 +177,21 @@ function Upload() {
             setInitialFilesCount(files.length)
         }
         const filesUploaded = []
+        function formatUploadSpeed(speed) {
+            if (speed >= 1000000000) {
+                return (speed / 1000000000).toFixed(2) + " Gbps";
+            } else if (speed >= 1000000) {
+                return (speed / 1000000).toFixed(2) + " Mbps";
+            } else if (speed >= 1000) {
+                return (speed / 1000).toFixed(2) + " Kbps";
+            } else {
+                return speed.toFixed(2) + " B/s";
+            }
+        }
 
         // const newAbortController = new AbortController();
         // setAbortController(newAbortController);
-
+        const tempFilesUploadedIds = [];
         for (var fileIndex in files) {
             const file = files[fileIndex]
             setCurrentFileUploading(+fileIndex + 1)
@@ -200,22 +220,38 @@ function Upload() {
                 formData.append(item, Object.values(data)[index])
             })
             try {
+                let startTime = Date.now(); // Record the start time
                 await axios.post("https://photos.uipmworld.org/api/v1/admin/media", formData, {
                     headers: {
                         Authorization: "Bearer " + token?.access_token ?? "",
                         'Content-Type': 'multipart/form-data',
                     },
 
+
                     timeout: 0,
+
 
                     signal: abortControllerRef.current?.signal,
                     onUploadProgress: (progressEvent) => {
+                        let currentTime = Date.now();
+
+                        const elapsedTime = (currentTime - startTime) / 1000;
+                        console.log(elapsedTime)
+
+                        const bytesUploaded = progressEvent.loaded;
+                        const bytesTotal = progressEvent.total;
+                        const speed = (bytesUploaded / elapsedTime) * 8; // Speed in bits per second
+                        const formattedSpeed = formatUploadSpeed(speed);
+                        setCurrentUploadSpeed(formattedSpeed);
+
                         const percentage = (progressEvent.loaded * 100) / progressEvent.total;
                         setUploadingProgress(Math.round(+percentage))
                     }
                 })
                 filesUploaded.push(+fileIndex)
+                tempFilesUploadedIds.push(file.id)
             }
+
             catch (err) {
                 console.log(err)
                 //Filter by filesUploaded and remove them from files and filesEditable
@@ -225,6 +261,7 @@ function Upload() {
                 console.log(filesUploaded)
                 const newFilesEditable = filesEditable.filter((file, index) => !filesUploaded.includes(index))
                 setFiles(newFiles)
+
                 setFilesEditable(newFilesEditable)
 
 
@@ -243,6 +280,9 @@ function Upload() {
                 errorOccured = true;
                 break
             }
+            console.log("filesUploaded", tempFilesUploadedIds)
+            setUploadedFileIds(tempFilesUploadedIds)
+
         }
         if (!errorOccured) {
             navigate("/admin/upload/success");
@@ -264,36 +304,37 @@ function Upload() {
             {...getRootProps({
                 onClick: (event) => event.stopPropagation(),
             })}
-            className='bg-gray-950 h-full overflow-y-auto'
+            className='bg-gray-950 h-full'
             style={{
                 backgroundImage: `url(https://combo.staticflickr.com/pw/images/editr-marc-by-marc-perry.png)`,
             }}
         >
-            <UploadLoadingOverlay setShow={setUploading} next={() => {
+
+            {/* <React.Fragment>
+                <p className="font-medium mb-2 text-white text-sm">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
+                <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
+                    {!!uploadProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
+                       width: `${uploadProgress}%`
+                  }}> {`${uploadProgress}%`}</div>}
+              </div>
+           </React.Fragment>  */}
+            <SuccessAlert timeout={4000} message="Upload has began" open={fileUploadBegins} onClose={() => {
+                setFileUploadBegins(false)
+            }} />
 
 
-            }} show={!!uploading} spinner={
-                <React.Fragment>
-                    {/* TODO:Get current file being uploaded */}
-                    <p className="font-medium mb-2 text-white text-sm">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
-                    <div class="w-[300px] bg-gray-200 rounded-full dark:bg-gray-700">
-                        {!!uploadProgress && <div class="bg-blue-600 text-sm font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{
-                            width: `${uploadProgress}%`
-                        }}> {`${uploadProgress}%`}</div>}
-                    </div>
-                </React.Fragment>
-            } text=" " />
+
             <EnterAlbumActionPane setOpen={setAlbumAddFormOpen} open={albumAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterGroupsActionPane setOpen={setGroupsAddFormOpen} open={groupAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <EnterPeopleActionPane setOpen={setPeopleAddFormOpen} open={peopleAddFormOpen} filesEditable={filesEditable} selected={selected} setSelected={setSelected} setFilesEditable={setFilesEditable} />
             <div className='bg-gray-100 py-2 '>
                 <div className='container mx-auto flex justify-between'>
                     <div className='flex gap-x-3'>
-                        <button onClick={open} title="Upload files" className='text-gray-600 text-sm flex gap-x-1 px-2  border hover:border-gray-400 border-transparent items-center'>
+                        <button onClick={open} disabled={uploading} title="Upload files" className='text-gray-600 text-sm flex gap-x-1 px-2  border hover:border-gray-400 border-transparent items-center'>
                             <PlusIcon className='w-4 h-4 text-green-500' /> Add
                         </button>
                         {files.length > 0 && (
-                            <button onClick={() => {
+                            <button disabled={uploading} onClick={() => {
                                 if (selected.length > 0) {
                                     onRemoveTap()
                                 }
@@ -304,6 +345,7 @@ function Upload() {
                         {files.length > 0 && (
                             <button className='text-gray-600  border-transparent text-sm flex gap-x-1 px-2  items-center'>
                                 <input
+                                    disabled={uploading}
                                     checked={files.length == selected.length}
                                     onChange={(e) => {
                                         if (e.target.checked) {
@@ -321,7 +363,7 @@ function Upload() {
                         )}
                     </div>
                     <button
-                        disabled={files < 1}
+                        disabled={files < 1 || uploading}
                         onClick={
                             () => { setDialogOpen(true) }
                         }
@@ -345,8 +387,12 @@ function Upload() {
                     selected={selected}
                     setSelected={setSelected}
                     filesEditable={filesEditable}
+                    uploadedFileIds={uploadedFileIds}
                     setFilesEditable={setFilesEditable}
                     setAlbumAddFormOpen={setAlbumAddFormOpen}
+                    uploading={uploading}
+                    currentPreviewFileId={currentPreviewFileId}
+                    setCurrentPreviewFileId={setCurrentPreviewFileId}
                     setGroupsAddFormOpen={setGroupsAddFormOpen}
                     setPeopleAddFormOpen={setPeopleAddFormOpen}
                 />
@@ -370,6 +416,37 @@ function Upload() {
                     </section>
                 </React.Fragment>
             )}
+
+            {uploading && <div style={{
+                width: document.getElementById("upload-area").clientWidth,
+            }} className="mx-auto justify-between flex `">
+                <div>
+                    <p className="font-medium  text-white text-lg mb-1">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
+                    <p className=" text-base text-white">Speed:  {currentUploadSpeed}</p>
+                </div>
+                <div style={
+                    {
+                        width: 80,
+                        height: 80
+                    }
+                }>
+                    {uploadProgress && <CircularProgressbar value={uploadProgress} text={`${uploadProgress}%`} styles={{
+                        path: {
+                            stroke: "#1d43d8",
+                            strokeLinecap: "round",
+
+                        },
+                        text: {
+                            fill: "#fff",
+                            color: "#fff"
+                        },
+
+                    }} />}
+
+                </div>
+            </div>
+
+            }
 
             <UploadConfirmDialog
                 open={dialogOpen}
