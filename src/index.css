@@ -6,6 +6,47 @@
   .text-shadow {
     text-shadow: 0px 1px 1px #000;
   }
+
+  @variants responsive {
+    /* Hide the default scrollbar for Webkit browsers (Chrome, Safari) */
+    .no-scrollbar::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar */
+    }
+
+    /* Customize the scrollbar track for Webkit browsers */
+    .no-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0);
+      /* background- */
+    }
+
+    /* Customize the scrollbar thumb (the draggable part) for Webkit browsers */
+    .no-scrollbar::-webkit-scrollbar-thumb {
+      background: #888; /* Color of the thumb */
+      border-radius: 6px; /* Round the thumb */
+    }
+
+    /* Hide scrollbar for IE and Edge */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+      scrollbar-width: none; /* Hide scrollbar in Firefox */
+    }
+
+    /* Customize scrollbar thumb for Firefox */
+    .no-scrollbar::-webkit-scrollbar-thumb {
+      background: #888; /* Color of the thumb */
+      border-radius: 6px; /* Round the thumb */
+    }
+
+    /* Customize scrollbar thumb for IE and Edge */
+    .no-scrollbar::-ms-thumb {
+      background: #888; /* Color of the thumb */
+    }
+
+    /* Customize scrollbar track for IE and Edge */
+    .no-scrollbar::-ms-track {
+      background: #f1f1f1; /* Background color of the track */
+    }
+  }
 }
 @layer base {
   :root {

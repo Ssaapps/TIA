@@ -18,6 +18,7 @@ import axios from "axios";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import SuccessAlert from "../../../Shared/Component/Alert/Success";
+import { formatUploadBytesSpeed } from "../../../Shared/Component/Chart/utilities";
 
 function Upload() {
 
@@ -44,7 +45,7 @@ function Upload() {
     const [retryCount, setRetryCount] = useState(0)
     const [fileUploadBegins, setFileUploadBegins] = useState(false)
     const [currentUploadSpeed, setCurrentUploadSpeed] = useState(null)
-
+    const [filesProgress, setFilesProgress] = useState([])
 
     const [uploadError, setUploadError] = useState(null)
     const navigate = useNavigate()
@@ -68,6 +69,8 @@ function Upload() {
             handleUpload()
         }
     }, [errorType])
+
+
 
 
 
@@ -166,131 +169,136 @@ function Upload() {
 
 
 
-    const handleUpload = async () => {
+    const beginUpload = () => {
         setDialogOpen(false)
         setFileUploadBegins(true)
         setUploading(true)
+        // if (initialFilesCount == null) {
+        //     setInitialFilesCount(files.length)
+        // }
+        handleUpload(0)
 
-        let errorOccured = false;
-        setErrorType(null)
-        if (initialFilesCount == null) {
-            setInitialFilesCount(files.length)
-        }
-        const filesUploaded = []
-        function formatUploadSpeed(speed) {
-            if (speed >= 1000000000) {
-                return (speed / 1000000000).toFixed(2) + " Gbps";
-            } else if (speed >= 1000000) {
-                return (speed / 1000000).toFixed(2) + " Mbps";
-            } else if (speed >= 1000) {
-                return (speed / 1000).toFixed(2) + " Kbps";
-            } else {
-                return speed.toFixed(2) + " B/s";
-            }
-        }
+    }
 
-        // const newAbortController = new AbortController();
-        // setAbortController(newAbortController);
-        const tempFilesUploadedIds = [];
-        for (var fileIndex in files) {
-            const file = files[fileIndex]
-            setCurrentFileUploading(+fileIndex + 1)
-            const fileConf = filesEditable[fileIndex];
-            let data = {
-                method: "form-data",
-            };
-            if (fileConf.tags) {
-                data["tags"] = fileConf.tags
-            }
-            if (fileConf.album) {
-                data["album_id"] = fileConf.album.id
-            }
-            if (fileConf.amount) {
-                data["amount"] = fileConf.amount
-            }
-            if (fileConf.amount) {
-                data["name"] = fileConf.name
-            }
-            if (fileConf.amount) {
-                data["description"] = fileConf.description
-            }
-            const formData = new FormData();
-            formData.append("file", file);
-            Object.keys(data).forEach((item, index) => {
-                formData.append(item, Object.values(data)[index])
-            })
-            try {
-                let startTime = Date.now(); // Record the start time
-                await axios.post("https://photos.uipmworld.org/api/v1/admin/media", formData, {
-                    headers: {
-                        Authorization: "Bearer " + token?.access_token ?? "",
-                        'Content-Type': 'multipart/form-data',
-                    },
-
-
-                    timeout: 0,
-
-
-                    signal: abortControllerRef.current?.signal,
-                    onUploadProgress: (progressEvent) => {
-                        let currentTime = Date.now();
-
-                        const elapsedTime = (currentTime - startTime) / 1000;
-                        console.log(elapsedTime)
-
-                        const bytesUploaded = progressEvent.loaded;
-                        const bytesTotal = progressEvent.total;
-                        const speed = (bytesUploaded / elapsedTime) * 8; // Speed in bits per second
-                        const formattedSpeed = formatUploadSpeed(speed);
-                        setCurrentUploadSpeed(formattedSpeed);
-
-                        const percentage = (progressEvent.loaded * 100) / progressEvent.total;
-                        setUploadingProgress(Math.round(+percentage))
-                    }
-                })
-                filesUploaded.push(+fileIndex)
-                tempFilesUploadedIds.push(file.id)
-            }
-
-            catch (err) {
-                console.log(err)
-                //Filter by filesUploaded and remove them from files and filesEditable
-                const newFiles = files.filter((file, index) => !filesUploaded.includes(index))
-                setFilesUploadedCount(filesUploaded.length)
-                console.log(newFiles)
-                console.log(filesUploaded)
-                const newFilesEditable = filesEditable.filter((file, index) => !filesUploaded.includes(index))
-                setFiles(newFiles)
-
-                setFilesEditable(newFilesEditable)
-
-
-                if (err.message === "canceled") {
-                    errorOccured = true;
-                    setUploadError("Connection is unstable")
-                    break;
-                }
-                else {
-                    setUploading(false)
-                    setDialogOpen(false)
-                    setUploadError("An error occured while uploading files")
-                }
-
-
-                errorOccured = true;
-                break
-            }
-            console.log("filesUploaded", tempFilesUploadedIds)
-            setUploadedFileIds(tempFilesUploadedIds)
-
-        }
-        if (!errorOccured) {
+    useEffect(() => {
+        if (filesProgress.length > 1 && filesProgress.every(item => item.currentProgress == 101) && filesProgress.length == files.length) {
             navigate("/admin/upload/success");
             setUploading(false);
             setFiles([]);
             setSelected([]);
+            setFilesProgress([])
             setFilesEditable([]);
         }
+
+    }, [filesProgress])
+
+
+
+    const handleUpload = async (fileIndex) => {
+        let errorOccured = false;
+        setErrorType(null)
+        const file = files[fileIndex]
+
+
+        if (!file) {
+            return;
+        }
+        setCurrentFileUploading(+fileIndex + 1)
+        const fileConf = filesEditable[fileIndex];
+        let data = {
+            method: "form-data",
+        };
+        if (fileConf.tags) {
+            data["tags"] = fileConf.tags
+        }
+        if (fileConf.album) {
+            data["album_id"] = fileConf.album.id
+        }
+        if (fileConf.amount) {
+            data["amount"] = fileConf.amount
+        }
+        if (fileConf.amount) {
+            data["name"] = fileConf.name
+        }
+        if (fileConf.amount) {
+            data["description"] = fileConf.description
+        }
+        const formData = new FormData();
+        formData.append("file", file);
+        Object.keys(data).forEach((item, index) => {
+            formData.append(item, Object.values(data)[index])
+        })
+        try {
+            setFilesProgress((filesProgress) => {
+                return [...filesProgress, {
+                    id: file.id,
+                    currentProgress: 0
+                },]
+            })
+            let startTime = Date.now(); // Record the start time
+            await axios.post("https://photos.uipmworld.org/api/v1/admin/media", formData, {
+                headers: {
+                    Authorization: "Bearer " + token?.access_token ?? "",
+                    'Content-Type': 'multipart/form-data',
+                },
+                timeout: 0,
+                signal: abortControllerRef.current?.signal,
+                onUploadProgress: (progressEvent) => {
+                    let currentTime = Date.now();
+                    const elapsedTime = (currentTime - startTime) / 1000;
+                    const bytesUploaded = progressEvent.loaded;
+                    const bytesTotal = progressEvent.total;
+                    const speed = (bytesUploaded / elapsedTime) * 8; // Speed in bits per second
+                    const formattedSpeed = formatUploadBytesSpeed(speed);
+                    setCurrentUploadSpeed(formattedSpeed);
+                    const percentage = (progressEvent.loaded * 100) / progressEvent.total;
+                    setUploadingProgress(Math.round(+percentage))
+                    setFilesProgress((filesProgress) => {
+                        return [...filesProgress.filter((item) => item.id != file.id), {
+                            id: file.id,
+                            currentProgress: percentage
+                        }]
+                    })
+                    if (percentage >= 100) {
+                        handleUpload(fileIndex + 1)
+                    }
+                }
+            })
+            setFilesProgress((filesProgress) => {
+                return [...filesProgress.filter((item) => item.id != file.id), {
+                    id: file.id,
+                    currentProgress: 101
+                }]
+            })
+
+
+
+        }
+        catch (err) {
+            setFilesProgress((filesProgress) => {
+                return [...filesProgress.filter((item) => item.id != file.id), {
+                    id: file.id,
+                    currentProgress: -1
+                }]
+            })
+            if (err.message === "canceled") {
+                errorOccured = true;
+                setUploadError("Connection is unstable")
+            }
+            else {
+                setUploading(false)
+                setDialogOpen(false)
+                setUploadError("An error occured while uploading files")
+            }
+            errorOccured = true;
+        }
+        // if (!errorOccured) {
+        //     navigate("/admin/upload/success");
+        //     setUploading(false);
+        //     setFiles([]);
+        //     setSelected([]);
+        //     setFilesEditable([]);
+        // }
 
     }
 
@@ -387,6 +395,7 @@ function Upload() {
                     selected={selected}
                     setSelected={setSelected}
                     filesEditable={filesEditable}
+                    filesProgress={filesProgress}
                     uploadedFileIds={uploadedFileIds}
                     setFilesEditable={setFilesEditable}
                     setAlbumAddFormOpen={setAlbumAddFormOpen}
@@ -421,7 +430,7 @@ function Upload() {
                 width: document.getElementById("upload-area").clientWidth,
             }} className="mx-auto justify-between flex items-center`">
                 <div>
-                    <p className="font-medium  text-white text-lg mb-1">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
+                    <p className="font-medium  text-white text-lg mb-1">Uploading file {currentFileUploading} of {files.length}</p>
                     <p className=" text-base text-white">Speed:  {currentUploadSpeed}</p>
                 </div>
                 <div className={"p-2 mb-2"} style={
@@ -452,7 +461,7 @@ function Upload() {
                 open={dialogOpen}
                 setOpen={setDialogOpen}
                 itemsCount={files.length}
-                onContinue={handleUpload}
+                onContinue={beginUpload}
 
             />
 
