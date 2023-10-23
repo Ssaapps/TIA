@@ -419,12 +419,12 @@ function Upload() {
 
             {uploading && <div style={{
                 width: document.getElementById("upload-area").clientWidth,
-            }} className="mx-auto justify-between flex `">
+            }} className="mx-auto justify-between flex items-center`">
                 <div>
                     <p className="font-medium  text-white text-lg mb-1">Uploading file {filesUploadedCount == null ? currentFileUploading : currentFileUploading + filesUploadedCount} of {initialFilesCount == null ? files.length : initialFilesCount}</p>
                     <p className=" text-base text-white">Speed:  {currentUploadSpeed}</p>
                 </div>
-                <div style={
+                <div className={"p-2 mb-2"} style={
                     {
                         width: 80,
                         height: 80
