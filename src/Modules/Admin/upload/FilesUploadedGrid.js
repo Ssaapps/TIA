@@ -4,7 +4,7 @@ import FileGridItem from './FileGridItem';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditable, uploading, setFilesEditable, uploadedFileIds, setAlbumAddFormOpen, currentPreviewFileId, setCurrentPreviewFileId, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
+function FilesUploadedGrid({ files, setFiles, selected, filesProgress, setSelected, filesEditable, uploading, setFilesEditable, uploadedFileIds, uploadProgress, setAlbumAddFormOpen, currentPreviewFileId, setCurrentPreviewFileId, setPeopleAddFormOpen, setGroupsAddFormOpen }) {
     const [isEditingTitle, setIsEditingTitle] = React.useState(false);
     const [isEditingAmount, setIsEditingAmount] = React.useState(false);
     const [titleEdited, setTitleEdited] = React.useState("");
@@ -13,7 +13,7 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
     const [descriptionEdited, setDescriptionEdited] = React.useState("");
     const [isEditingTags, setIsEditingTags] = React.useState(false);
 
-
+    console.log(filesProgress)
     useEffect(() => {
         if (selected.length === 1) {
             console.log(filesEditable[selected[0]]);
@@ -159,8 +159,8 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                 </div>
                 <div style={{
                     flex: "9"
-                }} className={"overflow-hidden overflow-y-auto"}>
-                    <ul role="list" className="grid overflow-hidden overflow-y-auto grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                }} className={"overflow-hidden overflow-y-auto no-scrollbar"}>
+                    <ul role="list" className="grid overflow-hidden overflow-y-auto no-scrollbar grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         {files.map((file, index) => {
                             const isSelected = selected.includes(index);
                             return (
@@ -168,12 +168,15 @@ function FilesUploadedGrid({ files, setFiles, selected, setSelected, filesEditab
                                     key={index}
                                     file={file}
                                     index={index}
+                                    fileProgress={filesProgress.find(item => item?.id == file.id)}
                                     isSelected={isSelected}
                                     uploading={uploading}
                                     uploadedFileIds={uploadedFileIds}
                                     currentPreviewFileId={currentPreviewFileId}
                                     setCurrentPreviewFileId={setCurrentPreviewFileId}
                                     setCurr
+                                    uploadProgress={uploadProgress}
+
                                     setSelected={setSelected}
                                     selected={selected}
                                     filesEditable={filesEditable}

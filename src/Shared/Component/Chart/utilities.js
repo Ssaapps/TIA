@@ -90,6 +90,19 @@ export const customTooltips = function (context) {
 };
 
 
+export function formatUploadBytesSpeed(speed) {
+    if (speed >= 1000000000) {
+        return (speed / 1000000000).toFixed(2) + " Gbps";
+    } else if (speed >= 1000000) {
+        return (speed / 1000000).toFixed(2) + " Mbps";
+    } else if (speed >= 1000) {
+        return (speed / 1000).toFixed(2) + " Kbps";
+    } else {
+        return speed.toFixed(2) + " B/s";
+    }
+}
+
+
 
 export function convertToSentenceCase(str) {
     return str.toLowerCase().replaceAll("_", " ").replace(/(^|\s)\S/g, char => char.toUpperCase());
