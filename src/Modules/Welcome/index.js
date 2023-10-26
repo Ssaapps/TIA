@@ -11,6 +11,7 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import BannerText from "./BannerText";
 
 export default function Welcome() {
 
@@ -46,6 +47,7 @@ export default function Welcome() {
 
     return (
         <div className={""}>
+            {homeState.fetch.data && (<BannerText />)}
             <div className="px-10 ">
                 <Swiper
                     spaceBetween={30}
@@ -83,18 +85,18 @@ export default function Welcome() {
                                     }} />
                                     <div className="w-full h-full bg-black bg-opacity-50 z-20 absolute top-0 left-0 rounded-md" ></div>
                                     <div className={"absolute bottom-5 md:bottom-10 lg:bottom-40 xl:bottom-80  md:right-20 left-5 lg:left-auto z-30"}>
-                                        <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Editor Pick</h2>
+                                        <h2 className={"font-rubik md:text-xl text-lg text-white"}>Featured Event</h2>
                                         <h1 className={"md:text-3xl text-xl font-proxima text-white"}>
                                             {homeState.fetch.data && homeState.fetch.data.albums.length > 0 && homeState.fetch.data.albums[0].name}
                                         </h1>
-                                        <div className={"flex my-2 items-center"}>
+                                        {/* <div className={"flex my-2 items-center"}>
                                             <div className={"border-2 border-white rounded-full"}>
                                                 <img className={"md:h-12 md:w-12 h-8 w-8 object-contain rounded-full"} src={"/logo.png"} />
                                             </div>
                                             <h2 className={"mx-2 font-proximaBold text-white"}>
                                                 UIPM World Pentathlon
                                             </h2>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </SwiperSlide>
                             </Suspense>

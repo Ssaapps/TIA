@@ -1,16 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ExploreMoreCard from './ExploreMoreCard';
 import Confetti from 'react-confetti'
 import { MEDIA_URL } from '../../Shared/utils/constants';
 import { useNavigate } from 'react-router';
-import {downloadReceipt} from "../../Shared/utils/common";
+import { downloadReceipt } from "../../Shared/utils/common";
 import SuccessAlert from "../../Shared/Component/Alert/Success";
 
 const PaymentSuccessScreen = ({ data }) => {
     const [confettiWidth, setConfettiWidth] = React.useState(window.innerWidth);
     const containerRef = useRef(null);
     const navigate = useNavigate();
-    const [message,setMessage] = useState(null);
+    const [message, setMessage] = useState(null);
     useEffect(() => {
         if (containerRef.current) {
             setConfettiWidth(containerRef.current.offsetWidth)
@@ -22,7 +22,7 @@ const PaymentSuccessScreen = ({ data }) => {
         downloadReceipt(data.order.payment_reference).then(data => {
             setMessage("download successfully")
         }).catch(err => {
-            console.log("error: ",err);
+            console.log("error: ", err);
         })
     }
     return (
@@ -80,10 +80,10 @@ const PaymentSuccessScreen = ({ data }) => {
                 <p className=" text-gray-500 -mt-2 mb-8">NUMBER OF ITEMS: <span className='font-bold text-black'>{data.order.amount}</span> </p>
 
                 <div className={"underline text-blue-500 cursor-pointer"} onClick={onDownloadTapped}>
-                    Donwload Now
+                    Download Now
                 </div>
 
-                <div className='border-dashed border w-full h-[2px]'></div>
+                {/* <div className='border-dashed border w-full h-[2px]'></div>
                 <p className="mt-4">Interested in exploring more</p>
 
                 {data.media.length > 0 && data.media.map((media, index) => {
@@ -91,7 +91,7 @@ const PaymentSuccessScreen = ({ data }) => {
                         navigate(`/photo/${media.id}`)
                     }} />
 
-                })}
+                })} */}
                 <div className="flex items-center mt-8 justify-center">
                     <button onClick={() => {
                         window.location.replace("/")
@@ -104,7 +104,7 @@ const PaymentSuccessScreen = ({ data }) => {
             </div>
 
 
-        </div >
+        </div>
     );
 };
 
