@@ -7,7 +7,7 @@ export const getMedia = (album) => {
         makeHttpRequest({
             path: `admin/media`,
             method: "GET",
-            query: {album}
+            query: { album }
         }, {
             SUCCESS: ActionTypes.FETCH_MEDIA_SUCCESS,
             ERROR: ActionTypes.FETCH_MEDIA_ERROR
@@ -28,6 +28,21 @@ export const getMediaDetails = (id) => {
     }
 }
 
+export const setAlbumCover = (id, onSuccess, onError) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.SET_ALBUM_COVER_REQUEST });
+        makeHttpRequest({
+            path: `admin/media/${id}/set_as_cover`,
+            method: "POST",
+        }, {
+            SUCCESS: ActionTypes.SET_ALBUM_COVER_SUCCESS,
+            ERROR: ActionTypes.SET_ALBUM_COVER_ERROR
+        }, dispatch, onSuccess, onError);
+    }
+}
+
+
+
 export const deleteMedia = (id) => {
     return async function (dispatch) {
         dispatch({ type: ActionTypes.DELETE_MEDIA_REQUEST });
@@ -38,6 +53,19 @@ export const deleteMedia = (id) => {
             SUCCESS: ActionTypes.DELETE_MEDIA_SUCCESS,
             ERROR: ActionTypes.DELETE_MEDIA_ERROR
         }, dispatch);
+    }
+}
+
+export const featureMedia = (id, onSuccess, onError) => {
+    return async function (dispatch) {
+        dispatch({ type: ActionTypes.FEATURE_MEDIA_REQUEST });
+        makeHttpRequest({
+            path: `admin/media/feature`,
+            method: "POST"
+        }, {
+            SUCCESS: ActionTypes.FEATURE_MEDIA_SUCCESS,
+            ERROR: ActionTypes.FEATURE_MEDIA_ERROR
+        }, dispatch, onSuccess, onError);
     }
 }
 

@@ -23,6 +23,8 @@ export default function Albums() {
     const [error, setError] = useState(null);
     const [reloadSuccess, setReloadSuccess] = useState(false)
     const [tableVersion, setTableVersion] = useState(0);
+    // can be copy | edit | delete | feature
+    const [action, setAction] = useState(null)
 
     const albumState = useSelector((state) => state.albums)
 
@@ -72,7 +74,6 @@ export default function Albums() {
                     dispatch(deleteAlbum(selectedItemModel.id, () => {
                         setSelectItemModel(null)
                         window.location.reload()
-
                     }, () => {
                         setSelectItemModel(null)
                     }))
@@ -80,9 +81,13 @@ export default function Albums() {
                 }}
                 onNoClicked={() => setSelectItemModel(null)}
                 onCloseClicked={() => setSelectItemModel(null)}
-            >
+
+            >                                                                         Are you sure you want to delete album ?
                 <div className="text-xs py-3">
+
                     Are you sure you want to delete album ?
+
+
                 </div>
             </YesNoDialog>
 
