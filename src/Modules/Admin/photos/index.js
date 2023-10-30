@@ -7,9 +7,14 @@ import {
     PencilIcon,
     PlusIcon as PlusIconMini,
     Squares2X2Icon as Squares2X2IconMini,
+
+
 } from '@heroicons/react/20/solid'
+import {
+    HomeIcon as HomeOutlined
+} from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMedia, getMedia } from "./duck/action";
+import { deleteMedia, featureMedia, getMedia, setAlbumCover } from "./duck/action";
 import { MEDIA_URL } from "../../../Shared/utils/constants";
 import { classNames, niceBytes } from "../../../Shared/utils/common";
 import moment from "moment";
@@ -18,6 +23,10 @@ import PhotoView from "./components/photoView";
 import AlbumView from "./components/albumView";
 import JavInput from '../../../Shared/Component/Forms/JavInput';
 import ShimmerPhotoView from './components/shimmerPhotoView';
+import Zoom from 'react-medium-image-zoom'
+import LoadingIcon from '../../../Shared/Component/Icons/LoadingIcon';
+import SuccessAlert from '../../../Shared/Component/Alert/Success';
+import ErrorAlert from '../../../Shared/Component/Alert/Error';
 
 const initialTabs = [
     { id: 0, name: 'Photo ', href: '#', current: true },
@@ -29,6 +38,8 @@ function PhotosList() {
     const [currentFile, setCurrentFile] = useState(null);
     const [selectedItemModel, setSelectItemModel] = useState(null);
     const photoState = useSelector((state) => state.media)
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
     const [tabs, setTabs] = useState(initialTabs)
     const [editingPrice, setEditingPrice] = useState(false)
 
@@ -90,6 +101,8 @@ function PhotosList() {
                     Are you sure you want to delete photo ?
                 </div>
             </YesNoDialog>
+            <SuccessAlert open={success != null} message={success} timeout={3000} onClose={() => setSuccess(null)} />
+            <ErrorAlert open={error != null} message={error} timeout={3000} onClose={() => setError(null)} />
 
 
 
@@ -205,9 +218,9 @@ function PhotosList() {
                     currentFile != null &&
                     <div className="space-y-6 pb-16">
                         <div>
-                            <div className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
+                            <Zoom className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
                                 <img src={currentFile.source} alt="" className="object-cover" />
-                            </div>
+                            </Zoom>
                             <div className="mt-4 flex items-start justify-between">
                                 <div>
                                     <h2 className="text-lg font-medium text-gray-900">
@@ -216,13 +229,17 @@ function PhotosList() {
                                     </h2>
                                     <p className="text-sm font-medium text-gray-500">{currentFile.size}</p>
                                 </div>
-                                <button
-                                    type="button"
-                                    className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                >
-                                    <HeartIcon className="h-6 w-6" aria-hidden="true" />
-                                    <span className="sr-only">Favorite</span>
-                                </button>
+                                <div className='flex gap-x-2'>
+
+                                    <button
+                                        type="button"
+                                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    >
+                                        <HeartIcon className="h-6 w-6" aria-hidden="true" />
+                                        <span className="sr-only">Favorite</span>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                         <div>
@@ -249,6 +266,8 @@ function PhotosList() {
                                 </button>
                             </div>
                         </div>
+
+
                         <div>
                             <h3 className="font-medium text-gray-900">Price</h3>
                             <form onSubmit={handleEditPriceSubmit} className="mt-2 flex items-center justify-between">
@@ -298,6 +317,42 @@ function PhotosList() {
                             </form>
                         </div>
                         <div>
+                            <h3 className="font-medium text-gray-900">Feature</h3>
+                            <div className="mt-2 flex items-center justify-between">
+                                {/* TODO: Check if item is featured already and not display */}
+                                <button
+                                    onClick={() => {
+                                        dispatch(featureMedia(currentFile.id, () => {
+                                            setSuccess("Featured successfully")
+                                        }, () => {
+                                            setError("Failed to feature")
+                                        }))
+                                    }}
+
+                                    disabled={photoState?.featuring?.loading}
+                                    type="button"
+                                    className="flex-1 flex justify-center items-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    {!photoState?.featuring?.loading ? "Feature on Home" : <LoadingIcon className="w-5 h-5 fill-white" />}
+                                </button>
+                                {/* TODO: Check if item is featured already and not display */}
+                                <button
+                                    onClick={() => {
+                                        dispatch(setAlbumCover(currentFile.id, () => {
+                                            setSuccess("Set as album cover successfully")
+                                        }, () => {
+                                            setError("Failed to set as album cover")
+                                        }))
+                                    }}
+                                    disabled={photoState?.setAlbumCover?.loading}
+                                    type="button"
+                                    className="ml-3 flex-1 flex items-center justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    {!photoState?.setAlbumCover?.loading ? "Set as album cover" : <LoadingIcon className="w-5 h-5 fill-gray-700" />}
+                                </button>
+                            </div>
+                        </div>
+                        <div>
                             <h3 className="font-medium text-gray-900">Shared with</h3>
                             <ul role="list" className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
                                 {currentFile.sharedWith.map((person) => (
@@ -329,6 +384,8 @@ function PhotosList() {
                                 </li>
                             </ul>
                         </div>
+
+
                         <div className="flex">
                             <button
                                 type="button"

@@ -41,7 +41,7 @@ const navigation = [
   { name: 'Photos', href: '/admin/photos', icon: PhotoIcon, current: true },
   // { name: 'Groups', href: '/admin/groups', icon: RectangleGroupIcon, current: false },
   { name: 'Albums', href: '/admin/albums', icon: RectangleStackIcon, current: false },
-  // { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
+  { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
 ]
 
 

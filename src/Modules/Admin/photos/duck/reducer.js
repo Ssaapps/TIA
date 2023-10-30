@@ -7,6 +7,18 @@ const initialState = {
         error: null,
         data: []
     },
+    featuring: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null,
+    },
+    setAlbumCover: {
+        success: false,
+        loading: false,
+        error: null,
+        data: null,
+    },
     show: {
         success: false,
         loading: false,
@@ -158,6 +170,67 @@ export const MediaReducer = (state = initialState, action) => {
                 ...state,
                 delete: {
                     ...state.delete,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+
+        case ActionTypes.FEATURE_MEDIA_REQUEST:
+            return {
+                ...state,
+                featuring: {
+                    ...state.featuring,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.FEATURE_MEDIA_SUCCESS:
+            return {
+                ...state,
+                featuring: {
+                    ...state.featuring,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.FEATURE_MEDIA_ERROR:
+            return {
+                ...state,
+                featuring: {
+                    ...state.featuring,
+                    success: false,
+                    loading: false,
+                    error: action.payload
+                }
+            }
+        case ActionTypes.SET_ALBUM_COVER_REQUEST:
+            return {
+                ...state,
+                setAlbumCover: {
+                    ...state.setAlbumCover,
+                    loading: true,
+                    success: false,
+                    error: null
+                }
+            }
+        case ActionTypes.SET_ALBUM_COVER_SUCCESS:
+            return {
+                ...state,
+                setAlbumCover: {
+                    ...state.setAlbumCover,
+                    success: true,
+                    loading: false,
+                    data: action.payload
+                }
+            }
+        case ActionTypes.SET_ALBUM_COVER_ERROR:
+            return {
+                ...state,
+                setAlbumCover: {
+                    ...state.setAlbumCover,
                     success: false,
                     loading: false,
                     error: action.payload
