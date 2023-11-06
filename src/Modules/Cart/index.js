@@ -194,6 +194,7 @@ export default function Cart() {
                             <input type="hidden" name="ORDERID" value="" />
                             <input type="hidden" name="PSPID" value="" />
                             <input type="hidden" name="SHASIGN" value="" />
+                            <input type="hidden" name="CN" value="" />
                         </form>
                     </div>
                     }
