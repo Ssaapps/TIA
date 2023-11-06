@@ -52,9 +52,9 @@ function PhotosList() {
             name: file.name,
             size: file.type === 'file' ? niceBytes(file.size) : file.media_count + " files",
             source: `${MEDIA_URL}${file.watermark_path}`,
-            price: file.item_price.price,
+            price: file.item_price?.price,
             information: {
-                'Uploaded by': file.created_by.name,
+                'Uploaded by': file.created_by?.name ?? '',
                 'Created at ': moment(file.created_at).format("MMM D, YYYY"),
                 'Last modified': moment(file.updated_at).format("MMM D, YYYY"),
                 Dimensions: '4032 x 3024',
