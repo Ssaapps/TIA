@@ -39,6 +39,7 @@ export default function Cart() {
             paymentGateWayFormRef.current.querySelector('input[name="ORDERID"]').value = data.payment_data.form_params.ORDERID;
             paymentGateWayFormRef.current.querySelector('input[name="PSPID"]').value = data.payment_data.form_params.PSPID;
             paymentGateWayFormRef.current.querySelector('input[name="SHASIGN"]').value = data.payment_data.form_params.SHASIGN;
+            paymentGateWayFormRef.current.querySelector('input[name="CN"]').value = data.payment_data.form_params.CN;
             await paymentGateWayFormRef.current.submit()
         }, (error) => {
             console.log(error)
