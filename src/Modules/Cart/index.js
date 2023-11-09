@@ -40,6 +40,7 @@ export default function Cart() {
             paymentGateWayFormRef.current.querySelector('input[name="PSPID"]').value = data.payment_data.form_params.PSPID;
             paymentGateWayFormRef.current.querySelector('input[name="SHASIGN"]').value = data.payment_data.form_params.SHASIGN;
             paymentGateWayFormRef.current.querySelector('input[name="CN"]').value = data.payment_data.form_params.CN;
+            paymentGateWayFormRef.current.querySelector('input[name="COM"]').value = data.payment_data.form_params.COM;
             await paymentGateWayFormRef.current.submit()
         }, (error) => {
             console.log(error)
@@ -195,6 +196,7 @@ export default function Cart() {
                             <input type="hidden" name="PSPID" value="" />
                             <input type="hidden" name="SHASIGN" value="" />
                             <input type="hidden" name="CN" value="" />
+                            <input type="hidden" name="COM" value="" />
                         </form>
                     </div>
                     }
