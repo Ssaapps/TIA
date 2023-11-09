@@ -190,13 +190,13 @@ export default function Cart() {
                         </form>
                         <form action="" ref={paymentGateWayFormRef} className='hidden'>
                             <input type="hidden" name="AMOUNT" value="" />
+                            <input type="hidden" name="CN" value="" />
+                            <input type="hidden" name="COM" value="" />
                             <input type="hidden" name="CURRENCY" value="" />
                             <input type="hidden" name="LANGUAGE" value="" />
                             <input type="hidden" name="ORDERID" value="" />
                             <input type="hidden" name="PSPID" value="" />
                             <input type="hidden" name="SHASIGN" value="" />
-                            <input type="hidden" name="CN" value="" />
-                            <input type="hidden" name="COM" value="" />
                         </form>
                     </div>
                     }
