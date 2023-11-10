@@ -35,6 +35,7 @@ export const removeItemFromCart = (item, callback = () => { }) => {
         if (rawCart) {
             tempCart = JSON.parse(rawCart)
             tempCart = tempCart.filter((cartItem) => cartItem.id !== item.id)
+            localStorage.setItem("cart", JSON.stringify(tempCart))
         }
         dispatch({ type: ActionTypes.CART_REMOVE, payload: item });
         callback()

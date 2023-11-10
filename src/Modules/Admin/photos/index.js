@@ -74,7 +74,7 @@ function PhotosList() {
     }
 
     useEffect(() => {
-        console.log("photoState", photoState);
+        console.log("photoState", photoState?.fetch?.data?.filter(it => it.featured_media !== null));
         if (photoState.delete.success) {
             setSelectItemModel(null);
             setCurrentFile(null);

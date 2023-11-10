@@ -61,7 +61,11 @@ export const featureMedia = (id, onSuccess, onError) => {
         dispatch({ type: ActionTypes.FEATURE_MEDIA_REQUEST });
         makeHttpRequest({
             path: `admin/media/feature`,
-            method: "POST"
+            method: "POST",
+            data: {
+                id: id
+
+            }
         }, {
             SUCCESS: ActionTypes.FEATURE_MEDIA_SUCCESS,
             ERROR: ActionTypes.FEATURE_MEDIA_ERROR

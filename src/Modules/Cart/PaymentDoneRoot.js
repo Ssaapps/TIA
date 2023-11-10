@@ -16,7 +16,13 @@ function PaymentDoneRoot() {
             dispatch(checkOrderStatus(id))
         }
 
+
     }, [])
+    useEffect(() => {
+        if (cartState.status.data.order.paid_at != null) {
+            localStorage.removeItem("cart")
+        }
+    }, [cartState])
     return (
         <>
             {cartState.status.loading ?
