@@ -88,7 +88,7 @@ export default function Cart() {
                                     Items in your  cart
                                 </h2>
 
-                                <ul role="list" className="divide-y divide-gray-200 border border-b grid  rounded  border-gray-200">
+                                <ul role="list" className="divide-y divide-gray-200 border border-b   rounded  border-gray-200">
                                     {cartState.items.map((media, productIdx) => (
                                         <li key={media.id} className="flex items-stretch py-4 px-4 sm:py-4">
                                             <div className="flex-shrink-0">
@@ -99,16 +99,14 @@ export default function Cart() {
                                                 />
                                             </div>
 
-                                            <div className="ml-4 py-1 flex flex-1 flex-col justify-between sm:ml-6">
-                                                <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                                            <div className="ml-4 py-1  flex-1  sm:ml-6">
+                                                <h3 className="flex justify-between b text-lg font-semibold break-all text-gray-900 hover:text-gray-800 ">
+                                                    {media.original_name}
+
+                                                </h3>
+                                                <div className=" pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                                                     <div>
-                                                        <div className="flex justify-between">
-                                                            <h3 className="text-lg">
-                                                                <span className="font-semibold text-gray-900 hover:text-gray-800">
-                                                                    {media.original_name}
-                                                                </span>
-                                                            </h3>
-                                                        </div>
+
                                                         <Link to={`/album/${media.album.uuid}`}>
                                                             <p className="mt-1 text-sm font-medium  text-gray-700">{media.album.name}</p>
 
@@ -130,7 +128,7 @@ export default function Cart() {
                                             <div className='flex items-center  '>
                                                 <button onClick={() => {
                                                     dispatch(removeItemFromCart(media))
-                                                }} type="button" className=" inline-flex float-right p-5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-500">
+                                                }} type="button" className=" inline-flex p-5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-500">
                                                     <span className="sr-only">Remove</span>
                                                     <TrashIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button>
