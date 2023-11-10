@@ -19,7 +19,7 @@ function PaymentDoneRoot() {
 
     }, [])
     useEffect(() => {
-        if (cartState.status.data.order.paid_at != null) {
+        if (cartState?.status?.data?.order?.paid_at != null) {
             localStorage.removeItem("cart")
         }
     }, [cartState])
