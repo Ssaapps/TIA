@@ -32,8 +32,9 @@ import {
 } from '@heroicons/react/20/solid'
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import Logo from "../../Shared/Component/Icons/Logo";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../Auth/duck/action'
+import Avatar from '../../Shared/Component/Profile/Avatar'
 
 const navigation = [
   { name: 'Home', href: '/admin', icon: HomeIcon, current: false },
@@ -51,6 +52,8 @@ function classNames(...classes) {
 
 export default function Admin() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const user = useSelector((state) => state.login.login.user)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
@@ -211,33 +214,7 @@ export default function Admin() {
               </button>
               <div className="flex flex-1 justify-between px-4 sm:px-6">
                 <div className="flex flex-1">
-                  <form className="flex w-full md:ml-0" action="#" method="GET">
-                    <label htmlFor="desktop-search-field" className="sr-only">
-                      Search all files
-                    </label>
-                    <label htmlFor="mobile-search-field" className="sr-only">
-                      Search all files
-                    </label>
-                    <div className="relative w-full text-gray-400 focus-within:text-gray-600">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                        <MagnifyingGlassIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-                      </div>
-                      <input
-                        name="mobile-search-field"
-                        id="mobile-search-field"
-                        className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:hidden"
-                        placeholder="Search"
-                        type="search"
-                      />
-                      <input
-                        name="desktop-search-field"
-                        id="desktop-search-field"
-                        className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:block"
-                        placeholder="Search all files"
-                        type="search"
-                      />
-                    </div>
-                  </form>
+
                 </div>
                 <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
                   {/* Profile dropdown */}
@@ -245,11 +222,12 @@ export default function Admin() {
                     <div>
                       <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
-                        <img
+                        {/* <img
                           className="h-8 w-8 rounded-full"
                           src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
                           alt=""
-                        />
+                        /> */}
+                        <Avatar alt={user?.name} />
                       </Menu.Button>
                     </div>
                     <Transition

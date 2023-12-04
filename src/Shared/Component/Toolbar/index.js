@@ -12,8 +12,8 @@ import { ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { classNames } from "../../utils/common";
 import AdminIcon from "../Icons/AdminIcon";
-import {HomeIcon} from "@heroicons/react/20/solid";
-import {ADMIN_ROLE_ID} from "../../utils/constants";
+import { HomeIcon } from "@heroicons/react/20/solid";
+import { ADMIN_ROLE_ID } from "../../utils/constants";
 
 export default function Toolbar() {
     const navigate = useNavigate();
@@ -114,8 +114,6 @@ export default function Toolbar() {
                                 </Transition>
                             </Menu>
                             {/*<PostIcon onClick={() => navigate('/admin?login=true')} className={"cursor-pointer stroke-2  stroke-[#1e4570]"} />*/}
-
-
                             {
                                 isAdmin(user?.roles) &&
                                 <PostIcon onClick={() => navigate('/admin')} className={"cursor-pointer stroke-blue-800"} />
