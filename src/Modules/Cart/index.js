@@ -1,4 +1,5 @@
-import { PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { PhotoIcon, } from '@heroicons/react/20/solid'
+import { FolderPlusIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkout, removeItemFromCart } from './duck/action'
 import { MEDIA_URL } from "../../Shared/utils/constants";
@@ -70,9 +71,8 @@ export default function Cart() {
             <CustomLoadingOverlay show={cartState.checkout.loading} color={"#fff"} text={"Processing...."}>
 
                 {cartState.items.length < 1 && <div className="flex justify-center items-center flex-col mt-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-16 w-16 text-gray-400 mb-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+                    <FolderPlusIcon className="h-16 w-16 text-gray-400 mb-4" />
+
                     <h2 className="text-2xl font-semibold text-gray-900 mb-2">No items in cart</h2>
                     <p className="text-gray-500">Start adding items to your cart and they'll appear here</p>
                 </div>

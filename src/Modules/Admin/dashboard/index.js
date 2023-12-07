@@ -12,6 +12,8 @@ import OrdersLineChart from './OrdersLineChart';
 import StorageCapacityDougnutChart from './StorageCapacityDougnutChart';
 import OtherChart from './OtherChart';
 import AlbumsDownloadedDoughnutChart from './AlbumsDownloadedDoughnutChart';
+import Shimmer from '../../../Shared/Component/Suspense/Shimmer';
+import { generateArray } from '../../../Shared/utils/common';
 
 function Dashboard() {
 
@@ -38,6 +40,8 @@ function Dashboard() {
                     <JavFormSelect
                         items={["today", "last week", "last monthly", "last year"]}
                         position={"bottom"}
+                        onChange={(e) => console.log(e)}
+
                     />
                 </div>
 
@@ -62,13 +66,25 @@ function Dashboard() {
                     <h4 className='text-xl font-medium'>Trending Albums</h4>
                     <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
                         {
-                            dashboardState.fetch.data && dashboardState.fetch.data.tending_albums.map(album => {
+                            dashboardState.fetch.data ? dashboardState.fetch.data.tending_albums.map(album => {
                                 return (
                                     <TrendingAlbumCard name={album.name}
                                         description={album.description}
                                         photo={`${MEDIA_URL}${album.media[0].watermark_path}`} />
                                 )
                             })
+                                :
+                                generateArray(3, 0).map((item, index) => (
+                                    <li key={index} className="relative">
+                                        <Shimmer
+                                            className={
+                                                'group block w-full aspect-w-10 aspect-h-6 rounded-lg bg-gray-100 overflow-hidden mb-2'
+                                            }
+                                        />
+                                        <Shimmer className="rounded  h-[14px] w-1/2 mb-1" />
+                                        <Shimmer className="rounded  h-[14px] w-1/3" />
+                                    </li>
+                                ))
                         }
                         {/*<TrendingAlbumCard name={"Museums of History New South Wale"} photo='https://images.unsplash.com/photo-1680169755527-ce101aead0ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2524&q=80'/>*/}
                         {/*<TrendingAlbumCard name={"Beautiful People "} photo='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'/>*/}
