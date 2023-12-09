@@ -92,7 +92,7 @@ function PhotosList() {
                 if (photosListContainerRef) {
                     photosListContainerRef.current?.scroll(0, 0)
                 }
-            }} className={`w-[40px] h-[40px] bg-indigo-600 rounded-[5px] flex items-center justify-center absolute  right-[408px] ${showScrollToTopBtn ? "bottom-5" : "-bottom-40"} transition `} type='button'>
+            }} className={`w-[40px] h-[40px] bg-indigo-600 rounded-[5px] z-[99999] flex items-center justify-center absolute  right-[408px] ${showScrollToTopBtn ? "bottom-5" : "-bottom-40"} transition `} type='button'>
                 < ChevronDoubleUpIcon className='text-white h-5 ' />
             </button>}
             <YesNoDialog
@@ -115,7 +115,7 @@ function PhotosList() {
 
 
 
-            <main className="flex-1 overflow-y-auto " ref={photosListContainerRef} onScroll={(e) => {
+            <main className="flex-1 overflow-y-auto scroll-smooth" ref={photosListContainerRef} onScroll={(e) => {
                 if (e.currentTarget.scrollTop == 0) {
                     setShowScrollToTopBtn(false)
                 }

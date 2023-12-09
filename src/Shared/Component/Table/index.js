@@ -7,7 +7,8 @@ import JavSelect from "../Forms/JavSelect";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataForTable } from "./duck/action";
-import { getParameterByName, getTableData } from "../../utils/common";
+import { generateArray, getParameterByName, getTableData } from "../../utils/common";
+import Shimmers from "./Shimmers";
 
 
 function Table(props, ref) {
@@ -39,7 +40,7 @@ function Table(props, ref) {
     useEffect(() => {
         if (props.link) {
             setTableData([]);
-            dispatch(getDataForTable(config,props.tag))
+            dispatch(getDataForTable(config, props.tag))
         }
     }, [props.currentVersion])
 
@@ -168,6 +169,20 @@ function Table(props, ref) {
                                 </tr>
                             )
                         })
+
+                    }
+                    {
+                        tableState.fetch.loading &&
+                        <tr className="border  dark:border-gray-600 text-left h-12 rounded ">
+                            {generateArray(props?.fields?.length).map((item, index) => (
+                                <td className="p-3" key={index}>
+                                    <Shimmers.SingleShimmer />
+                                </td>
+                            ))
+                            }
+                        </tr>
+
+
                     }
                     {
                         // tableData && tableData.length === 0 &&
