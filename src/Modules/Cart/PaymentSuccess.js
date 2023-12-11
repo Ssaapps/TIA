@@ -26,7 +26,7 @@ const PaymentSuccessScreen = ({ data }) => {
         })
     }
     return (
-        <div className=" items-center justify-center h-screen bg-gray-100 pt-[5%]">
+        <div className=" items-center justify-center h-screen bg-gray-100 dark:bg-gray-900 transition duration-300 pt-[5%]">
 
             <SuccessAlert open={!!message} message={message} onClose={() => {
                 setMessage(null)
@@ -74,10 +74,10 @@ const PaymentSuccessScreen = ({ data }) => {
                 </div>
 
 
-                <p className=" text-gray-500 text-lg ">Amazing!</p>
-                <h4 className="font-medium text-3xl tracking-wide">Congratulations. You've got covered</h4>
-                <p className=" text-gray-500 ">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
-                <p className=" text-gray-500 -mt-2 mb-8">NUMBER OF ITEMS: <span className='font-bold text-black'>{data.order.amount}</span> </p>
+                <p className=" text-gray-500 text-lg dark:text-gray-400">Amazing!</p>
+                <h4 className="font-medium text-3xl tracking-wide dark:text-gray-300">Congratulations. You've got covered</h4>
+                <p className=" text-gray-500 dark:text-gray-300">REFERENCE  NUMBER: <span className='font-bold text-black'>#{data.order.payment_reference}</span> </p>
+                <p className=" text-gray-500 -mt-2 mb-8 dark:text-gray-300">NUMBER OF ITEMS: <span className='font-bold text-black'>{data.order.amount}</span> </p>
 
                 <div className={"underline text-blue-500 cursor-pointer"} onClick={onDownloadTapped}>
                     Download Now

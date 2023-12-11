@@ -20,10 +20,12 @@ import {
   CogIcon,
   HeartIcon,
   HomeIcon,
+  MoonIcon,
   PhotoIcon,
   PlusIcon as PlusIconOutline,
   RectangleStackIcon,
   Squares2X2Icon as Squares2X2IconOutline,
+  SunIcon,
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
@@ -35,6 +37,7 @@ import Logo from "../../Shared/Component/Icons/Logo";
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../Auth/duck/action'
 import Avatar from '../../Shared/Component/Profile/Avatar'
+import useLocalStorage from '../../Shared/utils/hooks/localStorage'
 
 const navigation = [
   { name: 'Home', href: '/admin', icon: HomeIcon, current: false },
@@ -54,12 +57,31 @@ export default function Admin() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const user = useSelector((state) => state.login.login.user)
 
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
     document.body.classList.add("h-full")
     document.body.classList.add("overflow-hidden")
   }, [])
+  const [theme, setTheme] = useLocalStorage("theme");
+  const handleThemeToggle = () => {
+    if (theme !== "dark" || (!('theme' in localStorage))) {
+      document.documentElement.classList.add('dark')
+      setTheme("dark")
+    } else {
+      document.documentElement.classList.remove('dark')
+      setTheme(undefined)
+    }
+
+  }
+
+
+  useEffect(() => {
+    handleThemeToggle()
+
+  }, [])
+
   const userNavigation = [
     { name: 'Your profile', href: '#', onClick: () => { } },
     {
@@ -203,9 +225,9 @@ export default function Admin() {
         </Transition.Root>
 
         {/* Content area */}
-        <div className="flex flex-1 bg-gray-50 flex-col overflow-hidden">
+        <div className="flex flex-1 bg-gray-50 dark:bg-gray-900 transition duration-300   flex-col overflow-hidden">
           <header className="w-full">
-            <div className="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white shadow-sm">
+            <div className="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white dark:bg-gray-900 transition duration-300 duration-300  dark:shadow-none dark:border-white/10 shadow-sm">
               <button
                 type="button"
                 className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
@@ -216,7 +238,6 @@ export default function Admin() {
               </button>
               <div className="flex flex-1 justify-between px-4 sm:px-6">
                 <div className="flex flex-1">
-
                 </div>
                 <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
                   {/* Profile dropdown */}
@@ -268,6 +289,13 @@ export default function Admin() {
                   >
                     <PlusIconOutline className="h-6 w-6" aria-hidden="true" />
                     <span className="sr-only">Add file</span>
+                  </button>
+
+                  <div className="w-[1px] bg-gray-300 dark:bg-gray-400 h-7"></div>
+                  <button className="rounded-full shadow w-9 h-9 flex items-center justify-center dark:bg-white/10" type="button" onClick={handleThemeToggle}>
+                    {/* {<MoonIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />} */}
+                    {theme == "dark" ? <MoonIcon className="h-5 w-5 text-zinc-400 hover:text-zinc-400" aria-hidden="true" /> :
+                      <SunIcon className="h-5 w-5 text-teal-600 hover:text-teal-400" aria-hidden="true" />}
                   </button>
                 </div>
               </div>

@@ -52,7 +52,7 @@ export default function Album() {
 
 
             {<div className="fixed top-20 z-50 flex flex-col gap-y-4 left-10">
-                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
+                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white dark:bg-gray-200 shadow">
                     <ArrowLeftIcon className="w-5 h-5" onClick={async () => {
                         navigate(-1);
                     }} />
@@ -65,8 +65,8 @@ export default function Album() {
             </div>}
 
             <div className="flex items-center justify-center absolute right-5 top-5 z-10">
-                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white shadow">
-                    <ShareIcon className="w-5 h-5" onClick={share} />
+                <div className="flex items-center cursor-pointer hover:bg-gray-100 justify-center h-9 w-9 overflow-hidden rounded-full bg-white dark:bg-gray-200 shadow">
+                    <ShareIcon className="w-5 h-5 " onClick={share} />
                 </div>
             </div>
 

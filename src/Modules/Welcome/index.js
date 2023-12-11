@@ -106,7 +106,7 @@ export default function Welcome() {
 
             <div className={"px-10 py-1 lg:py-4"}>
 
-                <h2 className={"font-rubik mb-4"}>
+                <h2 className={"font-rubik mb-4 dark:text-gray-300"}>
                     Newly Uploaded
                 </h2>
 

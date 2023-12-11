@@ -36,7 +36,7 @@ function Dashboard() {
 
             <main className="flex-1 overflow-y-auto px-10 pt-4">
                 <div className="flex justify-between ">
-                    <h4 className='text-xl font-medium'>Overview</h4>
+                    <h4 className='text-xl font-medium dark:text-gray-200'>Overview</h4>
                     <JavFormSelect
                         items={["today", "last week", "last monthly", "last year"]}
                         position={"bottom"}
@@ -63,8 +63,8 @@ function Dashboard() {
                 </div>
 
                 <div className='my-6'>
-                    <h4 className='text-xl font-medium'>Trending Albums</h4>
-                    <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
+                    <h4 className='text-xl font-medium dark:text-gray-300'>Trending Albums</h4>
+                    <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3 dark:text-gray-200">
                         {
                             dashboardState.fetch.data ? dashboardState.fetch.data.tending_albums.map(album => {
                                 return (
@@ -91,14 +91,14 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <hr className='mx-[-40px]' />
+                <hr className='mx-[-40px] dark:border-white/20 ' />
                 <div className='mt-4'>
                     <OrdersLineChart />
                 </div>
             </main>
-            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white py-2 lg:block ">
+            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white dark:bg-gray-900 py-2 lg:block ">
                 <StorageCapacityDougnutChart />
-                <hr className='mb-8' />
+                <hr className='mb-8 dark:border-white/20' />
                 <AlbumsDownloadedDoughnutChart />
 
             </aside>

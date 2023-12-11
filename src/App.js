@@ -23,7 +23,7 @@ import Profile from './Modules/Profile';
 import PaymentSuccessPage from './Modules/Cart/PaymentSuccess';
 import PaymentFailureScreen from './Modules/Cart/PaymentFailureScreen';
 import PaymentDoneRoot from './Modules/Cart/PaymentDoneRoot';
-import {ADMIN_ROLE_ID} from "./Shared/utils/constants";
+import { ADMIN_ROLE_ID } from "./Shared/utils/constants";
 import SetPassword from "./Modules/Auth/SetPassword";
 
 
@@ -37,8 +37,8 @@ function App() {
 
 
   useEffect(() => {
-  console.log(user)
-  },[user])
+    console.log(user)
+  }, [user])
 
   return (
     <Router>
@@ -50,7 +50,7 @@ function App() {
         <Route exact path="/set-password" element={isAuth ? <Navigate to="/" /> : <SetPassword />} />
 
 
-        <Route path="/admin" element={!isAuth || !isAdmin(user.roles) ? <Navigate to="/login" />  : <Admin />}>
+        <Route path="/admin" element={!isAuth || !isAdmin(user.roles) ? <Navigate to="/login" /> : <Admin />}>
           <Route index element={<Dashboard />} />
           <Route path='photos' element={<PhotosList />} />
           <Route path='settings' element={<Settings />} />
