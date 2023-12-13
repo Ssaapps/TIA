@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,6 +52,43 @@
 @layer base {
   :root {
     --swiper-theme-color: #fff !important;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body *::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  body *::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+    /* background- */
+  }
+  body *::-webkit-scrollbar-thumb {
+    background: #a8a8a8; /* Color of the thumb */
+    border-radius: 6px; /* Round the thumb */
+  }
+  body * {
+    -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  body *::-webkit-scrollbar-thumb {
+    background: #a8a8a8; /* Color of the thumb */
+    border-radius: 6px; /* Round the thumb */
+  }
+  body *::-ms-thumb {
+    background: #a8a8a8; /* Color of the thumb */
+  }
+  body *::-ms-track {
+    background: #a8a8a8; /* Background color of the track */
   }
 }
 @font-face {

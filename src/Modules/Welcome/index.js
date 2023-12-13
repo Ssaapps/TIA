@@ -72,7 +72,7 @@ export default function Welcome() {
                 >
                     {!homeState.fetch.data ? <div className='w-full h-full animate-pulse bg-gray-300 rounded'></div> :
                         (homeState.fetch?.data?.photos.map((item, index) => (
-                            <Suspense fallback={<div className='w-full  h-full animate-pulse bg-gray-300 rounded'></div>}>
+                            <Suspense key={index} fallback={<div className='w-full  h-full animate-pulse bg-gray-300 rounded'></div>}>
                                 <SwiperSlide className="relative cursor-pointer" onClick={() => { onAlbumItemClicked(item.album) }}>
                                     <div style={{ display: carouselLoading ? "block" : "none" }} className='w-full h-full animate-pulse bg-gray-300 rounded'></div>
                                     <img src={`${MEDIA_URL}${item.watermark_path}`} key={item.path} alt="Large image" style={{ display: carouselLoading ? "none" : "block" }} className="w-full object-center object-cover h-[80vh]  mx-auto rounded-md" onLoad={() => {
@@ -106,21 +106,21 @@ export default function Welcome() {
 
             <div className={"px-10 py-1 lg:py-4"}>
 
-                <h2 className={"font-rubik mb-4"}>
+                <h2 className={"font-rubik mb-4 dark:text-gray-300"}>
                     Newly Uploaded
                 </h2>
 
                 <div className={"grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2"}>
 
                     {
-                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map(item => (<div className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
+                        !homeState.fetch.data ? [0, 0, 0, 0, 0, 0, 0].map((item, index) => (<div key={index} className='w-full h-64 animate-pulse bg-gray-300 rounded'></div>)) : homeState.fetch.data.albums.map((album) => {
                             return (
                                 <div className={"cursor-pointer group relative"} key={album.uuid}>
                                     <img
                                         className={"w-full rounded h-64 object-cover"}
                                         src={`${MEDIA_URL}${album.media[0].watermark_path}`}
                                     />
-                                    <div onClick={() => onAlbumItemClicked(album)} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " nMouseOut={() => {
+                                    <div onClick={() => onAlbumItemClicked(album)} className="flex w-full h-full items-center   justify-center absolute top-0 bg-opacity-20 bg-blue-800 opacity-0 group-hover:opacity-100 " onMouseOut={() => {
                                         setAlbumHovered(-1)
                                     }} onMouseOver={() => {
                                         setAlbumHovered(album.id)

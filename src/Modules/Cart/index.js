@@ -1,4 +1,5 @@
-import { PhotoIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { PhotoIcon, } from '@heroicons/react/20/solid'
+import { FolderPlusIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkout, removeItemFromCart } from './duck/action'
 import { MEDIA_URL } from "../../Shared/utils/constants";
@@ -70,18 +71,17 @@ export default function Cart() {
             <CustomLoadingOverlay show={cartState.checkout.loading} color={"#fff"} text={"Processing...."}>
 
                 {cartState.items.length < 1 && <div className="flex justify-center items-center flex-col mt-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-16 w-16 text-gray-400 mb-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-2">No items in cart</h2>
+                    <FolderPlusIcon className="h-16 w-16 text-gray-400 mb-4" />
+
+                    <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-300  mb-2">No items in cart</h2>
                     <p className="text-gray-500">Start adding items to your cart and they'll appear here</p>
                 </div>
                 }
 
 
-                <div className="bg-white">
+                <div className="bg-white dark:bg-gray-900 transition duration-300">
                     {cartState.items.length > 0 && <div className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-3xl">CART SUMMARY</h1>
+                        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-3xl dark:text-gray-200">CART SUMMARY</h1>
                         <form onSubmit={handleCheckout} className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                             <section aria-labelledby="cart-heading" className="lg:col-span-7">
                                 <h2 id="cart-heading" className="sr-only">
@@ -95,12 +95,12 @@ export default function Cart() {
                                                 <img
                                                     src={`${MEDIA_URL}${media.watermark_path}`}
                                                     alt={media.name}
-                                                    className="h-24 w-24 rounded-md object-cover object-center sm:h-40 sm:w-40"
+                                                    className="h-24 w-24 rounded-md object-cover object-center sm:h-40 sm:w-40 "
                                                 />
                                             </div>
 
                                             <div className="ml-4 py-1  flex-1  sm:ml-6">
-                                                <h3 className="flex justify-between b text-lg font-semibold break-all text-gray-900 hover:text-gray-800 ">
+                                                <h3 className="flex justify-between b text-lg font-semibold break-all text-gray-900 hover:text-gray-800 dark:text-gray-300">
                                                     {media.original_name}
 
                                                 </h3>
@@ -108,15 +108,15 @@ export default function Cart() {
                                                     <div>
 
                                                         <Link to={`/album/${media.album.uuid}`}>
-                                                            <p className="mt-1 text-sm font-medium  text-gray-700">{media.album.name}</p>
+                                                            <p className="mt-1 text-sm font-medium  text-gray-700 dark:text-gray-300">{media.album.name}</p>
 
                                                         </Link>
                                                         <p className="mt-1 flex space-x-2 text-sm text-gray-700">
                                                             <PhotoIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
-                                                            <span className='text-sm text-gray-700'>{convertToKBorMBorGB(media.size)}</span>
+                                                            <span className='text-sm text-gray-700 dark:text-gray-400'>{convertToKBorMBorGB(media.size)}</span>
 
                                                         </p>
-                                                        <dd className="text-lg tracking-wide mt-2.5 font-semibold text-gray-900">{'\u20AC' + media.item_price.price}</dd>
+                                                        <dd className="text-lg tracking-wide mt-2.5 font-semibold text-gray-900 dark:text-gray-200">{'\u20AC' + media.item_price.price}</dd>
 
                                                     </div>
 
@@ -128,7 +128,7 @@ export default function Cart() {
                                             <div className='flex items-center  '>
                                                 <button onClick={() => {
                                                     dispatch(removeItemFromCart(media))
-                                                }} type="button" className=" inline-flex p-5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-500">
+                                                }} type="button" className=" inline-flex p-5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-500 dark:hover:bg-gray-600 hover:dark:text-gray-300">
                                                     <span className="sr-only">Remove</span>
                                                     <TrashIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button>
@@ -142,9 +142,9 @@ export default function Cart() {
                             <section
 
                                 aria-labelledby="summary-heading"
-                                className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+                                className="mt-16 rounded-lg bg-gray-50  dark:bg-[#131B2D] border-white/5 border px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
                             >
-                                <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+                                <h2 id="summary-heading" className="text-lg font-medium text-gray-900 dark:text-gray-300">
                                     Order summary
                                 </h2>
 
@@ -153,26 +153,26 @@ export default function Cart() {
                                     <dt className="text-sm text-gray-600">Subtotal</dt>
                                     <dd className="text-sm font-medium text-gray-900">$99.00</dd>
                                 </div> */}
-                                    <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <dt className="flex items-center text-sm text-gray-600">
+                                    <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-500 pt-4">
+                                        <dt className="flex items-center text-sm text-gray-600 dark:text-gray-200">
                                             <span>Files</span>
                                             {/* <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Learn more about how shipping is calculated</span>
                                             <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                                         </a> */}
                                         </dt>
-                                        <dd className="text-sm font-medium text-gray-900">{cartState.items.length + ` image${cartState.items.length > 1 ? "s" : ""}`}</dd>
+                                        <dd className="text-sm font-medium text-gray-900 dark:text-gray-300">{cartState.items.length + ` image${cartState.items.length > 1 ? "s" : ""}`}</dd>
                                     </div>
-                                    <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <dt className="flex text-sm text-gray-600">
+                                    <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-500 pt-4">
+                                        <dt className="flex text-sm text-gray-600 dark:text-gray-200">
                                             <span>Total Size</span>
 
                                         </dt>
-                                        <dd className="text-sm font-medium text-gray-900">{computeTotalMb()}</dd>
+                                        <dd className="text-sm font-medium text-gray-900 dark:text-gray-300">{computeTotalMb()}</dd>
                                     </div>
-                                    <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <dt className="text-base font-medium text-gray-900">Order total</dt>
-                                        <dd className="text-base font-medium text-gray-900">{'\u20AC' + computeCartTotal()}</dd>
+                                    <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-500 pt-4">
+                                        <dt className="text-base font-medium text-gray-900 dark:text-gray-200">Order total</dt>
+                                        <dd className="text-base font-medium text-gray-900 dark:text-gray-300">{'\u20AC' + computeCartTotal()}</dd>
                                     </div>
                                 </dl>
 
