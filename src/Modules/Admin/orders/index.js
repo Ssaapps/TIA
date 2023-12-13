@@ -112,7 +112,7 @@ export default function Orders() {
 
                                         <JavButton onClick={() => {
                                             downloadOrder(content);
-                                        }} className={"p-1"} bgColor={"bg-gray-200 "}>
+                                        }} className={"p-1"} bgColor={"bg-gray-200 dark:bg-gray-300 "}>
                                             {
                                                 downloadingOrder === content.id ?
                                                     <LoadingIcon className={"animate-spin"} /> :

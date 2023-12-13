@@ -129,7 +129,7 @@ function PhotosList() {
 
                 <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8 ">
                     <div className="flex">
-                        <h1 className="flex-1 text-2xl font-bold text-gray-900">Photos</h1>
+                        <h1 className="flex-1 text-2xl font-bold text-gray-900 dark:text-gray-200">Photos</h1>
                         <div className="ml-6 flex items-center rounded-lg bg-gray-100 p-0.5 sm:hidden">
                             <button
                                 type="button"
@@ -168,7 +168,7 @@ function PhotosList() {
                             </select>
                         </div>
                         <div className="hidden sm:block">
-                            <div className="flex items-center border-b border-gray-200">
+                            <div className="flex items-center border-b border-gray-200 dark:border-none">
                                 <nav className="-mb-px flex flex-1 space-x-6 xl:space-x-8" aria-label="Tabs">
                                     {tabs.map((tab, index) => (
                                         <a
@@ -233,22 +233,22 @@ function PhotosList() {
 
             {/* Details sidebar */}
 
-            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 p-8 lg:block">
 
                 {
                     currentFile == null ? <div className='w-full h-full flex  items-center flex-col justify-center'>
 
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-2">No image selected</h2>
-                        <p className="text-gray-500">Selected image details would appear here</p>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-300">No image selected</h2>
+                        <p className="text-gray-500 dark:text-gray-400">Selected image details would appear here</p>
                     </div> :
                         <div className="space-y-6 pb-16">
                             <div>
-                                <Zoom className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
+                                <Zoom wrapElement='div' className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg dark:bg-gray-900">
                                     <img src={currentFile.source} alt="" className="object-cover" />
                                 </Zoom>
                                 <div className="mt-4 flex items-start justify-between">
                                     <div>
-                                        <h2 className="text-lg font-medium text-gray-900">
+                                        <h2 className="text-lg font-medium text-gray-900 dark:text">
                                             <span className="sr-only">Details for </span>
                                             {currentFile.name}
                                         </h2>

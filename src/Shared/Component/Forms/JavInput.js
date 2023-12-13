@@ -17,7 +17,7 @@ function JavInput(props, ref) {
                     onFocus={props.onFocus}
                     value={props.value}
                     className={`outline-none flex-1 h-10  ${props.width} ${props.height} ${props.hideBorder ? '' : 'border dark:border-gray-500'} 
-                                    dark:bg-[#242A38]  text-xs rounded-md px-1 dark:text-white`}
+                                    dark:bg-[#242A38]  text-xs rounded-md  dark:placeholder:text-gray-400 px-1 dark:text-white`}
                     placeholder={props.placeholder}
                     defaultValue={props.defaultValue}
                     type={props.type}
