@@ -57,23 +57,22 @@ const StorageCapacityDougnutChart = React.memo(() => {
     return (
         <div>
             <div className="h-full">
-                <div className="bg-white dark:bg-white10 m-0 p-0 text-theme-gray dark:text-white60 text-[15px] rounded-10 relative h-full">
+                <div className="bg-white dark:bg-gray-900  m-0 p-0 text-theme-gray dark:text-white60 text-[15px] rounded-10 relative h-full">
                     <div className="h-[60px] px-[25px] text-dark dark:text-white87 font-medium text-[17px] flex flex-wrap items-center justify-between sm:flex-col sm:h-auto sm:mb-[15px]">
-                        <h1 className="mb-0 inline-flex items-center py-[18px] sm:pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis text-[18px] font-semibold">
+                        <h1 className="mb-0 inline-flex items-center py-[18px] sm:pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis text-[18px] font-semibold dark:text-gray-200">
                             Storage Usage
                         </h1>
 
                     </div>
                     {dashboardState.fetch.data ?
-                        (<div className="p-[25px] border-t border-regular dark:border-white10 [&>.doughnutchart-inner]:relative [&>.doughnutchart-inner>.doughnutchart-inner-text]:absolute [&>.doughnutchart-inner>.doughnutchart-inner-text]:left-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:top-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-x-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-y-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:w-[200px] [&>.doughnutchart-inner>.doughnutchart-inner-text]:text-center [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:block [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:text-3xl [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:font-semibold [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:leading-none [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-body dark:[&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-white60">
+                        (<div className="p-[25px] border-t border-regular dark:border-white/20 [&>.doughnutchart-inner]:relative [&>.doughnutchart-inner>.doughnutchart-inner-text]:absolute [&>.doughnutchart-inner>.doughnutchart-inner-text]:left-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:top-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-x-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:-translate-y-1/2 [&>.doughnutchart-inner>.doughnutchart-inner-text]:w-[200px] [&>.doughnutchart-inner>.doughnutchart-inner-text]:text-center [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:block [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:text-3xl [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:font-semibold [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:leading-none [&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content>.doughnutchart-inner-label]:text-body dark:[&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-label]:text-white/60 dark:[&>.doughnutchart-inner>.doughnutchart-inner-text>.doughnutchart-inner-content]:text-white/80" >
                             {/* Doughnut Chart */}
 
                             <DoughnutChart
                                 type="doughnut"
                                 id="salesOverview"
-                                className="mx-auto"
+                                className="mx-auto "
                                 labels={labels}
-
 
                                 datasets={datasets}
                                 height={200}
@@ -108,7 +107,7 @@ const StorageCapacityDougnutChart = React.memo(() => {
                                                     backgroundColor: datasets[0].backgroundColor[index],
                                                 }}
                                             />
-                                            <span className="text-dark dark:text-white87 text-[15px] font-medium">{itemPercent}%</span>
+                                            <span className="text-dark dark:text-white/80 text-[15px] font-medium">{itemPercent}%</span>
                                         </div>
                                     );
                                 })}
@@ -119,8 +118,8 @@ const StorageCapacityDougnutChart = React.memo(() => {
                                 {data?.map((value, index) => {
                                     return (
                                         <div className="text-center" key={index}>
-                                            <h4 className="text-dark dark:text-white87 text-lg font-semibold leading-none mb-1.5">{convertToKBorMBorGB(value)}</h4>
-                                            <p className="text-body dark:text-white60 text-[15px] mb-0">{labels[index]}</p>
+                                            <h4 className="text-dark dark:text-white/80 text-lg font-semibold leading-none mb-1.5">{convertToKBorMBorGB(value)}</h4>
+                                            <p className="text-body dark:text-white/60 text-[15px] mb-0">{labels[index]}</p>
                                         </div>
                                     );
                                 })}

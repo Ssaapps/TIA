@@ -147,12 +147,12 @@ export default function Photo() {
                 <div className="flex items-center justify-center">
                     <button onClick={() => {
                         navigate(`/album/${mediaState.show.data.album.uuid}`);
-                    }} className="bg-[#1e4570] hover:bg-blue-700 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
+                    }} className="bg-[#1e4570] hover:bg-blue-700 dark:hover:bg-indigo-700 dark:bg-indigo-800 text-white font-medium text-xs py-2 px-4 flex gap-x-2 justify-center items-center rounded">
                         <ArrowLeftIcon className="w-4 h-4 text-white" />
                         <span>Back</span>
                     </button>
                 </div>
-                <h2 className={"text-lg"}>
+                <h2 className={"text-lg dark:text-gray-300"}>
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[18px]"} /> : mediaState.show?.data?.album?.name}
                 </h2>
             </div>
@@ -184,8 +184,8 @@ export default function Photo() {
                     {
                         1 === 1 &&
                         <div>
-                            <div className={"font-proximaBold md:text-4xl text-3xl md:mt-0 mt-2"}>
-                                {!mediaState.show.data ? <Shimmer className={"w-60 h-[40px] mt-8 mb-5"} /> : '\u20AC' + mediaState.show.data.item_price.price}
+                            <div className={"font-proximaBold md:text-4xl text-3xl md:mt-0 mt-2 dark:text-gray-300"}>
+                                {!mediaState.show.data ? <Shimmer className={"w-60 h-[40px] mt-8 mb-5 "} /> : '\u20AC' + mediaState.show.data.item_price.price}
                             </div>
 
                             {!mediaState.show.data ? <Shimmer className={"w-full py-4"} /> : <JavButton isLoading={downloading} onClick={onAddToCartClicked} className={"w-full mt-8 mb-5 bg-indigo-500 hover:bg-indigo-900 md:py-4 py-2 border border-indigo-800 rounded text-white"}>
@@ -200,11 +200,11 @@ export default function Photo() {
 
 
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] mt-4"} /> : <div className={"flex items-center mt-4"}>
-                        <div className={"border-2 border-[#1e4570] rounded-full"}>
-                            <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo.png"} />
+                        <div className={"border-2 border-[#1e4570] dark:dark:border-gray-300  rounded-full"}>
+                            <img className={"h-8 w-8 rounded-full object-contain"} src={"/logo-white.png"} />
                         </div>
 
-                        <h2 className={"mx-2 font-proximaBold"}>
+                        <h2 className={"mx-2 font-proximaBold dark:dark:text-gray-300 "}>
                             UIPM Worldwide
                         </h2>
 
@@ -213,19 +213,19 @@ export default function Photo() {
 
 
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] my-4"} /> : <div className={"my-4"}>
-                        <h2>Description</h2>
-                        <span>
+                        <h2 className="dark:dark:text-gray-300"> Description</h2>
+                        <span className="dark:dark:text-gray-400">
                             {mediaState.show?.data?.album?.description}                  </span>
                     </div>}
 
 
                     {!mediaState.show.data ? <Shimmer className={"w-60 h-[20px] my-4"} /> :
                         <div className={"my-4"}>
-                            <h2 className={"mb-2"}>Tags</h2>
+                            <h2 className={"mb-2 dark:dark:text-gray-300"}>Tags</h2>
                             {
                                 mediaState.show?.data?.tags?.split(",").map(item => {
                                     return (
-                                        <span className={"mx-1 text-sm px-2 py-1 bg-gray-100 border "}>
+                                        <span className={"mx-1 text-sm px-2 py-1 bg-gray-100  dark:dark:text-gray-400 border "}>
                                             {item}
                                         </span>
                                     )
@@ -239,37 +239,37 @@ export default function Photo() {
                             metaDetails && (
                                 <>
                                     {metaDetails?.COMPUTER?.ApertureFNumber && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Aperture:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.COMPUTER?.ApertureFNumber}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Aperture:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.COMPUTER?.ApertureFNumber}</div>
                                     </div>}
                                     {metaDetails?.ShutterSpeedValue && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Shutter Speed:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ShutterSpeedValue}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Shutter Speed:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.ShutterSpeedValue}</div>
                                     </div>}
                                     {metaDetails?.FileSize && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>File Size:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.FileSize}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>File Size:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.FileSize}</div>
                                     </div>}
                                     {metaDetails?.Make && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Camera Name:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Make}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Camera Name:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.Make}</div>
                                     </div>}
                                     {metaDetails?.Model && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Camera Model:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Model}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Camera Model:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.Model}</div>
                                     </div>}
                                     {metaDetails?.Software && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Software:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.Software}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Software:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.Software}</div>
                                     </div>}
                                     {metaDetails?.ResolutionUnit && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Resolution:</div>
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.ResolutionUnit}</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Resolution:</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.ResolutionUnit}</div>
                                     </div>}
                                     {metaDetails?.DateTimeOriginal && <div className={"flex my-2 items-center"} >
-                                        <div className={"w-1/2"}>Original Date:</div>
+                                        <div className={"w-1/2 dark:dark:text-gray-300"}>Original Date:</div>
                                         {/* TODO: */}
-                                        <div className={"w-1/2 font-proximaBold"}>{metaDetails?.DateTimeOriginal}</div>
+                                        <div className={"w-1/2 font-proximaBold dark:dark:text-gray-400"}>{metaDetails?.DateTimeOriginal}</div>
                                     </div>}
                                     {/*<a href="#" onClick={() => {*/}
                                     {/*    setMetaDialogOpen(true)*/}

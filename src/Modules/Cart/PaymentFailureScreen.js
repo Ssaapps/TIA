@@ -5,7 +5,7 @@ import AnimatedErrorAlertIcon from '../../Shared/Component/Icons/AnimatedErrorAl
 const PaymentFailureScreen = ({ text }) => {
 
     return (
-        <div className=" items-center justify-center h-screen bg-gray-100 pt-[5%]">
+        <div className=" items-center justify-center h-screen bg-gray-100 dark:bg-gray-900 transition duration-300 pt-[5%]">
             <div className="flex flex-col gap-y-5 w-[40%] text-center mx-auto">
 
                 <div className="w-full py-3 mt-0 mb-0 relative" >
@@ -13,7 +13,7 @@ const PaymentFailureScreen = ({ text }) => {
                 </div>
 
 
-                <h4 className="font-medium text-3xl tracking-wide">{text}</h4>
+                <h4 className="font-medium text-3xl tracking-wide dark:text-gray-200">{text}</h4>
                 <div className="flex items-center mt-8 justify-center">
                     <button onClick={() => {
                         window.location.replace("/")

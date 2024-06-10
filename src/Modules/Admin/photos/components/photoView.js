@@ -38,7 +38,7 @@ export default function PhotoView(props) {
                                     selectedFile === file.id
                                         ? 'ring-2 ring-offset-2 ring-indigo-500'
                                         : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500',
-                                    'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'
+                                    'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 dark:bg-gray-500 overflow-hidden'
                                 )}
                             >
 
@@ -55,10 +55,10 @@ export default function PhotoView(props) {
                                     <span className="sr-only">View details for {file.name}</span>
                                 </button>
                             </div>
-                            <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
+                            <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {file.name}
                             </p>
-                            <p className="pointer-events-none block text-sm font-medium text-gray-500">{niceBytes(file.size)}</p>
+                            <p className="pointer-events-none block text-sm font-medium text-gray-500 dark:text-gray-400">{niceBytes(file.size)}</p>
                         </li>
                     ))}
                 </ul> : <ShimmerPhotoView />}

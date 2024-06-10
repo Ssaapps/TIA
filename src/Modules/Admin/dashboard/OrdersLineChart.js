@@ -7,12 +7,14 @@ import { getDashboard } from './duck/action';
 import dayjs from 'dayjs';
 import Shimmer from '../../../Shared/Component/Suspense/Shimmer';
 import SpinIcon from '../../../Shared/Component/Icons/SpinIcon';
+import useLocalStorage from '../../../Shared/utils/hooks/localStorage';
 
 function OrdersLineChart() {
     const [date, setDate] = useState({
         startDate: null,
         endDate: null
     })
+    const [theme, setTheme] = useLocalStorage("theme")
     const dashboardState = useSelector((state) => state.dashboard);
     const ordersData = {
         orders: dashboardState.fetch.data ? dashboardState.fetch.data.charts.orders_trend.map((order) => (order.value)) : [],
@@ -37,7 +39,7 @@ function OrdersLineChart() {
 
             {
                 dashboardState.fetch.data ?
-                    <div className='rounded-lg bg-white text-center shadow px-5 py-6'>
+                    <div className='rounded-lg bg-white dark:bg-[#131B2D] dark:border-white/20 dark:border text-center shadow px-5 py-6 dark:text-gray-300'>
                         <h4 className='text-2xl  mb-4 font-medium'>Orders Trend</h4>
 
                         <div className="flex items-center justify-center ssm:flex-col ssm:gap-y-[15px]">
@@ -55,11 +57,11 @@ function OrdersLineChart() {
                         <div className="">
                             <div className="flex items-center justify-center my-2 gap-x-2">
                                 <span className="text-sm">Start Date:</span>
-                                <input type="date" value={date.startDate} className='bg-[#F4F6F9] rounded-lg border outline-none border-gray-300  text-sm' name="" onChange={(e) => {
+                                <input type="date" value={date.startDate} className='bg-[#F4F6F9] dark:bg-[#242A38] dark:text-gray-300 dark:border-gray-600 rounded-lg border outline-none border-gray-300  text-sm' name="" onChange={(e) => {
                                     setDate({ ...date, startDate: e.target.value })
                                 }} id="" />
                                 <span className="text-sm">End Date:</span>
-                                <input type="date" className='bg-[#F4F6F9] rounded-lg border outline-none border-gray-300  text-sm outline' value={date.endDate} onChange={(e) => {
+                                <input type="date" className='bg-[#F4F6F9] rounded-lg border outline-none dark:bg-[#242A38] border-gray-300 dark:border-gray-600  text-sm outline' value={date.endDate} onChange={(e) => {
                                     setDate({ ...date, endDate: e.target.value })
                                 }} name="" id="" />
                             </div>
@@ -121,7 +123,7 @@ function OrdersLineChart() {
                                                 size: 13,
                                                 family: "'Jost', sans-serif",
                                             },
-                                            color: '#747474',
+                                            color: theme == "dark" ? "#9CA3AF" : '#747474',
                                             max: 80,
                                             min: 50,
                                             stepSize: 20,
@@ -143,9 +145,9 @@ function OrdersLineChart() {
                                         ticks: {
                                             font: {
                                                 size: 13,
-                                                family: "'Jost', sans-serif",
+                                                family: "'Inter', sans-serif",
                                             },
-                                            color: '#747474',
+                                            color: theme == "dark" ? "#9CA3AF" : '#747474',
                                             beginAtZero: true, // This will start the x-axis from zero
                                         },
                                     },

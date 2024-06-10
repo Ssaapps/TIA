@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from "react"
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Table from "../../../Shared/Component/Table";
 import JavButton from "../../../Shared/Component/Buttons/JavButton";
 import YesNoDialog from "../../../Shared/Component/Dialog/YesNoDialog";
-import {getOrders} from "./duck/action";
+import { getOrders } from "./duck/action";
 import DownloadIcon from "../../../Shared/Component/Icons/DownloadIcon";
-import {downloadReceipt} from "../../../Shared/utils/common";
+import { downloadReceipt } from "../../../Shared/utils/common";
 import LoadingIcon from "../../../Shared/Component/Icons/LoadingIcon";
 
 export default function Orders() {
     const [selectedAlbum, setSelectedAlbum] = useState(null)
     const dispatch = useDispatch();
-    const [selectedItemModel,setSelectItemModel] = useState(null);
-    const groupState = useSelector( (state) => state.groups)
-    const [downloadingOrder,setDownloadingOrder] = useState(null);
+    const [selectedItemModel, setSelectItemModel] = useState(null);
+    const groupState = useSelector((state) => state.groups)
+    const [downloadingOrder, setDownloadingOrder] = useState(null);
 
     useEffect(() => {
         dispatch(getOrders())
     }, [])
 
     useEffect(() => {
-        console.log("downloadingOrder",downloadingOrder)
-    },[downloadingOrder])
+        console.log("downloadingOrder", downloadingOrder)
+    }, [downloadingOrder])
 
     const downloadOrder = (content) => {
         setDownloadingOrder(content.id);
         downloadReceipt(content.payment_reference).then(res => {
-            console.log("data is ",res)
+            console.log("data is ", res)
             if (downloadingOrder === content.id) {
                 setDownloadingOrder(null);
             }
         }).catch(err => {
-            console.log("Error is: ",err);
+            console.log("Error is: ", err);
             if (downloadingOrder === content.id) {
                 setDownloadingOrder(null);
             }
@@ -57,7 +57,7 @@ export default function Orders() {
     }
 
     return (
-        <div className={"p-10"}>
+        <div className={"p-10 overflow-y-auto "}>
 
             <YesNoDialog
                 open={selectedItemModel != null}
@@ -82,8 +82,8 @@ export default function Orders() {
             <Table
                 link={"admin/orders"}
                 tag={"albums.orders"}
-                columns={["id","Name","Email","amount","status","Paid At","created_at","action"]}
-                fields={["id","user.name","user.email",{
+                columns={["id", "Name", "Email", "amount", "status", "Paid At", "created_at", "action"]}
+                fields={["id", "user.name", "user.email", {
                     render: (content) => {
                         return (
                             <td className={"text-center"}>
@@ -91,40 +91,40 @@ export default function Orders() {
                             </td>
                         )
                     }
-                },{
-                    render: (content) => {
-                        return (
-                            <td className={"text-center"}>
-                                <div className={`${getStatusColor(content.status)} p-1  rounded`}>
-                                    {
-                                        content.status
-                                    }
-                                </div>
-                            </td>
-                        )
-                    }
-                },"paid_at","created_at",{
-                    id: "id",
-                    render: (content) => {
-                        return (
-                            <td>
-                                <div className={`flex justify-center`}>
-
-                                    <JavButton onClick={() => {
-                                        downloadOrder(content);
-                                    }} className={"p-1"} bgColor={"bg-gray-200 "}>
+                }, {
+                        render: (content) => {
+                            return (
+                                <td className={"text-center"}>
+                                    <div className={`${getStatusColor(content.status)} p-1  rounded`}>
                                         {
-                                            downloadingOrder === content.id ?
-                                            <LoadingIcon className={"animate-spin"}/> :
-                                            <DownloadIcon/>
+                                            content.status
                                         }
-                                    </JavButton>
+                                    </div>
+                                </td>
+                            )
+                        }
+                    }, "paid_at", "created_at", {
+                        id: "id",
+                        render: (content) => {
+                            return (
+                                <td>
+                                    <div className={`flex justify-center`}>
 
-                                </div>
-                            </td>
-                        )
-                    }
-                }]}
+                                        <JavButton onClick={() => {
+                                            downloadOrder(content);
+                                        }} className={"p-1"} bgColor={"bg-gray-200 dark:bg-gray-300 "}>
+                                            {
+                                                downloadingOrder === content.id ?
+                                                    <LoadingIcon className={"animate-spin"} /> :
+                                                    <DownloadIcon />
+                                            }
+                                        </JavButton>
+
+                                    </div>
+                                </td>
+                            )
+                        }
+                    }]}
             />
         </div>
     )

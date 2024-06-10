@@ -26,7 +26,7 @@ function PaymentDoneRoot() {
     return (
         <>
             {cartState.status.loading ?
-                (<div className=" items-center justify-center h-screen bg-gray-100 pt-[5%]">
+                (<div className=" items-center justify-center h-screen bg-gray-100 dark:bg-gray-900 transition duration-300 pt-[5%]">
                     <div className="flex flex-col gap-y-5 w-[80%] md:w-[60%] sm:w-[70%]  lg:w-[40%] text-center items-center mx-auto">
                         <Shimmer className={"w-24 h-24  rounded-full"} />
                         <Shimmer className={"w-[40%]  h-3"} />

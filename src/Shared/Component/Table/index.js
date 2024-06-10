@@ -7,7 +7,8 @@ import JavSelect from "../Forms/JavSelect";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataForTable } from "./duck/action";
-import { getParameterByName, getTableData } from "../../utils/common";
+import { generateArray, getParameterByName, getTableData } from "../../utils/common";
+import Shimmers from "./Shimmers";
 
 
 function Table(props, ref) {
@@ -39,7 +40,7 @@ function Table(props, ref) {
     useEffect(() => {
         if (props.link) {
             setTableData([]);
-            dispatch(getDataForTable(config,props.tag))
+            dispatch(getDataForTable(config, props.tag))
         }
     }, [props.currentVersion])
 
@@ -77,30 +78,30 @@ function Table(props, ref) {
     }, [props.dependencies])
 
     return (
-        <div className={"rounded-md bg-white py-2"}>
+        <div className={"rounded-md bg-white dark:bg-[#242A38] py-2"}>
             <div className="flex flex-row justify-between">
 
                 <div className={"flex items-center"}>
 
                     <JavButton bgColor={"dark:bg-[#242A38]"}
-                        textColor={"text-gray-600"}
+                        textColor={"text-gray-600 dark:text-gray-300"}
                         className={"h-8 border border-gray-300 dark:border-gray-500"}
                         title={"excel"}>
-                        <ExcelIcon className={"fill-green-800"} />
+                        <ExcelIcon className={"fill-green-800 dark:fill-green-500"} />
                     </JavButton>
 
                     <JavButton bgColor={"dark:bg-[#242A38]"}
-                        textColor={"text-gray-600"}
+                        textColor={"text-gray-600 dark:text-gray-300"}
                         className={"h-8 border mx-2 border-gray-300 dark:border-gray-500"}
                         title={"csv"}>
-                        <CSVIcon className={"w-4 mx-2 h-4 fill-blue-600"} />
+                        <CSVIcon className={"w-4 mx-2 h-4 fill-blue-600 dark:fill-blue-500"} />
                     </JavButton>
 
                     <JavButton bgColor={"dark:bg-[#242A38]"}
-                        textColor={"text-gray-600"}
+                        textColor={"text-gray-600 dark:text-gray-300"}
                         className={"h-8 border border-gray-300 dark:border-gray-500"}
                         title={"pdf"}>
-                        <PDFIcon className={"w-4 mx-2 h-4 fill-red-600"} />
+                        <PDFIcon className={"w-4 mx-2 h-4 fill-red-600 dark:fill-red-500"} />
                     </JavButton>
                 </div>
                 <JavInput className={"text-xs dark:bg-[#242A38]"} placeholder={"Search"} />
@@ -168,6 +169,20 @@ function Table(props, ref) {
                                 </tr>
                             )
                         })
+
+                    }
+                    {
+                        tableState.fetch.loading &&
+                        <tr className="border  dark:border-gray-600 text-left h-12 rounded ">
+                            {generateArray(props?.fields?.length).map((item, index) => (
+                                <td className="p-3" key={index}>
+                                    <Shimmers.SingleShimmer />
+                                </td>
+                            ))
+                            }
+                        </tr>
+
+
                     }
                     {
                         // tableData && tableData.length === 0 &&
@@ -210,7 +225,7 @@ function Table(props, ref) {
                                         })
                                     }
 
-                                }} className={`h-8 w-8 ${!link.active ? 'text-blue-900' : 'text-gray-400'} font-proximaBold
+                                }} className={`h-8 w-8 ${!link.active ? 'text-blue-900 dark:text-blue-500' : 'text-gray-400'} font-proximaBold
                                                 cursor-pointer text-xs flex mx-1 items-center
                                                  justify-center border rounded`}>
                                     {
@@ -227,7 +242,7 @@ function Table(props, ref) {
 
                 </div>
 
-                <div className={"pr-10 text-gray-600 text-xs flex items-center"}>
+                <div className={"pr-10 text-gray-600 dark:text-gray-300 text-xs flex items-center"}>
                     <span>{tableSummary}</span>
                 </div>
 

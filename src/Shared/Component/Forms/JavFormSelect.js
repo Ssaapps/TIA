@@ -15,6 +15,7 @@ export default function JavFormSelect(props) {
                     position={props.position}
                     hideBorder={props.hideBorder}
                     value={props.value}
+                    showArrowIcon={true}
                 />
             </div>
 
