@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { RadioGroup } from '@headlessui/react'
 import ImagePlaceHolder from '../../../Shared/Component/Suspense/ImagePlaceHolder';
+import { editBannerSettings, getSettings } from './duck/action';
+import { useDispatch, useSelector } from 'react-redux';
+import JavButton from '../../../Shared/Component/Buttons/JavButton';
+import JavTextArea from '../../../Shared/Component/Forms/JavTextArea';
+import ErrorAlert from '../../../Shared/Component/Alert/Error';
+import SuccessAlert from '../../../Shared/Component/Alert/Success';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -72,10 +78,106 @@ const navigation = [
 ];
 
 function Settings() {
-  const [status, setStatus] = useState("alert")
+
+
+  const [form, setForm] = useState({
+    value: "",
+    status: "alert",
+  });
+
+
+  const dispatch = useDispatch()
+  const settingState = useSelector((state) => state.settings)
+
+  useEffect(() => {
+    dispatch(getSettings());
+
+
+  }, []);
+
+  const [creatingSetting, setCreatingSettings] = useState(false)
+  const [createError, setCreateError] = useState(null)
+  const [createSuccess, setCreateSuccess] = useState(null)
+
+  useEffect(() => {
+    if (settingState.banner) {
+      if (settingState.banner.success) {
+        setCreatingSettings(false);
+        dispatch(getSettings())
+      }
+    }
+  }, [settingState])
+
+  useEffect(() => {
+    if (settingState.banner.error) {
+      setCreateError(settingState.banner.error)
+    }
+  }, [settingState.banner])
+  useEffect(() => {
+    if (settingState.banner.success) {
+      setCreateSuccess(settingState.banner.success)
+    }
+  }, [settingState.banner])
+
+
+  useEffect(() => {
+    if (settingState?.fetch?.data) {
+      setForm({
+        ...form,
+        status: settingState?.fetch?.data?.[1]?.option?.status,
+        value: settingState?.fetch?.data?.[1]?.value
+      })
+    }
+  }, [settingState?.fetch?.data])
+
+  const handleChanges = (event) => {
+    const value = event.target.value;
+    setForm({
+      ...form,
+      [event.target.name]: value
+    })
+  }
+
+
+
+  const editBanner = () => {
+    const bannerText = form.value
+    let bannerBgColor;
+    let bannerTextColor
+    switch (form.status) {
+      case "alert":
+        bannerBgColor = "#FE0000"
+        bannerTextColor = "#fff"
+        break;
+      case "warning":
+        bannerBgColor = "#FFD700"
+        bannerTextColor = "#000"
+        break;
+      case "info":
+        bannerBgColor = "#1E90FF"
+        bannerTextColor = "#fff"
+        break;
+      default:
+        break;
+    }
+    const data = {
+      value: bannerText,
+      option: {
+        banner_text_color: bannerTextColor,
+        banner_bg_color: bannerBgColor,
+        status: form.status,
+      }
+    }
+    dispatch(editBannerSettings(data))
+  }
+
+
+
 
   return (
-    <main className='flex-1 flex flex-col overflow-hidden h-screen bg-gray-50'>
+    <main className='flex-1 flex flex-col overflow-hidden h-screen bg-gray-50 dark:bg-gray-900'>
+      <ErrorAlert timeout={3000} onClose={() => { setCreateError(null) }} open={!!createError} message={createError} />
+      <SuccessAlert timeout={3000} onClose={() => { setCreateSuccess(null) }} open={!!createSuccess} message={"Banner Updated Successfully"} />
 
       {/* Primary column */}
       <div className='flex flex-1 flex-col overflow-y-auto p-8 overflow-hidden'>
@@ -83,39 +185,47 @@ function Settings() {
           <div className='md:grid md:grid-cols-3 md:gap-6'>
             <div className='md:col-span-1'>
               <div className='px-4 sm:px-0'>
-                <h3 className='text-lg font-medium leading-6 text-gray-900'>
+                <h3 className='text-lg font-medium leading-6 text-gray-900 dark:text-gray-200'>
                   Home Page Banner
                 </h3>
-                <p className='mt-1 text-sm text-gray-600'>
+                <p className='mt-1 text-sm text-gray-600 dark:text-gray-300/95'>
                   Set the text that should appear at the top of the home page
                 </p>
               </div>
             </div>
             <div className='mt-5 md:col-span-2 md:mt-0'>
-              <form >
-                <div className='overflow-hidden shadow sm:rounded-md'>
-                  <div className='bg-white px-4 py-5 sm:p-6'>
+              <div >
+                <div className='overflow-hidden shadow sm:rounded-md dark:border dark:border-white/20'>
+                  <div className='dark:bg-gray-900 px-4 py-5 sm:p-6'>
                     <div className="space-y-6">
                       <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300/95">
                           Text
                         </label>
                         <div className="mt-2">
-                          <textarea
-                            id="description"
-                            name="description"
+                          <JavTextArea
+                            // title={"value"}
+                            name={"value"}
+                            value={form.value}
                             rows={3}
-                            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            defaultValue={''}
+                            defaultValue=""
+                            onChange={handleChanges}
                           />
+
+
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300/95">
                           Select Banner Status
                         </label>
                         <div className="mt-2">
-                          <RadioGroup value={status} onChange={setStatus} className="mt-2">
+                          <RadioGroup value={form.status} onChange={(value) => {
+                            setForm({
+                              ...form,
+                              status: value
+                            })
+                          }} className="mt-2">
                             <RadioGroup.Label className="sr-only">Choose a status</RadioGroup.Label>
                             <div className="flex gap-x-3  mt-1">
                               <RadioGroup.Option
@@ -171,27 +281,24 @@ function Settings() {
 
                     </div>
                   </div>
-                  <div className='bg-gray-50 px-4 py-3 text-right sm:px-6 space-x-3'>
+                  <div className='dark:bg-[#131B2D]  px-4 py-3 text-right sm:px-6 space-x-3'>
 
                     <div className="flex justify-end">
-                      <button
-                        type="button"
 
-                        className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                      >
-                        Cancel
-                      </button>
-                      <button
+                      <JavButton
+
+                        title={"Update Banner"}
+                        padding={"px-16 py-3"}
+                        textColor={"text-white"}
+                        isLoading={settingState.banner?.loading}
                         type="submit"
-                        className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        Save
-                      </button>
+                        onClick={editBanner}
+                      />
                     </div>
 
                   </div>
                 </div>
-              </form>            </div>
+              </div>            </div>
           </div>
         </div>
 
@@ -205,25 +312,25 @@ function Settings() {
           <div className='md:grid md:grid-cols-3 md:gap-6'>
             <div className='md:col-span-1'>
               <div className='px-4 sm:px-0'>
-                <h3 className='text-lg font-medium leading-6 text-gray-900'>
+                <h3 className='text-lg font-medium leading-6  text-gray-900 dark:text-gray-300'>
                   Featured images
                 </h3>
-                <p className='mt-1 text-sm text-gray-600'>
-                  Use a permanent address where you can receive mail.
+                <p className='mt-1 text-sm text-gray-600 dark:text-gray-300/95'>
+                  Select featured images
                 </p>
               </div>
             </div>
             <div className='mt-5 md:col-span-2 md:mt-0'>
               <form >
-                <div className='overflow-hidden shadow sm:rounded-md'>
-                  <div className='bg-white px-4 py-5 sm:p-6'>
+                <div className='overflow-hidden shadow sm:rounded-md border dark:border-white/30'>
+                  <div className='bg-white dark:bg-gray-900  px-4 py-5 sm:p-6'>
                     <div className="grid grid-cols-3 gap-5">
                       {/* Here */}
-                     {
-                      [1,2,3,4,5,6].map((item,index)=>(
-                        <ImagePlaceHolder key={index}/>
-                      ))
-                     }
+                      {
+                        [1, 2, 3, 4, 5, 6].map((item, index) => (
+                          <ImagePlaceHolder key={index} />
+                        ))
+                      }
 
                     </div>
                   </div>

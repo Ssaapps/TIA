@@ -47,7 +47,7 @@ export default function Welcome() {
 
     return (
         <div className={""}>
-            {homeState.fetch.data && (<BannerText />)}
+            {homeState.fetch.data && (<BannerText text={homeState.fetch?.data?.banner_text?.value} color={homeState.fetch?.data?.banner_text?.option?.banner_text_color} bgColor={homeState.fetch?.data?.banner_text?.option?.banner_bg_color} />)}
             <div className="px-10 ">
                 <Swiper
                     spaceBetween={30}
