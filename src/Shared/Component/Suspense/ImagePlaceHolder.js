@@ -3,7 +3,7 @@ import React from 'react'
 function ImagePlaceHolder() {
     return (
         <div
-            className="relative group flex-1 flex border-2 mt-1 border-gray-300 border-dashed rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 aspect-w-3 aspect-h-2 w-full"
+            className="relative group flex-1 flex border-2 mt-1 dark:bg-[#131B2D]  border-gray-300 border-dashed rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 aspect-w-3 aspect-h-2 w-full"
 
         >     <div className="space-y-1 flex flex-1 flex-col items-center justify-center text-center px-6 pt-5 pb-6">
                 <svg

@@ -10,6 +10,7 @@ import { DashboardReducer } from "../Modules/Admin/dashboard/duck/reducer";
 import { HomeReducer } from "../Modules/Welcome/duck/reducer";
 import { PhotoDetailReducer } from "../Modules/Photo/duck/reducer";
 import { CartReducer } from "../Modules/Cart/duck/reducer";
+import { SettingsReducer } from "../Modules/Admin/settings/duck/reducer";
 
 
 const reducers = combineReducers({
@@ -23,7 +24,8 @@ const reducers = combineReducers({
     media: MediaReducer,
     photo_detail: PhotoDetailReducer,
     dashboard: DashboardReducer,
-    home: HomeReducer
+    home: HomeReducer,
+    settings: SettingsReducer,
 });
 
 
